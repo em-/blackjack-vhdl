@@ -1,0 +1,8 @@
+-- Tests for display
+-- time DIGIT DOT AN DIGITS DOTS
+1 0000000 0 1111 0 0 0 0 False False False False
+2 0110000 1 0111 1 0 0 0 True False False False
+3 1110000 0 1101 1 0 7 0 True False False False
+4 1111111 0 0111 8 0 7 0 False False False False
+5 1101101 1 1110 8 0 7 2 False False False True
+6 1111110 0 0000 0 0 0 0 False False False False

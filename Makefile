@@ -15,7 +15,8 @@ SOURCES=or2/or2.vhdl or2/tb_or2.vhdl \
         ft/ft.vhdl ft/tb_ft.vhdl \
         reg/reg.vhdl reg/tb_reg.vhdl \
         counter/counter.vhdl counter/tb_counter.vhdl \
-        accumulator/accumulator.vhdl accumulator/tb_accumulator.vhdl
+        accumulator/accumulator.vhdl accumulator/tb_accumulator.vhdl \
+        display/vectors.vhdl display/seven_segment_dot.vhdl display/display.vhdl display/tb_display.vhdl
 
 
 # Default target
@@ -64,9 +65,12 @@ tb_counter: ha.o fd.o counter.o tb_counter.o
 tb_accumulator: fa.o fd.o mux21.o rca.o reg.o accumulator.o tb_accumulator.o
 	$(GHDL) -e $(GHDLFLAGS) $@
 
+tb_display: vectors.o seven_segment_dot.o display.o tb_display.o
+	$(GHDL) -e $(GHDLFLAGS) $@
+
 
 # Run target
-run: tb_or2 tb_or3 tb_and2 tb_ha tb_fa tb_mux21 tb_mux21_1bit tb_comparator tb_rca tb_fd tb_ft tb_reg tb_counter tb_accumulator
+run: tb_or2 tb_or3 tb_and2 tb_ha tb_fa tb_mux21 tb_mux21_1bit tb_comparator tb_rca tb_fd tb_ft tb_reg tb_counter tb_accumulator tb_display
 	$(GHDL) -r tb_or2 $(GHDLRUNFLAGS)
 	$(GHDL) -r tb_or3 $(GHDLRUNFLAGS)
 	$(GHDL) -r tb_and2 $(GHDLRUNFLAGS)
@@ -81,6 +85,7 @@ run: tb_or2 tb_or3 tb_and2 tb_ha tb_fa tb_mux21 tb_mux21_1bit tb_comparator tb_r
 	$(GHDL) -r tb_reg $(GHDLRUNFLAGS)
 	$(GHDL) -r tb_counter $(GHDLRUNFLAGS)
 	$(GHDL) -r tb_accumulator $(GHDLRUNFLAGS)
+	$(GHDL) -r tb_display $(GHDLRUNFLAGS)
 
 
 # Targets to analyze files
@@ -152,6 +157,15 @@ counter.o: counter/counter.vhdl
 tb_accumulator.o: accumulator/tb_accumulator.vhdl
 	$(GHDL) -a $(GHDLFLAGS) $<
 accumulator.o: accumulator/accumulator.vhdl
+	$(GHDL) -a $(GHDLFLAGS) $<
+
+tb_display.o: display/tb_display.vhdl
+	$(GHDL) -a $(GHDLFLAGS) $<
+display.o: display/display.vhdl
+	$(GHDL) -a $(GHDLFLAGS) $<
+seven_segment_dot.o: display/seven_segment_dot.vhdl
+	$(GHDL) -a $(GHDLFLAGS) $<
+vectors.o: display/vectors.vhdl
 	$(GHDL) -a $(GHDLFLAGS) $<
 
 
