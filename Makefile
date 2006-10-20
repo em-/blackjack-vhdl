@@ -17,12 +17,14 @@ SOURCES=or2/or2.vhdl or2/tb_or2.vhdl \
         counter/counter.vhdl counter/tb_counter.vhdl \
         accumulator/accumulator.vhdl accumulator/tb_accumulator.vhdl \
         display/vectors.vhdl display/seven_segment_dot.vhdl \
-		display/display.vhdl display/tb_display.vhdl
+		display/display.vhdl display/tb_display.vhdl \
+		shift_reg/shift_reg.vhdl shift_reg/tb_shift_reg.vhdl
+
 
 TESTBENCHES=tb_or2 tb_or3 tb_and2 tb_ha tb_fa tb_rca \
             tb_mux21 tb_mux21_1bit tb_comparator \
             tb_fd tb_ft tb_reg tb_counter tb_accumulator \
-            tb_display
+            tb_display tb_shift_reg
 
 # Default target
 all: run
@@ -43,6 +45,7 @@ tb_reg: fd.o reg.o tb_reg.o
 tb_counter: ha.o fd.o counter.o tb_counter.o
 tb_accumulator: fa.o fd.o mux21.o rca.o reg.o accumulator.o tb_accumulator.o
 tb_display: vectors.o seven_segment_dot.o display.o tb_display.o
+tb_shift_reg: fd.o shift_reg.o tb_shift_reg.o
 
 
 # Elaboration target
