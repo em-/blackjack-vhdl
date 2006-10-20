@@ -16,7 +16,8 @@ SOURCES=or2/or2.vhdl or2/tb_or2.vhdl \
         reg/reg.vhdl reg/tb_reg.vhdl \
         counter/counter.vhdl counter/tb_counter.vhdl \
         accumulator/accumulator.vhdl accumulator/tb_accumulator.vhdl \
-        display/vectors.vhdl display/seven_segment_dot.vhdl display/display.vhdl display/tb_display.vhdl
+        display/vectors.vhdl display/seven_segment_dot.vhdl \
+		display/display.vhdl display/tb_display.vhdl
 
 TESTBENCHES=tb_or2 tb_or3 tb_and2 tb_ha tb_fa tb_rca \
             tb_mux21 tb_mux21_1bit tb_comparator \
