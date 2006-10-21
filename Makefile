@@ -33,7 +33,7 @@ rca.o: fa.o
 reg.o: fd.o
 counter.o: ha.o fd.o
 accumulator.o: mux21.o rca.o reg.o
-display.o: vectors.o seven_segment_dot.o
+display.o: seven_segment_dot.o
 shift_reg.o: fd.o
 
 

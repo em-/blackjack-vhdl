@@ -4,7 +4,6 @@ library ieee;
 use std.textio.all;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_textio.all; -- synopsys only
-use work.vectors.all;
 
 entity tb_display is
 end tb_display;
@@ -14,20 +13,25 @@ architecture test of tb_display is
     signal DOT:    std_logic;
     signal AN:     std_logic_vector (3 downto 0);
 
-    signal DIGITS: natural_vector (3 downto 0);
-    signal DOTS:   boolean_vector (3 downto 0);
-	
+    type natural_vector is array(natural range <>) of natural;
+    type boolean_vector is array(natural range <>) of boolean;
+
+    signal DIGITS: natural_vector (0 to 3);
+    signal DOTS:   boolean_vector (0 to 3);
+
 	component display
         port(DIGIT:  in std_logic_vector (6 downto 0);
              DOT:    in std_logic;
              AN:     in std_logic_vector (3 downto 0);
 
-             DIGITS: out natural_vector (3 downto 0);
-             DOTS:   out boolean_vector (3 downto 0) );
+             DIGITS_0, DIGITS_1, DIGITS_2, DIGITS_3: out natural;
+             DOTS_0,   DOTS_1,   DOTS_2,   DOTS_3:   out boolean);
 	end component;
 
 begin 
-	U: display port map (DIGIT, DOT, AN, DIGITS, DOTS);
+	U: display port map (DIGIT, DOT, AN,
+                         DIGITS(0), DIGITS(1), DIGITS(2), DIGITS(3),
+                         DOTS(0),   DOTS(1),   DOTS(2),   DOTS(3));
 
 test: process
     variable testDIGIT:  std_logic_vector (6 downto 0);
