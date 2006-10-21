@@ -3,7 +3,7 @@ GHDLFLAGS= --ieee=synopsys
 GHDLRUNFLAGS= --stop-time=20ns
 
 TESTBENCHES=tb_or2 tb_or3 tb_and2 tb_ha tb_fa tb_rca \
-            tb_mux21 tb_mux21_1bit tb_comparator \
+            tb_mux21 tb_mux21_1bit tb_mux41 tb_mux41_1bit tb_comparator \
             tb_fd tb_ft tb_reg tb_counter tb_accumulator \
             tb_display tb_shift_reg
 
@@ -18,6 +18,8 @@ tb_ha: ha.o tb_ha.o
 tb_fa: fa.o tb_fa.o
 tb_mux21: mux21.o tb_mux21.o
 tb_mux21_1bit: mux21_1bit.o tb_mux21_1bit.o
+tb_mux41: mux41.o tb_mux41.o
+tb_mux41_1bit: mux41_1bit.o tb_mux41_1bit.o
 tb_comparator: comparator.o tb_comparator.o
 tb_rca: rca.o tb_rca.o
 tb_fd: fd.o tb_fd.o
