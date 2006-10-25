@@ -3,7 +3,6 @@ use ieee.std_logic_1164.all;
 
 entity fsm is
     port (CLK, RST:  in  std_logic;
-          EN:        in  std_logic;
           NewGame, Stop, Bust, Win: in std_logic;
           ShowPlayer, ShowDealer, PlayerWin, DealerWin: out std_logic);
 end fsm;

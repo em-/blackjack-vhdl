@@ -10,19 +10,17 @@ end tb_fsm;
 
 architecture test of tb_fsm is
     signal CLK, RST: std_logic := '0';
-    signal EN: std_logic;
     signal NewGame, Stop, Bust, Win: std_logic;
     signal ShowPlayer, ShowDealer, PlayerWin, DealerWin: std_logic;
     signal counter: integer := -1;
 	
     component fsm
         port (CLK, RST:  in  std_logic;
-              EN:        in  std_logic;
               NewGame, Stop, Bust, Win: in std_logic;
               ShowPlayer, ShowDealer, PlayerWin, DealerWin: out std_logic);
 	end component;
 begin 
-	U: fsm port map (CLK, RST, EN, NewGame, Stop, Bust, Win, 
+	U: fsm port map (CLK, RST, NewGame, Stop, Bust, Win, 
                      ShowPlayer, ShowDealer, PlayerWin, DealerWin);
 
 clock: process
@@ -39,7 +37,7 @@ begin
 end process;
 
 test: process
-    variable testRST, testEN: std_logic;
+    variable testRST: std_logic;
     variable testA, testO: std_logic_vector(2 downto 0);
     variable testNewGame, testStop, testBust, testWin: std_logic;
     variable testShowPlayer, testShowDealer: std_logic;
@@ -64,7 +62,6 @@ begin
         read(l, space);
 
         read(l, testRST);
-        read(l, testEN);
         read(l, space);
 
         read(l, testNewGame);
@@ -79,7 +76,6 @@ begin
         read(l, testDealerWin);
 
         RST <= testRST;
-        EN <= testEN;
         NewGame <= testNewGame;
         Stop <= testStop;
         Bust <= testBust;
