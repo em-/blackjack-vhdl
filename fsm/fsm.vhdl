@@ -4,7 +4,8 @@ use ieee.std_logic_1164.all;
 entity fsm is
     port (CLK, RST:  in  std_logic;
           NewGame, Stop, Bust, Win: in std_logic;
-          ShowPlayer, ShowDealer, PlayerWin, DealerWin: out std_logic);
+          ShowPlayer, ShowDealer, PlayerWin, DealerWin: out std_logic;
+          PlayerTurn, DealerTurn: out std_logic);
 end fsm;
 
 architecture state_machine of fsm is
@@ -57,18 +58,27 @@ begin
                 ShowDealer <= '0';
                 PlayerWin  <= '0';
                 DealerWin  <= '0';
+                PlayerTurn <= '0';
+                DealerTurn <= '0';
             when PLAYER_CARD =>
                 ShowPlayer <= '1';
                 ShowDealer <= '0';
                 PlayerWin  <= '0';
                 DealerWin  <= '0';
+                PlayerTurn <= '1';
+                DealerTurn <= '0';
             when DEALER_CARD =>
                 ShowDealer <= '1';
+                PlayerTurn <= '0';
+                DealerTurn <= '1';
             when PLAYER_BUSTED =>
+                PlayerTurn <= '0';
                 DealerWin  <= '1';
             when DEALER_BUSTED =>
+                DealerTurn <= '0';
                 PlayerWin  <= '1';
             when DEALER_WIN =>
+                DealerTurn <= '0';
                 DealerWin  <= '1';
         end case;
     end process;
