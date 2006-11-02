@@ -6,7 +6,7 @@ TESTBENCHES=tb_or2 tb_or3 tb_and2 tb_ha tb_fa tb_rca \
             tb_mux21 tb_mux21_1bit tb_mux41 tb_mux41_1bit tb_comparator \
             tb_fd tb_ft tb_reg tb_counter tb_accumulator \
             tb_display tb_shift_reg tb_display_controller \
-			tb_fsm
+			tb_fsm tb_bcd_encoder
 
 # Default target
 all: run
@@ -32,6 +32,7 @@ tb_display: display.o tb_display.o
 tb_shift_reg: shift_reg.o tb_shift_reg.o
 tb_display_controller: display_controller.o tb_display_controller.o
 tb_fsm: fsm.o tb_fsm.o
+tb_bcd_encoder: bcd_encoder.o tb_bcd_encoder.o
 
 comparator.o: fa.o
 rca.o: fa.o
