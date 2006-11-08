@@ -16,7 +16,7 @@ architecture structural of blackjack is
                    PLAYER_BUSTED, DEALER_BUSTED, DEALER_WIN);
     signal current_state, next_state: STATE;
     signal PLAYER, DEALER: integer;
-    signal Bust, Win: std_logic := '0';
+    signal Bust, Win: std_logic;
     signal ShowPlayer, ShowDealer, 
            PlayerWin,  DealerWin,
            PlayerTurn, DealerTurn: std_logic;
@@ -52,10 +52,16 @@ begin
                     next_state <= DEALER_WIN;
                 end if;
             when PLAYER_BUSTED =>
+                if NewGame = '1' then
+                    next_state <= CLEAN;
+                end if;
             when DEALER_BUSTED =>
+                if NewGame = '1' then
+                    next_state <= CLEAN;
+                end if;
             when DEALER_WIN =>
                 if NewGame = '1' then
-                    next_state <= PLAYER_CARD;
+                    next_state <= CLEAN;
                 end if;
         end case;
     end process;
@@ -84,6 +90,8 @@ begin
                 DealerWin  <= '0';
                 PlayerTurn <= '0';
                 DealerTurn <= '0';
+                Bust <= '0';
+                Win  <= '0';
             when PLAYER_CARD =>
                 t := 0;
                 ShowPlayer <= '1';
