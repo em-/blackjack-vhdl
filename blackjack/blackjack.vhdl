@@ -12,7 +12,10 @@ entity blackjack is
 end blackjack;
 
 architecture structural of blackjack is
-    type STATE is (IDLE, CLEAN, PLAYER_CARD, DEALER_CARD,
+    type STATE is (IDLE, CLEAN, 
+                   WAIT_PC, WAIT_DC,
+                   READ_PC, READ_DC,
+                   CHECK_PC, CHECK_DC,
                    PLAYER_BUSTED, DEALER_BUSTED, DEALER_WIN);
     signal current_state, next_state: STATE;
     signal PLAYER, DEALER: integer;
@@ -30,7 +33,7 @@ begin
         end if;
     end process;
 
-    process (current_state, NewGame, Stop, Bust, Win)
+    process (current_state, NewGame, Stop, En, Bust, Win)
     begin
         case current_state is
             when IDLE =>
@@ -38,18 +41,34 @@ begin
                     next_state <= CLEAN;
                 end if;
             when CLEAN =>
-                next_state <= PLAYER_CARD;
-            when PLAYER_CARD =>
+                next_state <= WAIT_PC;
+            when WAIT_PC =>
+                if    Stop = '1' then
+                    next_state <= WAIT_DC;
+                elsif En = '1' then
+                    next_state <= READ_PC;
+                end if;
+            when READ_PC =>
+                next_state <= CHECK_PC;
+            when CHECK_PC =>
                 if Bust = '1' then
                     next_state <= PLAYER_BUSTED;
-                elsif Stop = '1' then
-                    next_state <= DEALER_CARD;
+                else
+                    next_state <= WAIT_PC;
                 end if;
-            when DEALER_CARD =>
-                if Bust = '1' then
+            when WAIT_DC =>
+                if En = '1' then
+                    next_state <= READ_DC;
+                end if;
+            when READ_DC =>
+                next_state <= CHECK_DC;
+            when CHECK_DC =>
+                if    Bust = '1' then
                     next_state <= DEALER_BUSTED;
                 elsif Win = '1' then
                     next_state <= DEALER_WIN;
+                else
+                    next_state <= WAIT_DC;
                 end if;
             when PLAYER_BUSTED =>
                 if NewGame = '1' then
@@ -92,35 +111,29 @@ begin
                 DealerTurn <= '0';
                 Bust <= '0';
                 Win  <= '0';
-            when PLAYER_CARD =>
-                t := 0;
+            when WAIT_PC =>
                 ShowPlayer <= '1';
                 PlayerTurn <= '1';
-                if En = '1' and Bust = '0' and Stop = '0' then
-                    t := PLAYER + DATA_IN;
-                else
-                    t := PLAYER;
-                end if;
+            when READ_PC =>
+                t := PLAYER + DATA_IN;
+                PLAYER <= t;
                 if t > 21 then
                     Bust <= '1';
                 end if;
-                PLAYER <= t;
-            when DEALER_CARD =>
-                t := 0;
+            when CHECK_PC =>
+            when WAIT_DC =>
                 ShowDealer <= '1';
                 PlayerTurn <= '0';
                 DealerTurn <= '1';
-                if En = '1' and Bust = '0' and Win = '0' then
-                    t := DEALER + DATA_IN;
-                else
-                    t := DEALER;
-                end if;
-                if t > PLAYER then
+            when READ_DC =>
+                t := DEALER + DATA_IN;
+                DEALER <= t;
+                if t >= PLAYER then
                     Win <= '1';
                 elsif t > 21 then
                     Bust <= '1';
                 end if;
-                DEALER <= t;
+            when CHECK_DC =>
             when PLAYER_BUSTED =>
                 PlayerTurn <= '0';
                 DealerWin  <= '1';
@@ -166,10 +179,18 @@ begin
                 write(l, string'("id"));
             when CLEAN =>
                 write(l, string'("cl"));
-            when PLAYER_CARD =>
-                write(l, string'("pc"));
-            when DEALER_CARD =>
-                write(l, string'("dc"));
+            when WAIT_PC =>
+                write(l, string'("wpc"));
+            when READ_PC =>
+                write(l, string'("rpc"));
+            when CHECK_PC =>
+                write(l, string'("cpc"));
+            when WAIT_DC =>
+                write(l, string'("wdc"));
+            when READ_DC =>
+                write(l, string'("rdc"));
+            when CHECK_DC =>
+                write(l, string'("cdc"));
             when PLAYER_BUSTED =>
                 write(l, string'("pb"));
             when DEALER_BUSTED =>
