@@ -4,26 +4,31 @@
 2 0000 0 0 0 -- The fsm is in CLEAN
 3 0100 0 0 0 -- NewGame 
 4 0001 4 0 0 -- Put the first player card
-5 0000 4 0 0 -- Read it
-6 0001 4 4 0 -- Check it
-7 0001 1 4 0 -- Put the second player card
-8 0001 1 4 0
-9 0001 1 5 0
-10 0010 2 5 0 -- Stop the player
-11 0001 3 5 0 -- Put the first dealer card
-12 0000 2 5 0 -- Read it
-13 0000 3 5 2 -- Check it
-14 0001 20 5 2
-15 0001 20 5 2
-16 0000 0 5 22 -- Check dealer busted
-17 0001 2 5 22
-19 0000 2 5 22 -- The new card is ignored
-20 0100 0 5 22
-21 0000 0 5 22 -- CLEAN
-22 0100 0 0 0
-23 0001 23 0 0
-24 0000 23 0 0
-25 0000 0 23 0 -- Player Busted
-26 0001 2 23 0
-27 0000 2 23 0
-28 0000 2 23 0
+5 0000 4 0 0 -- Setup signals
+6 0000 4 4 0 -- Read it
+7 0001 4 4 0 -- Check it
+8 0001 1 4 0 -- Put the second player card
+9 0000 1 4 0
+10 0001 1 5 0
+11 0001 1 5 0
+12 0010 2 5 0 -- Stop the player
+13 0001 3 5 0 -- Put the first dealer card
+14 0000 2 5 0 -- Setup signals
+15 0000 2 5 2 -- Read it
+16 0000 3 5 2 -- Check it
+17 0001 20 5 2
+18 0001 20 5 2
+19 0001 20 5 22
+20 0000 0 5 22 -- Check dealer busted
+21 0001 2 5 22
+22 0000 2 5 22 -- The new card is ignored
+23 0100 0 5 22
+24 0000 0 5 22 -- CLEAN
+25 0100 0 0 0
+26 0001 23 0 0
+27 0001 23 0 0
+28 0000 23 23 0
+29 0000 0 23 0 -- Player Busted
+30 0001 2 23 0
+31 0000 2 23 0
+32 0000 2 23 0

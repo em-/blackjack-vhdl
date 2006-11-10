@@ -48,6 +48,7 @@ accumulator.o: mux21.o rca.o reg.o
 display.o: seven_segment_dot.o
 shift_reg.o: fd.o
 display_controller.o: shift_reg.o mux21_1bit.o mux41_1bit.o
+blackjack.o: reg.o rca.o
 
 
 # Elaboration target

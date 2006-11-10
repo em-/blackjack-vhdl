@@ -3,6 +3,7 @@ library ieee;
 use std.textio.all;
 use ieee.std_logic_1164.all; 
 use ieee.std_logic_textio.all; -- synopsys only
+use ieee.std_logic_arith.all;  -- synopsys only
 
 entity blackjack is
     port (CLK:                        in  std_logic;
@@ -12,18 +13,51 @@ entity blackjack is
 end blackjack;
 
 architecture structural of blackjack is
+    component reg is
+        generic (N: integer := 8);
+        port (CLK, RST:  in  std_logic;
+              EN:        in  std_logic;
+              A:         in  std_logic_vector (N-1 downto 0);
+              O:         out std_logic_vector (N-1 downto 0));
+    end component;
+    component rca
+        generic (N: integer := 8);
+        port (A, B: in  std_logic_vector (N-1 downto 0);
+              Ci:   in  std_logic;
+              S:    out std_logic_vector (N-1 downto 0);
+              Co:   out std_logic);
+    end component;
+
     type STATE is (IDLE, CLEAN, 
                    WAIT_PC, WAIT_DC,
+                   SETUP_PC, SETUP_DC,
                    READ_PC, READ_DC,
                    CHECK_PC, CHECK_DC,
                    PLAYER_BUSTED, DEALER_BUSTED, DEALER_WIN);
     signal current_state, next_state: STATE;
-    signal PLAYER, DEALER: integer;
+    signal PLAYER_INT, DEALER_INT: integer;
     signal Bust, Win: std_logic;
     signal ShowPlayer, ShowDealer, 
            PlayerWin,  DealerWin,
-           PlayerTurn, DealerTurn: std_logic;
+           PlayerRead, DealerRead,
+           PlayerTurn, DealerTurn, Clear: std_logic;
+    signal NRESET, REG_EN, NPLAYER_EN, NDEALER_EN: std_logic;
+    signal DATA_IN_EXTENDED,
+           PLAYER,           DEALER,
+           PLAYER_NEXTSCORE, DEALER_NEXTSCORE: std_logic_vector (7 downto 0);
 begin
+    DATA_IN_EXTENDED <= conv_std_logic_vector(DATA_IN, 8);
+    NPLAYER_EN <= not PlayerRead;
+    NDEALER_EN <= not DealerRead;
+    NRESET     <= not Clear;
+
+    p_score: reg
+        generic map(8)
+        port map (CLK, NRESET, NPLAYER_EN, PLAYER_NEXTSCORE, PLAYER);
+    player_adder: rca
+        generic map(8)
+        port map (PLAYER, DATA_IN_EXTENDED, '0', PLAYER_NEXTSCORE);
+
     process (CLK, Reset)
     begin
         if Reset='1' then
@@ -46,8 +80,10 @@ begin
                 if    Stop = '1' then
                     next_state <= WAIT_DC;
                 elsif En = '1' then
-                    next_state <= READ_PC;
+                    next_state <= SETUP_PC;
                 end if;
+            when SETUP_PC =>
+                next_state <= READ_PC;
             when READ_PC =>
                 next_state <= CHECK_PC;
             when CHECK_PC =>
@@ -58,8 +94,10 @@ begin
                 end if;
             when WAIT_DC =>
                 if En = '1' then
-                    next_state <= READ_DC;
+                    next_state <= SETUP_DC;
                 end if;
+            when SETUP_DC =>
+                next_state <= READ_DC;
             when READ_DC =>
                 next_state <= CHECK_DC;
             when CHECK_DC =>
@@ -92,43 +130,55 @@ begin
         if rising_edge(CLK) then
         case current_state is
             when IDLE =>
-                PLAYER <= 0;
-                DEALER <= 0;
+                PLAYER_INT <= 0;
+                DEALER_INT <= 0;
                 ShowPlayer <= '0';
                 ShowDealer <= '0';
                 PlayerWin  <= '0';
                 DealerWin  <= '0';
+                PlayerRead <= '0';
+                DealerRead <= '0';
                 PlayerTurn <= '0';
                 DealerTurn <= '0';
             when CLEAN =>
-                PLAYER <= 0;
-                DEALER <= 0;
+                PLAYER_INT <= 0;
+                DEALER_INT <= 0;
+                Clear      <= '1';
                 ShowPlayer <= '0';
                 ShowDealer <= '0';
                 PlayerWin  <= '0';
                 DealerWin  <= '0';
+                PlayerRead <= '0';
+                DealerRead <= '0';
                 PlayerTurn <= '0';
                 DealerTurn <= '0';
                 Bust <= '0';
                 Win  <= '0';
             when WAIT_PC =>
+                Clear      <= '0';
+                PlayerRead <= '1';
                 ShowPlayer <= '1';
                 PlayerTurn <= '1';
+            when SETUP_PC =>
+                PlayerRead <= '0';
+                t := PLAYER_INT + DATA_IN;
+                PLAYER_INT <= t;
             when READ_PC =>
-                t := PLAYER + DATA_IN;
-                PLAYER <= t;
                 if t > 21 then
                     Bust <= '1';
                 end if;
             when CHECK_PC =>
             when WAIT_DC =>
+                DealerRead <= '1';
                 ShowDealer <= '1';
                 PlayerTurn <= '0';
                 DealerTurn <= '1';
+            when SETUP_DC =>
+                DealerRead <= '0';
+                t := DEALER_INT + DATA_IN;
+                DEALER_INT <= t;
             when READ_DC =>
-                t := DEALER + DATA_IN;
-                DEALER <= t;
-                if t >= PLAYER then
+                if t >= PLAYER_INT then
                     Win <= '1';
                 elsif t > 21 then
                     Bust <= '1';
@@ -147,8 +197,8 @@ begin
         end if;
     end process;
 
-PLAYER_SCORE <= PLAYER;
-DEALER_SCORE <= DEALER;
+PLAYER_SCORE <= PLAYER_INT;
+DEALER_SCORE <= DEALER_INT;
 
 debug: process(CLK)
     variable l: line;
@@ -161,11 +211,32 @@ begin
         write(l, string'("En = "));
         write(l, En);
         writeline(output, l);
+        write(l, string'("Stop = "));
+        write(l, Stop);
+        writeline(output, l);
+        write(l, string'("REG_EN = "));
+        write(l, REG_EN);
+        writeline(output, l);
+        write(l, string'("NPLAYER_EN = "));
+        write(l, NPLAYER_EN);
+        writeline(output, l);
+        write(l, string'("PlayerRead = "));
+        write(l, PlayerRead);
+        writeline(output, l);
+        write(l, string'("PlayerTurn = "));
+        write(l, PlayerTurn);
+        writeline(output, l);
         write(l, string'("Win = "));
         write(l, Win);
         writeline(output, l);
         write(l, string'("DATA_IN = "));
         write(l, DATA_IN);
+        writeline(output, l);
+        write(l, string'("DATA_IN_EXTENDED = "));
+        write(l, DATA_IN_EXTENDED);
+        writeline(output, l);
+        write(l, string'("PLAYER_INT = "));
+        write(l, PLAYER_INT);
         writeline(output, l);
         write(l, string'("PLAYER = "));
         write(l, PLAYER);
@@ -181,12 +252,16 @@ begin
                 write(l, string'("cl"));
             when WAIT_PC =>
                 write(l, string'("wpc"));
+            when SETUP_PC =>
+                write(l, string'("spc"));
             when READ_PC =>
                 write(l, string'("rpc"));
             when CHECK_PC =>
                 write(l, string'("cpc"));
             when WAIT_DC =>
                 write(l, string'("wdc"));
+            when SETUP_DC =>
+                write(l, string'("sdc"));
             when READ_DC =>
                 write(l, string'("rdc"));
             when CHECK_DC =>
