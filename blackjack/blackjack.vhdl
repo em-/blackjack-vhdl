@@ -97,7 +97,7 @@ begin
         end if;
     end process;
 
-    process (current_state, NewGame, Stop, En, Bust, Win)
+    process (current_state, NewGame, Stop, En, BUST_S, WIN_S)
     begin
         case current_state is
             when IDLE =>
@@ -117,7 +117,7 @@ begin
             when READ_PC =>
                 next_state <= CHECK_PC;
             when CHECK_PC =>
-                if Bust = '1' then
+                if BUST_S = '1' then
                     next_state <= PLAYER_BUSTED;
                 else
                     next_state <= WAIT_PC;
@@ -131,9 +131,9 @@ begin
             when READ_DC =>
                 next_state <= CHECK_DC;
             when CHECK_DC =>
-                if    Bust = '1' then
+                if    BUST_S = '1' then
                     next_state <= DEALER_BUSTED;
-                elsif Win = '1' then
+                elsif WIN_S = '1' then
                     next_state <= DEALER_WINNER;
                 else
                     next_state <= WAIT_DC;
