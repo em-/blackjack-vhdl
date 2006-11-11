@@ -9,7 +9,9 @@ entity blackjack is
     port (CLK:                        in  std_logic;
           Reset, NewGame, Stop, En:   in  std_logic;
           DATA_IN:                    in  integer;
-          PLAYER_SCORE, DEALER_SCORE: out integer);
+          PLAYER_SCORE, DEALER_SCORE: out integer;
+          PLAYER_SHOW,  DEALER_SHOW:  out std_logic;
+          PLAYER_WIN,   DEALER_WIN:   out std_logic);
 end blackjack;
 
 architecture structural of blackjack is
@@ -37,7 +39,7 @@ architecture structural of blackjack is
                    SETUP_PC, SETUP_DC,
                    READ_PC, READ_DC,
                    CHECK_PC, CHECK_DC,
-                   PLAYER_BUSTED, DEALER_BUSTED, DEALER_WIN);
+                   PLAYER_BUSTED, DEALER_BUSTED, DEALER_WINNER);
     signal current_state, next_state: STATE;
     signal PLAYER_INT, DEALER_INT: integer;
     signal Bust, Win: std_logic;
@@ -55,7 +57,11 @@ begin
     NPLAYER_EN <= not PlayerRead;
     NDEALER_EN <= not DealerRead;
     NRESET     <= not Clear;
-    
+
+    PLAYER_SHOW <= ShowPlayer;
+    DEALER_SHOW <= ShowDealer;
+    PLAYER_WIN  <= PlayerWin;
+    DEALER_WIN  <= DealerWin;
 
     p_score: reg
         generic map(8)
@@ -121,7 +127,7 @@ begin
                 if    Bust = '1' then
                     next_state <= DEALER_BUSTED;
                 elsif Win = '1' then
-                    next_state <= DEALER_WIN;
+                    next_state <= DEALER_WINNER;
                 else
                     next_state <= WAIT_DC;
                 end if;
@@ -133,7 +139,7 @@ begin
                 if NewGame = '1' then
                     next_state <= CLEAN;
                 end if;
-            when DEALER_WIN =>
+            when DEALER_WINNER =>
                 if NewGame = '1' then
                     next_state <= CLEAN;
                 end if;
@@ -208,7 +214,7 @@ begin
             when DEALER_BUSTED =>
                 DealerTurn <= '0';
                 PlayerWin  <= '1';
-            when DEALER_WIN =>
+            when DEALER_WINNER =>
                 DealerTurn <= '0';
                 DealerWin  <= '1';
         end case;
@@ -285,7 +291,7 @@ begin
                 write(l, string'("pb"));
             when DEALER_BUSTED =>
                 write(l, string'("db"));
-            when DEALER_WIN =>
+            when DEALER_WINNER =>
                 write(l, string'("dw"));
         end case;
         writeline(output, l);

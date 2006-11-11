@@ -13,17 +13,23 @@ architecture test of tb_blackjack is
     signal Reset, NewGame, Stop, En: std_logic;
     signal DATA_IN: integer;
     signal PLAYER, DEALER: integer;
+    signal PLAYER_SHOW, DEALER_SHOW: std_logic;
+    signal PLAYER_WIN,  DEALER_WIN:  std_logic;
     signal counter: integer := -1;
 
     component blackjack
         port (CLK:                      in  std_logic;
               Reset, NewGame, Stop, En: in  std_logic;
               DATA_IN:                  in  integer; 
-              PLAYER_SCORE, DEALER_SCORE: out integer);
+              PLAYER_SCORE, DEALER_SCORE: out integer;
+              PLAYER_SHOW,  DEALER_SHOW:  out std_logic;
+              PLAYER_WIN,   DEALER_WIN:   out std_logic);
     end component;
 begin 
 	U: blackjack port map (CLK, Reset, NewGame, Stop, En, DATA_IN,
-                           PLAYER, DEALER);
+                           PLAYER,      DEALER,
+                           PLAYER_SHOW, DEALER_SHOW,
+                           PLAYER_WIN,  DEALER_WIN);
 
 clock: process
 begin
@@ -42,6 +48,8 @@ test: process
     variable testReset, testNewGame, testStop, testEn: std_logic;
     variable testDATA_IN: integer;
     variable testPLAYER, testDEALER: integer;
+    variable testPLAYER_SHOW, testDEALER_SHOW: std_logic;
+    variable testPLAYER_WIN,  testDEALER_WIN:  std_logic;
     file test_file: text is in "blackjack/tb_blackjack.test";
 
     variable l: line;
@@ -76,6 +84,15 @@ begin
         read(l, testPLAYER);
         read(l, space);
         read(l, testDEALER);
+        read(l, space);
+
+        read(l, testPLAYER_SHOW);
+        read(l, testDEALER_SHOW);
+        read(l, space);
+
+        read(l, testPLAYER_WIN);
+        read(l, testDEALER_WIN);
+
 
         Reset   <= testReset;
         NewGame <= testNewGame;
@@ -88,8 +105,8 @@ begin
         end loop;
 
         if enable_debug then
-            write(l_out, string'("PLAYER = "));
-            write(l_out, PLAYER);
+            write(l_out, string'("PLAYER_SHOW = "));
+            write(l_out, PLAYER_SHOW);
             writeline(output, l_out);
             write(l_out, string'("DEALER = "));
             write(l_out, DEALER);
@@ -98,6 +115,10 @@ begin
 
         assert PLAYER = testPLAYER report "Mismatch on output PLAYER";
         assert DEALER = testDEALER report "Mismatch on output DEALER";
+        assert PLAYER_SHOW = testPLAYER_SHOW report "Mismatch on output PLAYER_SHOW";
+        assert DEALER_SHOW = testDEALER_SHOW report "Mismatch on output DEALER_SHOW";
+        assert PLAYER_WIN  = testPLAYER_WIN  report "Mismatch on output PLAYER_WIN";
+        assert DEALER_WIN  = testDEALER_WIN  report "Mismatch on output DEALER_WIN";
     end loop;
 
     assert false report "Finished" severity note;
