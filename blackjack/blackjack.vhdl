@@ -153,8 +153,6 @@ begin
     end process;
 
     process (CLK)
-        variable t: integer;
-        variable l: line;
     begin
         if rising_edge(CLK) then
         case current_state is
@@ -184,8 +182,6 @@ begin
                 PlayerRead <= '1';
             when READ_PC =>
                 PlayerRead <= '0';
-                t := PLAYER_INT + DATA_IN_INT;
-                PLAYER_INT <= t;
             when CHECK_PC =>
             when WAIT_DC =>
                 ShowDealer <= '1';
@@ -193,8 +189,6 @@ begin
                 DealerRead <= '1';
             when READ_DC =>
                 DealerRead <= '0';
-                t := DEALER_INT + DATA_IN_INT;
-                DEALER_INT <= t;
             when CHECK_DC =>
             when PLAYER_BUSTED =>
                 DealerWin  <= '1';
