@@ -4,6 +4,7 @@ library ieee;
 use std.textio.all;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_textio.all; -- synopsys only
+use ieee.std_logic_arith.all;  -- synopsys only
 
 entity tb_blackjack is
 end tb_blackjack;
@@ -11,8 +12,7 @@ end tb_blackjack;
 architecture test of tb_blackjack is
     signal CLK: std_logic := '0';
     signal Reset, NewGame, Stop, En: std_logic;
-    signal DATA_IN: integer;
-    signal PLAYER, DEALER: integer;
+    signal DATA_IN, PLAYER, DEALER: std_logic_vector (7 downto 0);
     signal PLAYER_SHOW, DEALER_SHOW: std_logic;
     signal PLAYER_WIN,  DEALER_WIN:  std_logic;
     signal counter: integer := -1;
@@ -20,8 +20,8 @@ architecture test of tb_blackjack is
     component blackjack
         port (CLK:                      in  std_logic;
               Reset, NewGame, Stop, En: in  std_logic;
-              DATA_IN:                  in  integer; 
-              PLAYER_SCORE, DEALER_SCORE: out integer;
+              DATA_IN:                    in  std_logic_vector (7 downto 0);
+              PLAYER_SCORE, DEALER_SCORE: out std_logic_vector (7 downto 0);
               PLAYER_SHOW,  DEALER_SHOW:  out std_logic;
               PLAYER_WIN,   DEALER_WIN:   out std_logic);
     end component;
@@ -98,7 +98,7 @@ begin
         NewGame <= testNewGame;
         Stop    <= testStop;
         En      <= testEn;
-        DATA_IN <= testDATA_IN;
+        DATA_IN <= conv_std_logic_vector(testDATA_IN, DATA_IN'length);
 
         while counter /= t loop
             wait on counter;
@@ -111,10 +111,15 @@ begin
             write(l_out, string'("DEALER = "));
             write(l_out, DEALER);
             writeline(output, l_out);
+            write(l_out, string'("testDEALER = "));
+            write(l_out, testDEALER);
+            writeline(output, l_out);
         end if;
 
-        assert PLAYER = testPLAYER report "Mismatch on output PLAYER";
-        assert DEALER = testDEALER report "Mismatch on output DEALER";
+        if not is_X(PLAYER) then
+        assert conv_integer(unsigned(PLAYER)) = testPLAYER report "Mismatch on output PLAYER";
+        assert conv_integer(unsigned(DEALER)) = testDEALER report "Mismatch on output DEALER";
+        end if;
         assert PLAYER_SHOW = testPLAYER_SHOW report "Mismatch on output PLAYER_SHOW";
         assert DEALER_SHOW = testDEALER_SHOW report "Mismatch on output DEALER_SHOW";
         assert PLAYER_WIN  = testPLAYER_WIN  report "Mismatch on output PLAYER_WIN";

@@ -8,8 +8,8 @@ use ieee.std_logic_arith.all;  -- synopsys only
 entity blackjack is
     port (CLK:                        in  std_logic;
           Reset, NewGame, Stop, En:   in  std_logic;
-          DATA_IN:                    in  integer;
-          PLAYER_SCORE, DEALER_SCORE: out integer;
+          DATA_IN:                    in  std_logic_vector (7 downto 0);
+          PLAYER_SCORE, DEALER_SCORE: out std_logic_vector (7 downto 0);
           PLAYER_SHOW,  DEALER_SHOW:  out std_logic;
           PLAYER_WIN,   DEALER_WIN:   out std_logic);
 end blackjack;
@@ -41,7 +41,7 @@ architecture structural of blackjack is
                    CHECK_PC, CHECK_DC,
                    PLAYER_BUSTED, DEALER_BUSTED, DEALER_WINNER);
     signal current_state, next_state: STATE;
-    signal PLAYER_INT, DEALER_INT: integer;
+    signal DATA_IN_INT, PLAYER_INT, DEALER_INT: integer;
     signal Bust, Win: std_logic;
     signal BUST_S, WIN_S: std_logic;
     signal ShowPlayer, ShowDealer, 
@@ -49,11 +49,9 @@ architecture structural of blackjack is
            PlayerRead, DealerRead,
            PlayerTurn, DealerTurn, Clear: std_logic;
     signal NRESET, NPLAYER_EN, NDEALER_EN: std_logic;
-    signal DATA_IN_EXTENDED,
-           PLAYER,           DEALER,
+    signal PLAYER,           DEALER,
            PLAYER_NEXTSCORE, DEALER_NEXTSCORE: std_logic_vector (7 downto 0);
 begin
-    DATA_IN_EXTENDED <= conv_std_logic_vector(DATA_IN, 8);
     NPLAYER_EN <= not PlayerRead;
     NDEALER_EN <= not DealerRead;
     NRESET     <= not Clear;
@@ -63,12 +61,21 @@ begin
     PLAYER_WIN  <= PlayerWin;
     DEALER_WIN  <= DealerWin;
 
+    process(DATA_IN)
+    begin
+    if not is_X(DATA_IN) then 
+        DATA_IN_INT <= conv_integer(unsigned(DATA_IN));
+    else
+        DATA_IN_INT <= 0;
+    end if;
+    end process;
+
     p_score: reg
         generic map(8)
         port map (CLK, NRESET, NPLAYER_EN, PLAYER_NEXTSCORE, PLAYER);
     player_adder: rca
         generic map(8)
-        port map (PLAYER, DATA_IN_EXTENDED, '0', PLAYER_NEXTSCORE);
+        port map (PLAYER, DATA_IN, '0', PLAYER_NEXTSCORE);
 
     d_score: reg
         generic map(8)
@@ -76,7 +83,7 @@ begin
 
     dealer_adder: rca
         generic map(8)
-        port map (DEALER, DATA_IN_EXTENDED, '0', DEALER_NEXTSCORE);
+        port map (DEALER, DATA_IN, '0', DEALER_NEXTSCORE);
 
     game: game_logic
         port map (PLAYER, DEALER, WIN_S, BUST_S);
@@ -185,7 +192,7 @@ begin
                 PlayerRead <= '1';
             when READ_PC =>
                 PlayerRead <= '0';
-                t := PLAYER_INT + DATA_IN;
+                t := PLAYER_INT + DATA_IN_INT;
                 PLAYER_INT <= t;
                 if t > 21 then
                     Bust <= '1';
@@ -199,7 +206,7 @@ begin
                 DealerRead <= '1';
             when READ_DC =>
                 DealerRead <= '0';
-                t := DEALER_INT + DATA_IN;
+                t := DEALER_INT + DATA_IN_INT;
                 DEALER_INT <= t;
                 if t > 21 then
                     Bust <= '1';
@@ -221,8 +228,8 @@ begin
         end if;
     end process;
 
-PLAYER_SCORE <= PLAYER_INT;
-DEALER_SCORE <= DEALER_INT;
+PLAYER_SCORE <= PLAYER;
+DEALER_SCORE <= DEALER;
 
 debug: process(CLK)
     variable l: line;
