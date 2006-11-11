@@ -41,7 +41,6 @@ architecture structural of blackjack is
                    CHECK_PC, CHECK_DC,
                    PLAYER_BUSTED, DEALER_BUSTED, DEALER_WINNER);
     signal current_state, next_state: STATE;
-    signal DATA_IN_INT, PLAYER_INT, DEALER_INT: integer;
     signal Bust, Win: std_logic;
     signal ShowPlayer, ShowDealer, 
            PlayerWin,  DealerWin,
@@ -59,15 +58,6 @@ begin
     DEALER_SHOW <= ShowDealer;
     PLAYER_WIN  <= PlayerWin;
     DEALER_WIN  <= DealerWin;
-
-    process(DATA_IN)
-    begin
-    if not is_X(DATA_IN) then 
-        DATA_IN_INT <= conv_integer(unsigned(DATA_IN));
-    else
-        DATA_IN_INT <= 0;
-    end if;
-    end process;
 
     p_score: reg
         generic map(8)
@@ -157,8 +147,6 @@ begin
         if rising_edge(CLK) then
         case current_state is
             when IDLE =>
-                PLAYER_INT <= 0;
-                DEALER_INT <= 0;
                 ShowPlayer <= '0';
                 ShowDealer <= '0';
                 PlayerWin  <= '0';
@@ -166,8 +154,6 @@ begin
                 PlayerRead <= '0';
                 DealerRead <= '0';
             when CLEAN =>
-                PLAYER_INT <= 0;
-                DEALER_INT <= 0;
                 Clear      <= '1';
                 ShowPlayer <= '0';
                 ShowDealer <= '0';
@@ -223,14 +209,8 @@ begin
         write(l, string'("DATA_IN = "));
         write(l, DATA_IN);
         writeline(output, l);
-        write(l, string'("PLAYER_INT = "));
-        write(l, PLAYER_INT);
-        writeline(output, l);
         write(l, string'("PLAYER = "));
         write(l, PLAYER);
-        writeline(output, l);
-        write(l, string'("DEALER_INT = "));
-        write(l, DEALER_INT);
         writeline(output, l);
         write(l, string'("DEALER = "));
         write(l, DEALER);
@@ -265,10 +245,6 @@ begin
                 write(l, string'("dw"));
         end case;
         writeline(output, l);
-        if not is_X(PLAYER) then
-            assert PLAYER_INT = conv_integer(unsigned(PLAYER)) report "PLAYER_INT";
-            assert DEALER_INT = conv_integer(unsigned(DEALER)) report "DEALER_INT";
-        end if;
     end if;
 end process;
 end structural;
