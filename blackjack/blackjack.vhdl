@@ -13,6 +13,10 @@ entity blackjack is
 end blackjack;
 
 architecture structural of blackjack is
+    component game_logic
+        port (PLAYER, DEALER: in  std_logic_vector (7 downto 0);
+              WIN, BUST:      out std_logic);
+    end component;
     component reg is
         generic (N: integer := 8);
         port (CLK, RST:  in  std_logic;
@@ -37,6 +41,7 @@ architecture structural of blackjack is
     signal current_state, next_state: STATE;
     signal PLAYER_INT, DEALER_INT: integer;
     signal Bust, Win: std_logic;
+    signal BUST_S, WIN_S: std_logic;
     signal ShowPlayer, ShowDealer, 
            PlayerWin,  DealerWin,
            PlayerRead, DealerRead,
@@ -50,6 +55,7 @@ begin
     NPLAYER_EN <= not PlayerRead;
     NDEALER_EN <= not DealerRead;
     NRESET     <= not Clear;
+    
 
     p_score: reg
         generic map(8)
@@ -65,6 +71,9 @@ begin
     dealer_adder: rca
         generic map(8)
         port map (DEALER, DATA_IN_EXTENDED, '0', DEALER_NEXTSCORE);
+
+    game: game_logic
+        port map (PLAYER, DEALER, WIN_S, BUST_S);
 
     process (CLK, Reset)
     begin
@@ -186,10 +195,11 @@ begin
                 DealerRead <= '0';
                 t := DEALER_INT + DATA_IN;
                 DEALER_INT <= t;
+                if t > 21 then
+                    Bust <= '1';
+                end if;
                 if t >= PLAYER_INT then
                     Win <= '1';
-                elsif t > 21 then
-                    Bust <= '1';
                 end if;
             when CHECK_DC =>
             when PLAYER_BUSTED =>
@@ -210,7 +220,7 @@ DEALER_SCORE <= DEALER_INT;
 
 debug: process(CLK)
     variable l: line;
-    variable enable_debug: boolean := true;
+    variable enable_debug: boolean := false;
 begin
     if enable_debug and rising_edge(CLK) then
         write(l, string'("now = "));
@@ -219,35 +229,32 @@ begin
         write(l, string'("En = "));
         write(l, En);
         writeline(output, l);
-        write(l, string'("Stop = "));
-        write(l, Stop);
+        write(l, string'("Bust = "));
+        write(l, Bust);
         writeline(output, l);
-        write(l, string'("NPLAYER_EN = "));
-        write(l, NPLAYER_EN);
-        writeline(output, l);
-        write(l, string'("PlayerRead = "));
-        write(l, PlayerRead);
-        writeline(output, l);
-        write(l, string'("DealerRead = "));
-        write(l, DealerRead);
-        writeline(output, l);
-        write(l, string'("PlayerTurn = "));
-        write(l, PlayerTurn);
+        write(l, string'("BUST_S = "));
+        write(l, BUST_S);
         writeline(output, l);
         write(l, string'("Win = "));
         write(l, Win);
         writeline(output, l);
+        write(l, string'("WIN_S = "));
+        write(l, WIN_S);
+        writeline(output, l);
+        write(l, string'("PlayerTurn = "));
+        write(l, PlayerTurn);
+        writeline(output, l);
         write(l, string'("DATA_IN = "));
         write(l, DATA_IN);
-        writeline(output, l);
-        write(l, string'("DATA_IN_EXTENDED = "));
-        write(l, DATA_IN_EXTENDED);
         writeline(output, l);
         write(l, string'("PLAYER_INT = "));
         write(l, PLAYER_INT);
         writeline(output, l);
         write(l, string'("PLAYER = "));
         write(l, PLAYER);
+        writeline(output, l);
+        write(l, string'("DEALER_INT = "));
+        write(l, DEALER_INT);
         writeline(output, l);
         write(l, string'("DEALER = "));
         write(l, DEALER);
@@ -283,8 +290,13 @@ begin
         end case;
         writeline(output, l);
         if not is_X(PLAYER) then
-            assert PLAYER_INT = conv_integer(unsigned(PLAYER));
-            assert DEALER_INT = conv_integer(unsigned(DEALER));
+            assert PLAYER_INT = conv_integer(unsigned(PLAYER)) report "PLAYER_INT";
+            assert DEALER_INT = conv_integer(unsigned(DEALER)) report "DEALER_INT";
+
+            if current_state = CHECK_DC then
+                assert BUST_S = Bust report "BUST_S";
+                assert WIN_S  = Win  report "WIN_S";
+            end if;
         end if;
     end if;
 end process;
