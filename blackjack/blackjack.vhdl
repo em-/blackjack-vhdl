@@ -46,7 +46,7 @@ architecture structural of blackjack is
     signal ShowPlayer, ShowDealer, 
            PlayerWin,  DealerWin,
            PlayerRead, DealerRead,
-           PlayerTurn, DealerTurn, Clear: std_logic;
+           Clear: std_logic;
     signal NRESET, NPLAYER_EN, NDEALER_EN: std_logic;
     signal PLAYER,           DEALER,
            PLAYER_NEXTSCORE, DEALER_NEXTSCORE: std_logic_vector (7 downto 0);
@@ -167,8 +167,6 @@ begin
                 DealerWin  <= '0';
                 PlayerRead <= '0';
                 DealerRead <= '0';
-                PlayerTurn <= '0';
-                DealerTurn <= '0';
             when CLEAN =>
                 PLAYER_INT <= 0;
                 DEALER_INT <= 0;
@@ -179,12 +177,9 @@ begin
                 DealerWin  <= '0';
                 PlayerRead <= '0';
                 DealerRead <= '0';
-                PlayerTurn <= '0';
-                DealerTurn <= '0';
             when WAIT_PC =>
                 Clear      <= '0';
                 ShowPlayer <= '1';
-                PlayerTurn <= '1';
             when SETUP_PC =>
                 PlayerRead <= '1';
             when READ_PC =>
@@ -194,8 +189,6 @@ begin
             when CHECK_PC =>
             when WAIT_DC =>
                 ShowDealer <= '1';
-                PlayerTurn <= '0';
-                DealerTurn <= '1';
             when SETUP_DC =>
                 DealerRead <= '1';
             when READ_DC =>
@@ -204,13 +197,10 @@ begin
                 DEALER_INT <= t;
             when CHECK_DC =>
             when PLAYER_BUSTED =>
-                PlayerTurn <= '0';
                 DealerWin  <= '1';
             when DEALER_BUSTED =>
-                DealerTurn <= '0';
                 PlayerWin  <= '1';
             when DEALER_WINNER =>
-                DealerTurn <= '0';
                 DealerWin  <= '1';
         end case;
         end if;
@@ -235,9 +225,6 @@ begin
         writeline(output, l);
         write(l, string'("Win = "));
         write(l, Win);
-        writeline(output, l);
-        write(l, string'("PlayerTurn = "));
-        write(l, PlayerTurn);
         writeline(output, l);
         write(l, string'("DATA_IN = "));
         write(l, DATA_IN);
