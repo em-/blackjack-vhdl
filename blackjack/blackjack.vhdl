@@ -41,7 +41,7 @@ architecture structural of blackjack is
            PlayerWin,  DealerWin,
            PlayerRead, DealerRead,
            PlayerTurn, DealerTurn, Clear: std_logic;
-    signal NRESET, REG_EN, NPLAYER_EN, NDEALER_EN: std_logic;
+    signal NRESET, NPLAYER_EN, NDEALER_EN: std_logic;
     signal DATA_IN_EXTENDED,
            PLAYER,           DEALER,
            PLAYER_NEXTSCORE, DEALER_NEXTSCORE: std_logic_vector (7 downto 0);
@@ -57,6 +57,14 @@ begin
     player_adder: rca
         generic map(8)
         port map (PLAYER, DATA_IN_EXTENDED, '0', PLAYER_NEXTSCORE);
+
+    d_score: reg
+        generic map(8)
+        port map (CLK, NRESET, NDEALER_EN, DEALER_NEXTSCORE, DEALER);
+
+    dealer_adder: rca
+        generic map(8)
+        port map (DEALER, DATA_IN_EXTENDED, '0', DEALER_NEXTSCORE);
 
     process (CLK, Reset)
     begin
@@ -156,28 +164,28 @@ begin
                 Win  <= '0';
             when WAIT_PC =>
                 Clear      <= '0';
-                PlayerRead <= '1';
                 ShowPlayer <= '1';
                 PlayerTurn <= '1';
             when SETUP_PC =>
+                PlayerRead <= '1';
+            when READ_PC =>
                 PlayerRead <= '0';
                 t := PLAYER_INT + DATA_IN;
                 PLAYER_INT <= t;
-            when READ_PC =>
                 if t > 21 then
                     Bust <= '1';
                 end if;
             when CHECK_PC =>
             when WAIT_DC =>
-                DealerRead <= '1';
                 ShowDealer <= '1';
                 PlayerTurn <= '0';
                 DealerTurn <= '1';
             when SETUP_DC =>
+                DealerRead <= '1';
+            when READ_DC =>
                 DealerRead <= '0';
                 t := DEALER_INT + DATA_IN;
                 DEALER_INT <= t;
-            when READ_DC =>
                 if t >= PLAYER_INT then
                     Win <= '1';
                 elsif t > 21 then
@@ -202,7 +210,7 @@ DEALER_SCORE <= DEALER_INT;
 
 debug: process(CLK)
     variable l: line;
-    variable enable_debug: boolean := false;
+    variable enable_debug: boolean := true;
 begin
     if enable_debug and rising_edge(CLK) then
         write(l, string'("now = "));
@@ -214,14 +222,14 @@ begin
         write(l, string'("Stop = "));
         write(l, Stop);
         writeline(output, l);
-        write(l, string'("REG_EN = "));
-        write(l, REG_EN);
-        writeline(output, l);
         write(l, string'("NPLAYER_EN = "));
         write(l, NPLAYER_EN);
         writeline(output, l);
         write(l, string'("PlayerRead = "));
         write(l, PlayerRead);
+        writeline(output, l);
+        write(l, string'("DealerRead = "));
+        write(l, DealerRead);
         writeline(output, l);
         write(l, string'("PlayerTurn = "));
         write(l, PlayerTurn);
@@ -274,6 +282,10 @@ begin
                 write(l, string'("dw"));
         end case;
         writeline(output, l);
+        if not is_X(PLAYER) then
+            assert PLAYER_INT = conv_integer(unsigned(PLAYER));
+            assert DEALER_INT = conv_integer(unsigned(DEALER));
+        end if;
     end if;
 end process;
 end structural;
