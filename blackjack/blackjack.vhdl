@@ -42,7 +42,6 @@ architecture structural of blackjack is
                    PLAYER_BUSTED, DEALER_BUSTED, DEALER_WINNER);
     signal current_state, next_state: STATE;
     signal DATA_IN_INT, PLAYER_INT, DEALER_INT: integer;
-    signal Bust, Win: std_logic;
     signal BUST_S, WIN_S: std_logic;
     signal ShowPlayer, ShowDealer, 
            PlayerWin,  DealerWin,
@@ -182,8 +181,6 @@ begin
                 DealerRead <= '0';
                 PlayerTurn <= '0';
                 DealerTurn <= '0';
-                Bust <= '0';
-                Win  <= '0';
             when WAIT_PC =>
                 Clear      <= '0';
                 ShowPlayer <= '1';
@@ -194,9 +191,6 @@ begin
                 PlayerRead <= '0';
                 t := PLAYER_INT + DATA_IN_INT;
                 PLAYER_INT <= t;
-                if t > 21 then
-                    Bust <= '1';
-                end if;
             when CHECK_PC =>
             when WAIT_DC =>
                 ShowDealer <= '1';
@@ -208,12 +202,6 @@ begin
                 DealerRead <= '0';
                 t := DEALER_INT + DATA_IN_INT;
                 DEALER_INT <= t;
-                if t > 21 then
-                    Bust <= '1';
-                end if;
-                if t >= PLAYER_INT then
-                    Win <= '1';
-                end if;
             when CHECK_DC =>
             when PLAYER_BUSTED =>
                 PlayerTurn <= '0';
@@ -242,14 +230,8 @@ begin
         write(l, string'("En = "));
         write(l, En);
         writeline(output, l);
-        write(l, string'("Bust = "));
-        write(l, Bust);
-        writeline(output, l);
         write(l, string'("BUST_S = "));
         write(l, BUST_S);
-        writeline(output, l);
-        write(l, string'("Win = "));
-        write(l, Win);
         writeline(output, l);
         write(l, string'("WIN_S = "));
         write(l, WIN_S);
@@ -305,11 +287,6 @@ begin
         if not is_X(PLAYER) then
             assert PLAYER_INT = conv_integer(unsigned(PLAYER)) report "PLAYER_INT";
             assert DEALER_INT = conv_integer(unsigned(DEALER)) report "DEALER_INT";
-
-            if current_state = CHECK_DC then
-                assert BUST_S = Bust report "BUST_S";
-                assert WIN_S  = Win  report "WIN_S";
-            end if;
         end if;
     end if;
 end process;
