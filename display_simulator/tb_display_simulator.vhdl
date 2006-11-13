@@ -5,10 +5,10 @@ use std.textio.all;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_textio.all; -- synopsys only
 
-entity tb_display is
-end tb_display;
+entity tb_display_simulator is
+end tb_display_simulator;
 
-architecture test of tb_display is
+architecture test of tb_display_simulator is
     signal DIGIT:  std_logic_vector (6 downto 0);
     signal DOT:    std_logic;
     signal AN:     std_logic_vector (3 downto 0);
@@ -19,7 +19,7 @@ architecture test of tb_display is
     signal DIGITS: natural_vector (0 to 3);
     signal DOTS:   boolean_vector (0 to 3);
 
-	component display
+	component display_simulator
         port(DIGIT:  in std_logic_vector (6 downto 0);
              DOT:    in std_logic;
              AN:     in std_logic_vector (3 downto 0);
@@ -29,7 +29,7 @@ architecture test of tb_display is
 	end component;
 
 begin 
-	U: display port map (DIGIT, DOT, AN,
+	U: display_simulator port map (DIGIT, DOT, AN,
                          DIGITS(0), DIGITS(1), DIGITS(2), DIGITS(3),
                          DOTS(0),   DOTS(1),   DOTS(2),   DOTS(3));
 
@@ -41,7 +41,7 @@ test: process
     variable testDIGITS: natural_vector (3 downto 0);
     variable testDOTS:   boolean_vector (3 downto 0);
 
-    file test_file: text is in "display/tb_display.test";
+    file test_file: text is in "display_simulator/tb_display_simulator.test";
 
     variable l: line;
     variable t: time;
