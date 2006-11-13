@@ -9,7 +9,8 @@ entity blackjack is
     port (CLK:                        in  std_logic;
           Reset, NewGame, Stop, En:   in  std_logic;
           DATA_IN:                    in  std_logic_vector (7 downto 0);
-          PLAYER_SCORE, DEALER_SCORE: out std_logic_vector (7 downto 0);
+          PLAYER_L, PLAYER_H:         out std_logic_vector (3 downto 0);
+          DEALER_L, DEALER_H:         out std_logic_vector (3 downto 0);
           PLAYER_SHOW,  DEALER_SHOW:  out std_logic;
           PLAYER_WIN,   DEALER_WIN:   out std_logic);
 end blackjack;
@@ -39,6 +40,10 @@ architecture structural of blackjack is
               ShowPlayer, ShowDealer, PlayerWin, DealerWin: out std_logic;
               PlayerRead, DealerRead: out std_logic;
               Clear: out std_logic);
+    end component;
+    component bcd_encoder
+        port (I:    in  std_logic_vector(7 downto 0);
+              H, L: out std_logic_vector(3 downto 0));
     end component;
 
     signal Bust, Win: std_logic;
@@ -82,8 +87,11 @@ begin
                   ShowPlayer, ShowDealer, PlayerWin, DealerWin,
                   PlayerRead, DealerRead, Clear);
 
-PLAYER_SCORE <= PLAYER;
-DEALER_SCORE <= DEALER;
+    bcd_player: bcd_encoder
+        port map (PLAYER, PLAYER_H, PLAYER_L);
+
+    bcd_dealer: bcd_encoder
+        port map (DEALER, DEALER_H, DEALER_L);
 
 debug: process(CLK)
     variable l: line;

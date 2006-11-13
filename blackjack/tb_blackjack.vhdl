@@ -12,7 +12,9 @@ end tb_blackjack;
 architecture test of tb_blackjack is
     signal CLK: std_logic := '0';
     signal Reset, NewGame, Stop, En: std_logic;
-    signal DATA_IN, PLAYER, DEALER: std_logic_vector (7 downto 0);
+    signal DATA_IN: std_logic_vector (7 downto 0);
+    signal PLAYER_L, PLAYER_H: std_logic_vector (3 downto 0);
+    signal DEALER_L, DEALER_H: std_logic_vector (3 downto 0);
     signal PLAYER_SHOW, DEALER_SHOW: std_logic;
     signal PLAYER_WIN,  DEALER_WIN:  std_logic;
     signal counter: integer := -1;
@@ -21,13 +23,15 @@ architecture test of tb_blackjack is
         port (CLK:                      in  std_logic;
               Reset, NewGame, Stop, En: in  std_logic;
               DATA_IN:                    in  std_logic_vector (7 downto 0);
-              PLAYER_SCORE, DEALER_SCORE: out std_logic_vector (7 downto 0);
+              PLAYER_L, PLAYER_H:         out std_logic_vector (3 downto 0);
+              DEALER_L, DEALER_H:         out std_logic_vector (3 downto 0);
               PLAYER_SHOW,  DEALER_SHOW:  out std_logic;
               PLAYER_WIN,   DEALER_WIN:   out std_logic);
     end component;
 begin 
 	U: blackjack port map (CLK, Reset, NewGame, Stop, En, DATA_IN,
-                           PLAYER,      DEALER,
+                           PLAYER_L, PLAYER_H,
+                           DEALER_L, DEALER_H,
                            PLAYER_SHOW, DEALER_SHOW,
                            PLAYER_WIN,  DEALER_WIN);
 
@@ -108,18 +112,18 @@ begin
             write(l_out, string'("PLAYER_SHOW = "));
             write(l_out, PLAYER_SHOW);
             writeline(output, l_out);
-            write(l_out, string'("DEALER = "));
-            write(l_out, DEALER);
+            write(l_out, string'("DEALER_L = "));
+            write(l_out, DEALER_L);
             writeline(output, l_out);
             write(l_out, string'("testDEALER = "));
             write(l_out, testDEALER);
             writeline(output, l_out);
         end if;
 
-        if not is_X(PLAYER) then
-        assert conv_integer(unsigned(PLAYER)) = testPLAYER report "Mismatch on output PLAYER";
-        assert conv_integer(unsigned(DEALER)) = testDEALER report "Mismatch on output DEALER";
-        end if;
+        assert conv_integer(unsigned(PLAYER_L)) = testPLAYER mod 10 report "Mismatch on output PLAYER_L";
+        assert conv_integer(unsigned(PLAYER_H)) = testPLAYER / 10   report "Mismatch on output PLAYER_H";
+        assert conv_integer(unsigned(DEALER_L)) = testDEALER mod 10 report "Mismatch on output DEALER_L";
+        assert conv_integer(unsigned(DEALER_H)) = testDEALER / 10   report "Mismatch on output DEALER_H";
         assert PLAYER_SHOW = testPLAYER_SHOW report "Mismatch on output PLAYER_SHOW";
         assert DEALER_SHOW = testDEALER_SHOW report "Mismatch on output DEALER_SHOW";
         assert PLAYER_WIN  = testPLAYER_WIN  report "Mismatch on output PLAYER_WIN";
