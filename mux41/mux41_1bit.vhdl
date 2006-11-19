@@ -11,11 +11,14 @@ architecture behavioral of mux41_1bit is
 begin
 process (A, B, C, D, SEL)
 begin
-    case SEL is
-        when "00" => O <= A;
-        when "01" => O <= B;
-        when "10" => O <= C;
-        when "11" => O <= D;
-    end case;
+    if    SEL = "00" then
+        O <= A;
+    elsif SEL = "01" then
+        O <= B;
+    elsif SEL = "10" then
+        O <= C;
+    elsif SEL = "11" then
+        O <= D;
+    end if;
 end process;
 end behavioral;
