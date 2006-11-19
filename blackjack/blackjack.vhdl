@@ -92,33 +92,4 @@ begin
 
     bcd_dealer: bcd_encoder
         port map (DEALER, DEALER_H, DEALER_L);
-
-debug: process(CLK)
-    variable l: line;
-    variable enable_debug: boolean := false;
-begin
-    if enable_debug and rising_edge(CLK) then
-        write(l, string'("now = "));
-        write(l, now);
-        writeline(output, l);
-        write(l, string'("En = "));
-        write(l, En);
-        writeline(output, l);
-        write(l, string'("Bust = "));
-        write(l, Bust);
-        writeline(output, l);
-        write(l, string'("Win = "));
-        write(l, Win);
-        writeline(output, l);
-        write(l, string'("DATA_IN = "));
-        write(l, DATA_IN);
-        writeline(output, l);
-        write(l, string'("PLAYER = "));
-        write(l, PLAYER);
-        writeline(output, l);
-        write(l, string'("DEALER = "));
-        write(l, DEALER);
-        writeline(output, l);
-    end if;
-end process;
 end structural;
