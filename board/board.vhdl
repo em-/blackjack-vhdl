@@ -29,14 +29,28 @@ architecture structural of board is
               OUTPUT:                   out std_logic_vector (7 downto 0);
               AN:                       out std_logic_vector (3 downto 0));
     end component;
+	component clock_divider 
+        generic (N: integer);
+        port (CLK, RST: in  std_logic;
+              O:        out std_logic);
+	end component;
 
     signal PLAYER_L, PLAYER_H:       std_logic_vector (3 downto 0);
     signal DEALER_L, DEALER_H:       std_logic_vector (3 downto 0);
     signal PLAYER_SHOW, DEALER_SHOW: std_logic;
     signal PLAYER_WIN,  DEALER_WIN:  std_logic;
     signal NRESET:                   std_logic;
+    signal BJ_CLK, DISP_CLK:         std_logic;
 begin
     NRESET <= not Reset;
+
+    bj_div: clock_divider
+        generic map (100)
+        port map (CLK, NRESET, BJ_CLK);
+
+    disp_div: clock_divider
+        generic map (10)
+        port map (CLK, NRESET, DISP_CLK);
 
     bj: blackjack
         port map (CLK, Reset, NewGame, Stop, En, DATA_IN,
