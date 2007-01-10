@@ -53,13 +53,13 @@ begin
         port map (CLK, NRESET, DISP_CLK);
 
     bj: blackjack
-        port map (CLK, Reset, NewGame, Stop, En, DATA_IN,
+        port map (BJ_CLK, Reset, NewGame, Stop, En, DATA_IN,
                   PLAYER_L, PLAYER_H, DEALER_L, DEALER_H,
                   PLAYER_SHOW, DEALER_SHOW,
                   PLAYER_WIN,  DEALER_WIN);
 
     disp: display
-        port map (CLK, NRESET,
+        port map (DISP_CLK, NRESET,
                   PLAYER_L, PLAYER_H, DEALER_L, DEALER_H,
                   PLAYER_SHOW,  DEALER_SHOW,
                   PLAYER_WIN,   DEALER_WIN,
