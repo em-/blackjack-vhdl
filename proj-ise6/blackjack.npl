@@ -1,0 +1,39 @@
+JDF G
+// Created by Project Navigator ver 1.0
+PROJECT blackjack
+DESIGN blackjack
+DEVFAM spartan3
+DEVFAMTIME 1168464106
+DEVICE xc3s400
+DEVICETIME 1168464106
+DEVPKG pq208
+DEVPKGTIME 1168464106
+DEVSPEED -5
+DEVSPEEDTIME 1168464106
+DEVTOPLEVELMODULETYPE HDL
+TOPLEVELMODULETYPETIME 0
+DEVSYNTHESISTOOL XST (VHDL/Verilog)
+SYNTHESISTOOLTIME 0
+DEVSIMULATOR Other
+SIMULATORTIME 0
+DEVGENERATEDSIMULATIONMODEL VHDL
+GENERATEDSIMULATIONMODELTIME 0
+SOURCE ..\bcd_encoder\bcd_encoder.vhdl
+SOURCE ..\blackjack\blackjack.vhdl
+SOURCE ..\board\board.vhdl
+SOURCE ..\clock_divider\clock_divider.vhdl
+SOURCE ..\display\sevensegment_encoder.vhdl
+SOURCE ..\display\display.vhdl
+SOURCE ..\display_controller\display_controller.vhdl
+SOURCE ..\fa\fa.vhdl
+SOURCE ..\fd\fd.vhdl
+SOURCE ..\fsm\fsm.vhdl
+SOURCE ..\game_logic\game_logic.vhdl
+SOURCE ..\mux21\mux21.vhdl
+SOURCE ..\mux21\mux21_1bit.vhdl
+SOURCE ..\rca\rca.vhdl
+SOURCE ..\reg\reg.vhdl
+SOURCE ..\shift_reg\shift_reg.vhdl
+SOURCE ..\mux41\mux41_1bit.vhdl
+[STRATEGY-LIST]
+Normal=True
