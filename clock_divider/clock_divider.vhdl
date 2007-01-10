@@ -9,20 +9,23 @@ entity clock_divider is
 end clock_divider;
 
 architecture behavioral of clock_divider is  
+    signal output: std_logic;
 begin
+
+O <= output;
+
 process (RST, CLK)
 	variable count : integer range 0 to N;
 begin
     if RST = '0' then
 		count := 0;
-		O <= '0';
+		output <= '0';
 	elsif (rising_edge(CLK)) then
 		if (count = (N-1)) then 
 			count := 0;
-			O <= '1';
+			output <= not output;
 		else
 			count := count + 1;
-			O <= '0';
 		end if;
 	end if;
 end process;
