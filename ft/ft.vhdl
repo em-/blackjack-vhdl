@@ -1,10 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-library std;
-use std.textio.all;
-use ieee.std_logic_textio.all; -- synopsys only
-
 entity ft is
     port (CLK, RST: in  std_logic;
           T:        in  std_logic;

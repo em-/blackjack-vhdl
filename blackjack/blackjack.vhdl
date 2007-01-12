@@ -1,8 +1,5 @@
-library std;
 library ieee; 
-use std.textio.all;
 use ieee.std_logic_1164.all; 
-use ieee.std_logic_textio.all; -- synopsys only
 use ieee.std_logic_arith.all;  -- synopsys only
 
 entity blackjack is
