@@ -45,11 +45,11 @@ begin
     NRESET <= not Reset;
 
     bj_div: clock_divider
-        generic map (100)
+        generic map (1000)
         port map (CLK, NRESET, BJ_CLK);
 
     disp_div: clock_divider
-        generic map (10)
+        generic map (1000000)
         port map (CLK, NRESET, DISP_CLK);
 
     bj: blackjack
