@@ -3,6 +3,8 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
 
 entity board is
+    generic (GAME_CLK_DIV: integer := 1000;
+             DISP_CLK_DIV: integer := 1000000);
     port (CLK:                      in  std_logic;
           Reset, NewGame, Stop, En: in  std_logic;
           DATA_IN:                  in  std_logic_vector (7 downto 0);
@@ -45,11 +47,11 @@ begin
     NRESET <= not Reset;
 
     bj_div: clock_divider
-        generic map (1000)
+        generic map (GAME_CLK_DIV)
         port map (CLK, NRESET, BJ_CLK);
 
     disp_div: clock_divider
-        generic map (1000000)
+        generic map (DISP_CLK_DIV)
         port map (CLK, NRESET, DISP_CLK);
 
     bj: blackjack
