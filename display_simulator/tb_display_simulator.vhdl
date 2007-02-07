@@ -9,9 +9,9 @@ entity tb_display_simulator is
 end tb_display_simulator;
 
 architecture test of tb_display_simulator is
-    signal DIGIT:  std_logic_vector (6 downto 0);
-    signal DOT:    std_logic;
-    signal AN:     std_logic_vector (3 downto 0);
+    signal E14, G13, N15, P15, R16, F13, N16: std_logic;
+    signal P16:                               std_logic;
+    signal E13, F14, G14, D14:                std_logic;
 
     type natural_vector is array(natural range <>) of natural;
     type boolean_vector is array(natural range <>) of boolean;
@@ -20,16 +20,17 @@ architecture test of tb_display_simulator is
     signal DOTS:   boolean_vector (0 to 3);
 
 	component display_simulator
-        port(DIGIT:  in std_logic_vector (6 downto 0);
-             DOT:    in std_logic;
-             AN:     in std_logic_vector (3 downto 0);
+        port(E14, G13, N15, P15, R16, F13, N16: in std_logic;
+             P16:                               in std_logic;
+             E13, F14, G14, D14:                in std_logic;
 
              DIGITS_0, DIGITS_1, DIGITS_2, DIGITS_3: out natural;
              DOTS_0,   DOTS_1,   DOTS_2,   DOTS_3:   out boolean);
 	end component;
 
 begin 
-	U: display_simulator port map (DIGIT, DOT, AN,
+	U: display_simulator port map (E14, G13, N15, P15, R16, F13, N16, 
+                         P16, E13, F14, G14, D14,
                          DIGITS(0), DIGITS(1), DIGITS(2), DIGITS(3),
                          DOTS(0),   DOTS(1),   DOTS(2),   DOTS(3));
 
@@ -74,9 +75,19 @@ begin
         read(l, testDOTS(2));
         read(l, testDOTS(3));
 
-        DIGIT <= testDIGIT;
-        DOT   <= testDOT;
-        AN    <= testAN;
+        E14 <= testDIGIT(6);
+        G13 <= testDIGIT(5);
+        N15 <= testDIGIT(4);
+        P15 <= testDIGIT(3);
+        R16 <= testDIGIT(2);
+        F13 <= testDIGIT(1);
+        N16 <= testDIGIT(0);
+
+        P16 <= testDOT;
+        E13 <= testAN(3);
+        F14 <= testAN(2);
+        G14 <= testAN(1);
+        D14 <= testAN(0);
 
         t := i * 1 ns;  -- convert an integer to time
         if (now < t) then
