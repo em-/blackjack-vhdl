@@ -20,7 +20,7 @@ begin
     if RST = '0' then
 		count := 0;
 		output <= '0';
-	elsif (rising_edge(CLK)) then
+	elsif (CLK'event) then
 		if (count = (N-1)) then 
 			count := 0;
 			output <= not output;
