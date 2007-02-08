@@ -14,7 +14,7 @@ architecture test of tb_clock_divider is
     signal counter: integer := -1;
 	
 	component clock_divider 
-        generic (N: integer := 4);
+        generic (MODULUS: in positive range 2 to integer'high := 4);
         port (
             CLK, RST: in  std_logic;
             O:        out std_logic);

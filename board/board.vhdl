@@ -32,7 +32,7 @@ architecture structural of board is
               AN:                       out std_logic_vector (3 downto 0));
     end component;
 	component clock_divider 
-        generic (N: integer);
+        generic (MODULUS: in positive range 2 to integer'high := 4);
         port (CLK, RST: in  std_logic;
               O:        out std_logic);
 	end component;
