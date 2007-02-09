@@ -31,7 +31,7 @@ architecture structural of display is
     end component;
 
     signal PL, PH, DL, DH: std_logic_vector (6 downto 0);
-    signal ZERO: std_logic_vector (6 downto 0) := (others => '0');
+    signal ONES: std_logic_vector (6 downto 0) := (others => '1');
     signal DISPLAY_PL, DISPLAY_PH,
            DISPLAY_DL, DISPLAY_DH: std_logic_vector (6 downto 0);
     signal DIGIT_PL,   DIGIT_PH, 
@@ -43,18 +43,18 @@ begin
     sse_dh: sevensegment_encoder port map (DEALER_H, DH);
 
     mux_pl: mux21 generic map(7) 
-                  port map (ZERO, PL, PLAYER_SHOW, DISPLAY_PL);
+                  port map (ONES, PL, PLAYER_SHOW, DISPLAY_PL);
     mux_ph: mux21 generic map(7) 
-                  port map (ZERO, PH, PLAYER_SHOW, DISPLAY_PH);
+                  port map (ONES, PH, PLAYER_SHOW, DISPLAY_PH);
     mux_dl: mux21 generic map(7) 
-                  port map (ZERO, DL, DEALER_SHOW, DISPLAY_DL);
+                  port map (ONES, DL, DEALER_SHOW, DISPLAY_DL);
     mux_dh: mux21 generic map(7) 
-                  port map (ZERO, DH, DEALER_SHOW, DISPLAY_DH);
+                  port map (ONES, DH, DEALER_SHOW, DISPLAY_DH);
 
-    DIGIT_PL <= PLAYER_WIN & DISPLAY_PL;
-    DIGIT_PH <= PLAYER_WIN & DISPLAY_PH;
-    DIGIT_DL <= DEALER_WIN & DISPLAY_DL;
-    DIGIT_DH <= DEALER_WIN & DISPLAY_DH;
+    DIGIT_PL <= not PLAYER_WIN & DISPLAY_PL;
+    DIGIT_PH <= not PLAYER_WIN & DISPLAY_PH;
+    DIGIT_DL <= not DEALER_WIN & DISPLAY_DL;
+    DIGIT_DH <= not DEALER_WIN & DISPLAY_DH;
 
     display: display_controller
             port map (CLK, RST,
