@@ -13,46 +13,65 @@ end display_simulator;
 
 
 architecture structural of display_simulator is
-    component seven_segment_dot is
-        port(I:   in  std_logic_vector(7 downto 0);
-             O:   out natural;
-             DOT: out boolean);
-    end component;
-
-    type connection is array(natural range <>) of std_logic_vector(7 downto 0);
-
-    signal input: connection(0 to 3);
-
     signal DIGIT: std_logic_vector (6 downto 0);
     signal DOT:   std_logic;
     signal AN:    std_logic_vector (3 downto 0);
 begin
-
-s_0: seven_segment_dot port map (input(0), DIGITS_0, DOTS_0);
-s_1: seven_segment_dot port map (input(1), DIGITS_1, DOTS_1);
-s_2: seven_segment_dot port map (input(2), DIGITS_2, DOTS_2);
-s_3: seven_segment_dot port map (input(3), DIGITS_3, DOTS_3);
 
 DIGIT <= E14 & G13 & N15 & P15 & R16 & F13 & N16;
 DOT <= P16;
 AN <= E13 & F14 & G14 & D14;
 
 process(DIGIT, DOT, AN)
+    variable number: natural := 0;
+    variable point: boolean;
 begin
+    if    DIGIT(6 downto 0) = "0000001" then
+        number := 0;
+    elsif DIGIT(6 downto 0) = "1001111" then
+        number := 1;
+    elsif DIGIT(6 downto 0) = "0010010" then
+        number := 2;
+    elsif DIGIT(6 downto 0) = "0000110" then
+        number := 3;
+    elsif DIGIT(6 downto 0) = "1001100" then
+        number := 4;
+    elsif DIGIT(6 downto 0) = "0100100" then
+        number := 5;
+    elsif DIGIT(6 downto 0) = "0100000" then
+        number := 6;
+    elsif DIGIT(6 downto 0) = "0001111" then
+        number := 7;
+    elsif DIGIT(6 downto 0) = "0000000" then
+        number := 8;
+    elsif DIGIT(6 downto 0) = "0000100" then
+        number := 9;
+    end if;
+
+    if DOT = '0' then
+        point := True;
+    else
+        point := False;
+    end if;
+
     if AN(0) = '0' then
-        input(0) <= DOT & DIGIT;
+        DIGITS_0 <= number;
+        DOTS_0 <= point;
     end if;
 
     if AN(1) = '0' then
-        input(1) <= DOT & DIGIT;
+        DIGITS_1 <= number;
+        DOTS_1 <= point;
     end if;
 
     if AN(2) = '0' then
-        input(2) <= DOT & DIGIT;
+        DIGITS_2 <= number;
+        DOTS_2 <= point;
     end if;
 
     if AN(3) = '0' then
-        input(3) <= DOT & DIGIT;
+        DIGITS_3 <= number;
+        DOTS_3 <= point;
     end if;
 end process;
 end structural;
