@@ -36,11 +36,12 @@ architecture structural of display_controller is
     signal SEL:   std_logic_vector(1 downto 0);
 begin
 
-STARTED <= SHIFT_OUT(0) or SHIFT_OUT(1) or SHIFT_OUT(2) or SHIFT_OUT(3);
-SEL(0)  <= SHIFT_OUT(2) or SHIFT_OUT(3);
-SEL(1)  <= SHIFT_OUT(1) or SHIFT_OUT(3);
+STARTED  <= SHIFT_OUT(0) or SHIFT_OUT(1) or SHIFT_OUT(2) or SHIFT_OUT(3);
+SHIFT_IN <= not STARTED or SHIFT_OUT(3);
 
-shift_input: mux21_1bit port map ('1', SHIFT_OUT(3), STARTED, SHIFT_IN);
+SEL(0)  <= SHIFT_OUT(1) or SHIFT_OUT(3);
+SEL(1)  <= SHIFT_OUT(2) or SHIFT_OUT(3);
+
 reg: shift_reg generic map (4) port map (CLK, RST, '0', SHIFT_IN, SHIFT_OUT);
 
 mux: for i in 0 to 7 generate
