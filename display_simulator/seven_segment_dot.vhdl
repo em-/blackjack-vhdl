@@ -13,32 +13,32 @@ begin
 
 process(I)
 begin    
-    if    I(6 downto 0) = "1111110" then
+    if    I(6 downto 0) = "0000001" then
         O <= 0;
-    elsif I(6 downto 0) = "0110000" then
+    elsif I(6 downto 0) = "1001111" then
         O <= 1;
-    elsif I(6 downto 0) = "1101101" then
+    elsif I(6 downto 0) = "0010010" then
         O <= 2;
-    elsif I(6 downto 0) = "1111001" then
+    elsif I(6 downto 0) = "0000110" then
         O <= 3;
-    elsif I(6 downto 0) = "0110011" then
+    elsif I(6 downto 0) = "1001100" then
         O <= 4;
-    elsif I(6 downto 0) = "1011011" then
+    elsif I(6 downto 0) = "0100100" then
         O <= 5;
-    elsif I(6 downto 0) = "1011111" then
+    elsif I(6 downto 0) = "0100000" then
         O <= 6;
-    elsif I(6 downto 0) = "1110000" then
+    elsif I(6 downto 0) = "0001111" then
         O <= 7;
-    elsif I(6 downto 0) = "1111111" then
+    elsif I(6 downto 0) = "0000000" then
         O <= 8;
-    elsif I(6 downto 0) = "1111011" then
+    elsif I(6 downto 0) = "0000100" then
         O <= 9;
     end if;
 end process;
 
 process(I)
 begin
-    if I(7) = '1' then
+    if I(7) = '0' then
         DOT <= true;
     else
         DOT <= false;
