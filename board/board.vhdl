@@ -31,12 +31,18 @@ architecture structural of board is
               OUTPUT:                   out std_logic_vector (7 downto 0);
               AN:                       out std_logic_vector (3 downto 0));
     end component;
+    component pulse_generator
+        port (CLK, RST: in  std_logic;
+              I:        in  std_logic;
+              O:        out std_logic);
+    end component;
 	component clock_divider 
         generic (MODULUS: in positive range 2 to integer'high := 4);
         port (CLK, RST: in  std_logic;
               O:        out std_logic);
 	end component;
 
+    signal Reset_PULSE, NewGame_PULSE, Stop_PULSE, En_PULSE: std_logic;
     signal PLAYER_L, PLAYER_H:       std_logic_vector (3 downto 0);
     signal DEALER_L, DEALER_H:       std_logic_vector (3 downto 0);
     signal PLAYER_SHOW, DEALER_SHOW: std_logic;
@@ -45,6 +51,11 @@ architecture structural of board is
     signal BJ_CLK, DISP_CLK:         std_logic;
 begin
     NRESET <= not Reset;
+
+    r_pgen: pulse_generator port map (CLK, NRESET, Reset, Reset_PULSE);
+    n_pgen: pulse_generator port map (CLK, NRESET, NewGame, NewGame_PULSE);
+    s_pgen: pulse_generator port map (CLK, NRESET, Stop, Stop_PULSE);
+    e_pgen: pulse_generator port map (CLK, NRESET, En, En_PULSE);
 
     bj_div: clock_divider
         generic map (GAME_CLK_DIV)
@@ -55,7 +66,8 @@ begin
         port map (CLK, NRESET, DISP_CLK);
 
     bj: blackjack
-        port map (BJ_CLK, Reset, NewGame, Stop, En, DATA_IN,
+        port map (BJ_CLK, Reset_PULSE, NewGame_PULSE, Stop_PULSE, En_PULSE,
+                  DATA_IN,
                   PLAYER_L, PLAYER_H, DEALER_L, DEALER_H,
                   PLAYER_SHOW, DEALER_SHOW,
                   PLAYER_WIN,  DEALER_WIN);

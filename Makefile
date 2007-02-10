@@ -53,7 +53,7 @@ shift_reg.o: fd.o
 display_controller.o: shift_reg.o mux21_1bit.o mux41_1bit.o
 blackjack.o: reg.o rca.o game_logic.o fsm.o bcd_encoder.o
 display.o: sevensegment_encoder.o mux21.o display_controller.o
-board.o: blackjack.o display.o clock_divider.o
+board.o: pulse_generator.o blackjack.o display.o clock_divider.o
 
 
 # Elaboration target
