@@ -62,7 +62,7 @@ clock: process
 begin
     CLK <= not CLK;
     if finished then wait; end if;
-    wait for 0.005 ns;
+    wait for 0.5 ns;
 end process;
 
 count: process(CLK)
@@ -126,7 +126,7 @@ begin
         En      <= testEn;
         DATA_IN <= conv_std_logic_vector(testDATA_IN, DATA_IN'length);
 
-        while clock_counter /= t*100 loop
+        while clock_counter /= t*1000 loop
             wait on clock_counter;
         end loop;
 
