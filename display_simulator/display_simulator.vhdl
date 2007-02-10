@@ -46,6 +46,8 @@ begin
         number := 8;
     elsif DIGIT(6 downto 0) = "0000100" then
         number := 9;
+    else
+        number := 0;
     end if;
 
     if DOT = '0' then
