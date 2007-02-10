@@ -7,6 +7,7 @@ TESTBENCHES=tb_or2 tb_or3 tb_and2 tb_ha tb_fa tb_rca \
             tb_fd tb_ft tb_reg tb_ld tb_latch tb_counter tb_accumulator \
             tb_display_simulator tb_shift_reg tb_display_controller \
 			tb_fsm tb_bcd_encoder tb_game_logic tb_clock_divider \
+			tb_pulse_generator \
 			tb_display tb_blackjack
 
 # Default target
@@ -38,6 +39,7 @@ tb_fsm: fsm.o tb_fsm.o
 tb_bcd_encoder: bcd_encoder.o tb_bcd_encoder.o
 tb_game_logic: game_logic.o tb_game_logic.o
 tb_clock_divider: clock_divider.o tb_clock_divider.o
+tb_pulse_generator: pulse_generator.o tb_pulse_generator.o
 tb_display: sevensegment_encoder.o display.o tb_display.o
 tb_blackjack: blackjack.o tb_blackjack.o
 
