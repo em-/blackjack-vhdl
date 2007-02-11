@@ -46,8 +46,10 @@ begin
         char := '8';
     elsif DIGIT(6 downto 0) = "0000100" then
         char := '9';
-    else
+    elsif DIGIT(6 downto 0) = "1111111" then
         char := ' ';
+    else
+        char := '*';
     end if;
 
     if DOT = '0' then
