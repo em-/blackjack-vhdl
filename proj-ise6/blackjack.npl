@@ -35,8 +35,7 @@ SOURCE ..\rca\rca.vhdl
 SOURCE ..\reg\reg.vhdl
 SOURCE ..\shift_reg\shift_reg.vhdl
 SOURCE ..\mux41\mux41_1bit.vhdl
+SOURCE ..\pulse_generator\pulse_generator.vhdl
 DEPASSOC board board.ucf
-[STATUS-ALL]
-board.ngcFile=WARNINGS,1169717139
 [STRATEGY-LIST]
 Normal=True
