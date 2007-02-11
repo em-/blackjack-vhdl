@@ -14,13 +14,13 @@ architecture test of tb_board is
     signal Reset, NewGame, Stop, En: std_logic;
     signal DATA_IN: std_logic_vector (7 downto 0);
 
-    type natural_vector is array(natural range <>) of natural;
+    type character_vector is array(natural range <>) of character;
     type boolean_vector is array(natural range <>) of boolean;
 
     signal DIGIT: std_logic_vector (7 downto 0);
     signal AN:    std_logic_vector (3 downto 0);
 
-    signal DIGITS: natural_vector (0 to 3);
+    signal DIGITS: character_vector (0 to 3);
     signal DOTS:   boolean_vector (0 to 3);
 
     signal clock_counter: integer := -1;
@@ -41,7 +41,7 @@ architecture test of tb_board is
              P16:                               in std_logic;
              E13, F14, G14, D14:                in std_logic;
 
-             DIGITS_0, DIGITS_1, DIGITS_2, DIGITS_3: out natural;
+             DIGITS_0, DIGITS_1, DIGITS_2, DIGITS_3: out character;
              DOTS_0,   DOTS_1,   DOTS_2,   DOTS_3:   out boolean);
 	end component;
 
@@ -76,7 +76,7 @@ test: process
     variable testReset, testNewGame, testStop, testEn: std_logic;
     variable testDATA_IN: integer;
 
-    variable testDIGITS: natural_vector (3 downto 0);
+    variable testDIGITS: character_vector (3 downto 0);
     variable testDOTS:   boolean_vector (3 downto 0);
 
     file test_file: text is in "board/tb_board.test";
@@ -114,6 +114,7 @@ begin
         read(l, testDIGITS(1));
         read(l, testDIGITS(2));
         read(l, testDIGITS(3));
+        read(l, space);
 
         read(l, testDOTS(0));
         read(l, testDOTS(1));

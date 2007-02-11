@@ -13,10 +13,10 @@ architecture test of tb_display_simulator is
     signal P16:                               std_logic;
     signal E13, F14, G14, D14:                std_logic;
 
-    type natural_vector is array(natural range <>) of natural;
+    type character_vector is array(natural range <>) of character;
     type boolean_vector is array(natural range <>) of boolean;
 
-    signal DIGITS: natural_vector (0 to 3);
+    signal DIGITS: character_vector (0 to 3);
     signal DOTS:   boolean_vector (0 to 3);
 
 	component display_simulator
@@ -24,7 +24,7 @@ architecture test of tb_display_simulator is
              P16:                               in std_logic;
              E13, F14, G14, D14:                in std_logic;
 
-             DIGITS_0, DIGITS_1, DIGITS_2, DIGITS_3: out natural;
+             DIGITS_0, DIGITS_1, DIGITS_2, DIGITS_3: out character;
              DOTS_0,   DOTS_1,   DOTS_2,   DOTS_3:   out boolean);
 	end component;
 
@@ -39,7 +39,7 @@ test: process
     variable testDOT:    std_logic;
     variable testAN:     std_logic_vector (3 downto 0);
 
-    variable testDIGITS: natural_vector (3 downto 0);
+    variable testDIGITS: character_vector (3 downto 0);
     variable testDOTS:   boolean_vector (3 downto 0);
 
     file test_file: text is in "display_simulator/tb_display_simulator.test";
@@ -64,11 +64,13 @@ begin
         read(l, space);
         read(l, testDOT);
         read(l, testAN);
+        read(l, space);
             
         read(l, testDIGITS(0));
         read(l, testDIGITS(1));
         read(l, testDIGITS(2));
         read(l, testDIGITS(3));
+        read(l, space);
 
         read(l, testDOTS(0));
         read(l, testDOTS(1));
@@ -93,7 +95,7 @@ begin
         if (now < t) then
             wait for t - now;
         end if;
-        
+
         assert DIGITS = testDIGITS report "Mismatch on output DIGITS";
         assert DOTS   = testDOTS report "Mismatch on output DOTS";
     end loop;
