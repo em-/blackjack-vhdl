@@ -50,7 +50,5 @@ mux: for i in 0 to 7 generate
                   SEL, OUTPUT(i));
 end generate;
 
-an_: for i in 0 to 3 generate
-    AN(i) <= not SHIFT_OUT(i);
-end generate;
+AN <= not SHIFT_OUT;
 end structural;
