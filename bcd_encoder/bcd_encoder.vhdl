@@ -1,6 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.std_logic_arith.all;
+use ieee.numeric_std.all;
 
 entity bcd_encoder is
     port (I:    in  std_logic_vector(7 downto 0);
@@ -14,7 +14,7 @@ begin
 process(I)
     variable vI, t: unsigned(7 downto 0);
 begin
-    vI := unsigned(I);
+    vI := to_01(unsigned(I));
     if vI >= 30 then
         H <= "0011";
         t := vI - 30;

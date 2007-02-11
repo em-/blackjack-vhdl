@@ -4,7 +4,7 @@ library ieee;
 use std.textio.all;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_textio.all; -- synopsys only
-use ieee.std_logic_arith.all;  -- synopsys only
+use ieee.numeric_std.all;
 
 entity tb_blackjack is
 end tb_blackjack;
@@ -104,7 +104,7 @@ begin
         NewGame <= testNewGame;
         Stop    <= testStop;
         En      <= testEn;
-        DATA_IN <= conv_std_logic_vector(testDATA_IN, DATA_IN'length);
+        DATA_IN <= std_logic_vector(to_unsigned(testDATA_IN, DATA_IN'length));
 
         while counter /= t loop
             wait on counter;
@@ -122,10 +122,10 @@ begin
             writeline(output, l_out);
         end if;
 
-        assert conv_integer(unsigned(PLAYER_L)) = testPLAYER mod 10 report "Mismatch on output PLAYER_L";
-        assert conv_integer(unsigned(PLAYER_H)) = testPLAYER / 10   report "Mismatch on output PLAYER_H";
-        assert conv_integer(unsigned(DEALER_L)) = testDEALER mod 10 report "Mismatch on output DEALER_L";
-        assert conv_integer(unsigned(DEALER_H)) = testDEALER / 10   report "Mismatch on output DEALER_H";
+        assert to_integer(to_01(unsigned(PLAYER_L))) = testPLAYER mod 10 report "Mismatch on output PLAYER_L";
+        assert to_integer(to_01(unsigned(PLAYER_H))) = testPLAYER / 10   report "Mismatch on output PLAYER_H";
+        assert to_integer(to_01(unsigned(DEALER_L))) = testDEALER mod 10 report "Mismatch on output DEALER_L";
+        assert to_integer(to_01(unsigned(DEALER_H))) = testDEALER / 10   report "Mismatch on output DEALER_H";
         assert PLAYER_SHOW = testPLAYER_SHOW report "Mismatch on output PLAYER_SHOW";
         assert DEALER_SHOW = testDEALER_SHOW report "Mismatch on output DEALER_SHOW";
         assert PLAYER_WIN  = testPLAYER_WIN  report "Mismatch on output PLAYER_WIN";

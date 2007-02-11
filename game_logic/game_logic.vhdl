@@ -1,6 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.std_logic_arith.all;
+use ieee.numeric_std.all;
 
 
 entity game_logic is
@@ -15,8 +15,8 @@ begin
 dealer_win: process (PLAYER, DEALER)
     variable P, D: unsigned(7 downto 0);
 begin
-    P := unsigned(PLAYER);
-    D := unsigned(DEALER);
+    P := to_01(unsigned(PLAYER));
+    D := to_01(unsigned(DEALER));
 
     if P <= D then
         WIN <= '1';
@@ -28,8 +28,8 @@ end process;
 busted: process (PLAYER, DEALER)
     variable P, D: unsigned(7 downto 0);
 begin
-    P := unsigned(PLAYER);
-    D := unsigned(DEALER);
+    P := to_01(unsigned(PLAYER));
+    D := to_01(unsigned(DEALER));
 
     if (P > 21) or (D > 21) then
         BUST <= '1';
