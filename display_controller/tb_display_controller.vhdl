@@ -10,7 +10,7 @@ end tb_display_controller;
 
 architecture test of tb_display_controller is
     signal CLK, RST: std_logic := '0';
-    signal DIGIT_0, DIGIT_1, DIGIT_2, DIGIT_3: std_logic_vector(7 downto 0);
+    signal DIGIT_3, DIGIT_2, DIGIT_1, DIGIT_0: std_logic_vector(7 downto 0);
     signal OUTPUT: std_logic_vector (7 downto 0);
     signal AN:     std_logic_vector (3 downto 0);
     signal counter: integer := -1;
@@ -18,7 +18,7 @@ architecture test of tb_display_controller is
 
 	component display_controller 
         port(CLK, RST: std_logic;
-             DIGIT_0, DIGIT_1, DIGIT_2, DIGIT_3: in std_logic_vector(7 downto 0);
+             DIGIT_3, DIGIT_2, DIGIT_1, DIGIT_0: in std_logic_vector(7 downto 0);
 
              OUTPUT: out std_logic_vector (7 downto 0);
              AN:     out std_logic_vector (3 downto 0));
@@ -26,7 +26,7 @@ architecture test of tb_display_controller is
 
 begin 
 	U: display_controller port map (CLK, RST,
-                                    DIGIT_0, DIGIT_1, DIGIT_2, DIGIT_3,
+                                    DIGIT_3, DIGIT_2, DIGIT_1, DIGIT_0,
                                     OUTPUT, AN);
 
 clock: process
@@ -45,8 +45,8 @@ end process;
 
 test: process
     variable testRST: std_logic;
-    variable testDIGIT_0, testDIGIT_1, 
-             testDIGIT_2, testDIGIT_3: std_logic_vector(7 downto 0);
+    variable testDIGIT_3, testDIGIT_2, 
+             testDIGIT_1, testDIGIT_0: std_logic_vector(7 downto 0);
     variable testOUTPUT: std_logic_vector (7 downto 0);
     variable testAN:     std_logic_vector (3 downto 0);
     file test_file: text is in "display_controller/tb_display_controller.test";
@@ -71,13 +71,13 @@ begin
         read(l, testRST);
         read(l, space);
 
-        read(l, testDIGIT_0);
-        read(l, space);
-        read(l, testDIGIT_1);
+        read(l, testDIGIT_3);
         read(l, space);
         read(l, testDIGIT_2);
         read(l, space);
-        read(l, testDIGIT_3);
+        read(l, testDIGIT_1);
+        read(l, space);
+        read(l, testDIGIT_0);
         read(l, space);
 
         read(l, testOUTPUT);
@@ -85,10 +85,10 @@ begin
         read(l, testAN);
 
         RST <= testRST;
-        DIGIT_0 <= testDIGIT_0;
-        DIGIT_1 <= testDIGIT_1;
-        DIGIT_2 <= testDIGIT_2;
         DIGIT_3 <= testDIGIT_3;
+        DIGIT_2 <= testDIGIT_2;
+        DIGIT_1 <= testDIGIT_1;
+        DIGIT_0 <= testDIGIT_0;
 
         while counter /= t loop
             wait on counter;

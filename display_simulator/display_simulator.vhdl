@@ -58,22 +58,22 @@ begin
         point := False;
     end if;
 
-    if AN(0) = '0' then
+    if AN(3) = '0' then
         DIGITS_0 <= char;
         DOTS_0 <= point;
     end if;
 
-    if AN(1) = '0' then
+    if AN(2) = '0' then
         DIGITS_1 <= char;
         DOTS_1 <= point;
     end if;
 
-    if AN(2) = '0' then
+    if AN(1) = '0' then
         DIGITS_2 <= char;
         DOTS_2 <= point;
     end if;
 
-    if AN(3) = '0' then
+    if AN(0) = '0' then
         DIGITS_3 <= char;
         DOTS_3 <= point;
     end if;

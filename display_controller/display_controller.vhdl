@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 
 entity display_controller is
     port(CLK, RST: in std_logic;
-         DIGIT_0, DIGIT_1, DIGIT_2, DIGIT_3: in std_logic_vector(7 downto 0);
+         DIGIT_3, DIGIT_2, DIGIT_1, DIGIT_0: in std_logic_vector(7 downto 0);
 
          OUTPUT: out std_logic_vector (7 downto 0);
          AN:     out std_logic_vector (3 downto 0));
@@ -46,7 +46,7 @@ reg: shift_reg generic map (4) port map (CLK, RST, '0', SHIFT_IN, SHIFT_OUT);
 
 mux: for i in 0 to 7 generate
     mux_i: mux41_1bit 
-        port map (DIGIT_0(i), DIGIT_1(i), DIGIT_2(i), DIGIT_3(i), 
+        port map (DIGIT_3(i), DIGIT_2(i), DIGIT_1(i), DIGIT_0(i), 
                   SEL, OUTPUT(i));
 end generate;
 

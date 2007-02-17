@@ -20,8 +20,8 @@ architecture test of tb_board is
     signal DIGIT: std_logic_vector (7 downto 0);
     signal AN:    std_logic_vector (3 downto 0);
 
-    signal DIGITS: character_vector (0 to 3);
-    signal DOTS:   boolean_vector (0 to 3);
+    signal DIGITS: character_vector (3 downto 0);
+    signal DOTS:   boolean_vector (3 downto 0);
 
     signal clock_counter: integer := -1;
     signal finished: boolean := false;
@@ -110,16 +110,16 @@ begin
         read(l, testDATA_IN);
         read(l, space);
 
-        read(l, testDIGITS(0));
-        read(l, testDIGITS(1));
-        read(l, testDIGITS(2));
         read(l, testDIGITS(3));
+        read(l, testDIGITS(2));
+        read(l, testDIGITS(1));
+        read(l, testDIGITS(0));
         read(l, space);
 
-        read(l, testDOTS(0));
-        read(l, testDOTS(1));
-        read(l, testDOTS(2));
         read(l, testDOTS(3));
+        read(l, testDOTS(2));
+        read(l, testDOTS(1));
+        read(l, testDOTS(0));
 
         Reset   <= testReset;
         NewGame <= testNewGame;
@@ -136,33 +136,33 @@ begin
             write(l_out, now);
             write(l_out, string'(") "));
             write(l_out, string'("DIGITS = "));
-            write(l_out, DIGITS(0));
-            write(l_out, string'(" "));
-            write(l_out, DIGITS(1));
+            write(l_out, DIGITS(3));
             write(l_out, string'(" "));
             write(l_out, DIGITS(2));
             write(l_out, string'(" "));
-            write(l_out, DIGITS(3));
-            write(l_out, string'(", DOTS = "));
-            write(l_out, DOTS(0));
+            write(l_out, DIGITS(1));
             write(l_out, string'(" "));
-            write(l_out, DOTS(1));
+            write(l_out, DIGITS(0));
+            write(l_out, string'(", DOTS = "));
+            write(l_out, DOTS(3));
             write(l_out, string'(" "));
             write(l_out, DOTS(2));
             write(l_out, string'(" "));
-            write(l_out, DOTS(3));
+            write(l_out, DOTS(1));
+            write(l_out, string'(" "));
+            write(l_out, DOTS(0));
             write(l_out, string'(", AN = "));
             write(l_out, AN);
             writeline(output, l_out);
         end if;
-        assert DIGITS(0) = testDIGITS(0) report "Mismatch on output DIGITS(0)";
-        assert DIGITS(1) = testDIGITS(1) report "Mismatch on output DIGITS(1)";
-        assert DIGITS(2) = testDIGITS(2) report "Mismatch on output DIGITS(2)";
         assert DIGITS(3) = testDIGITS(3) report "Mismatch on output DIGITS(3)";
-        assert DOTS(0)   = testDOTS(0) report "Mismatch on output DOTS(0)";
-        assert DOTS(1)   = testDOTS(1) report "Mismatch on output DOTS(1)";
-        assert DOTS(2)   = testDOTS(2) report "Mismatch on output DOTS(2)";
+        assert DIGITS(2) = testDIGITS(2) report "Mismatch on output DIGITS(2)";
+        assert DIGITS(1) = testDIGITS(1) report "Mismatch on output DIGITS(1)";
+        assert DIGITS(0) = testDIGITS(0) report "Mismatch on output DIGITS(0)";
         assert DOTS(3)   = testDOTS(3) report "Mismatch on output DOTS(3)";
+        assert DOTS(2)   = testDOTS(2) report "Mismatch on output DOTS(2)";
+        assert DOTS(1)   = testDOTS(1) report "Mismatch on output DOTS(1)";
+        assert DOTS(0)   = testDOTS(0) report "Mismatch on output DOTS(0)";
     end loop;
 
     finished <= true;

@@ -25,7 +25,7 @@ architecture structural of display is
     end component;
     component display_controller
         port(CLK, RST: in std_logic;
-             DIGIT_0, DIGIT_1, DIGIT_2, DIGIT_3: in std_logic_vector(7 downto 0);
+             DIGIT_3, DIGIT_2, DIGIT_1, DIGIT_0: in std_logic_vector(7 downto 0);
              OUTPUT: out std_logic_vector (7 downto 0);
              AN:     out std_logic_vector (3 downto 0));
     end component;
