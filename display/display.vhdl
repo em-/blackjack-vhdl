@@ -51,10 +51,10 @@ begin
     mux_dh: mux21 generic map(7) 
                   port map (ONES, DH, DEALER_SHOW, DISPLAY_DH);
 
-    DIGIT_PL <= not PLAYER_WIN & DISPLAY_PL;
-    DIGIT_PH <= not PLAYER_WIN & DISPLAY_PH;
-    DIGIT_DL <= not DEALER_WIN & DISPLAY_DL;
-    DIGIT_DH <= not DEALER_WIN & DISPLAY_DH;
+    DIGIT_PL <= DISPLAY_PL & not PLAYER_WIN;
+    DIGIT_PH <= DISPLAY_PH & not PLAYER_WIN;
+    DIGIT_DL <= DISPLAY_DL & not DEALER_WIN;
+    DIGIT_DH <= DISPLAY_DH & not DEALER_WIN;
 
     display: display_controller
             port map (CLK, RST,
