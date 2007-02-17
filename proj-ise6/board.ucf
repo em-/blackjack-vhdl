@@ -5,6 +5,7 @@ NET "AN<0>"  LOC = "d14"  ;
 NET "AN<1>"  LOC = "g14"  ;
 NET "AN<2>"  LOC = "f14"  ;
 NET "AN<3>"  LOC = "e13"  ;
+NET "CLK"  LOC = "t9"  ;
 NET "DATA_IN<0>"  LOC = "f12"  ;
 NET "DATA_IN<1>"  LOC = "g12"  ;
 NET "DATA_IN<2>"  LOC = "h14"  ;
