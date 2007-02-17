@@ -12,13 +12,13 @@ end game_logic;
 architecture behavioral of game_logic is
 begin
 
-dealer_win: process (PLAYER, DEALER)
+winner: process (PLAYER, DEALER)
     variable P, D: unsigned(7 downto 0);
 begin
     P := to_01(unsigned(PLAYER));
     D := to_01(unsigned(DEALER));
 
-    if P <= D then
+    if (P = 21) or (P <= D) then
         WIN <= '1';
     else
         WIN <= '0';
