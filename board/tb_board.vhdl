@@ -55,8 +55,8 @@ begin
                        DIGIT(3), DIGIT(2), DIGIT(1),
                        DIGIT(0),
                        AN(3), AN(2), AN(1), AN(0),
-                       DIGITS(0), DIGITS(1), DIGITS(2), DIGITS(3),
-                       DOTS(0),   DOTS(1),   DOTS(2),   DOTS(3));
+                       DIGITS(3), DIGITS(2), DIGITS(1), DIGITS(0),
+                       DOTS(3),   DOTS(2),   DOTS(1),   DOTS(0));
 
 clock: process
 begin

@@ -46,7 +46,7 @@ reg: shift_reg generic map (4) port map (CLK, RST, '0', SHIFT_IN, SHIFT_OUT);
 
 mux: for i in 0 to 7 generate
     mux_i: mux41_1bit 
-        port map (DIGIT_3(i), DIGIT_2(i), DIGIT_1(i), DIGIT_0(i), 
+        port map (DIGIT_0(i), DIGIT_1(i), DIGIT_2(i), DIGIT_3(i), 
                   SEL, OUTPUT(i));
 end generate;
 
