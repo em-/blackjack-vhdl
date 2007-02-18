@@ -33,6 +33,8 @@ begin
             when IDLE =>
                 if NewGame = '1' then
                     next_state <= CLEAN;
+                else
+                    next_state <= IDLE;
                 end if;
             when CLEAN =>
                 next_state <= WAIT_PC;

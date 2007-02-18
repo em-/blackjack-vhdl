@@ -42,17 +42,23 @@ architecture structural of board is
               O:        out std_logic);
 	end component;
 
-    signal Reset_PULSE, NewGame_PULSE, Stop_PULSE, En_PULSE: std_logic;
+    signal Reset_PULSE, Reset_BJ_PULSE, Reset_DISP_PULSE: std_logic;
+    signal NewGame_PULSE, Stop_PULSE, En_PULSE: std_logic;
     signal PLAYER_L, PLAYER_H:       std_logic_vector (3 downto 0);
     signal DEALER_L, DEALER_H:       std_logic_vector (3 downto 0);
     signal PLAYER_SHOW, DEALER_SHOW: std_logic;
     signal PLAYER_WIN,  DEALER_WIN:  std_logic;
-    signal NRESET:                   std_logic;
+    signal NRESET, NRESET_BJ, NRESET_DISP: std_logic;
     signal BJ_CLK, DISP_CLK:         std_logic;
 begin
-    NRESET <= not Reset;
+    NRESET      <= not Reset_PULSE;
+    NRESET_BJ   <= not Reset_BJ_PULSE;
+    NRESET_DISP <= not Reset_DISP_PULSE;
 
-    r_pgen: pulse_generator port map (DISP_CLK, Reset, Reset_PULSE);
+    r_pgen:      pulse_generator port map (CLK, Reset, Reset_PULSE);
+    r_bj_pgen:   pulse_generator port map (BJ_CLK, Reset, Reset_BJ_PULSE);
+    r_disp_pgen: pulse_generator port map (DISP_CLK, Reset, Reset_DISP_PULSE);
+
     n_pgen: pulse_generator port map (BJ_CLK, NewGame, NewGame_PULSE);
     s_pgen: pulse_generator port map (BJ_CLK, Stop, Stop_PULSE);
     e_pgen: pulse_generator port map (BJ_CLK, En, En_PULSE);
@@ -66,14 +72,14 @@ begin
         port map (CLK, NRESET, DISP_CLK);
 
     bj: blackjack
-        port map (BJ_CLK, Reset_PULSE, NewGame_PULSE, Stop_PULSE, En_PULSE,
+        port map (BJ_CLK, Reset_BJ_PULSE, NewGame_PULSE, Stop_PULSE, En_PULSE,
                   DATA_IN,
                   PLAYER_L, PLAYER_H, DEALER_L, DEALER_H,
                   PLAYER_SHOW, DEALER_SHOW,
                   PLAYER_WIN,  DEALER_WIN);
 
     disp: display
-        port map (DISP_CLK, NRESET,
+        port map (DISP_CLK, NRESET_DISP,
                   PLAYER_L, PLAYER_H, DEALER_L, DEALER_H,
                   PLAYER_SHOW,  DEALER_SHOW,
                   PLAYER_WIN,   DEALER_WIN,
