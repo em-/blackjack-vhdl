@@ -32,9 +32,9 @@ architecture structural of board is
               AN:                       out std_logic_vector (3 downto 0));
     end component;
     component pulse_generator
-        port (CLK, RST: in  std_logic;
-              I:        in  std_logic;
-              O:        out std_logic);
+        port (CLK: in  std_logic;
+              I:   in  std_logic;
+              O:   out std_logic);
     end component;
 	component clock_divider 
         generic (MODULUS: in positive range 2 to integer'high := 4);
@@ -52,10 +52,10 @@ architecture structural of board is
 begin
     NRESET <= not Reset;
 
-    r_pgen: pulse_generator port map (DISP_CLK, NRESET, Reset, Reset_PULSE);
-    n_pgen: pulse_generator port map (BJ_CLK, NRESET, NewGame, NewGame_PULSE);
-    s_pgen: pulse_generator port map (BJ_CLK, NRESET, Stop, Stop_PULSE);
-    e_pgen: pulse_generator port map (BJ_CLK, NRESET, En, En_PULSE);
+    r_pgen: pulse_generator port map (DISP_CLK, Reset, Reset_PULSE);
+    n_pgen: pulse_generator port map (BJ_CLK, NewGame, NewGame_PULSE);
+    s_pgen: pulse_generator port map (BJ_CLK, Stop, Stop_PULSE);
+    e_pgen: pulse_generator port map (BJ_CLK, En, En_PULSE);
 
     bj_div: clock_divider
         generic map (GAME_CLK_DIV)

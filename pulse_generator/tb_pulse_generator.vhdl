@@ -9,19 +9,19 @@ entity tb_pulse_generator is
 end tb_pulse_generator;
 
 architecture test of tb_pulse_generator is
-    signal CLK, RST: std_logic := '0';
+    signal CLK: std_logic := '0';
     signal I, O: std_logic;
     signal counter: integer := -1;
     signal finished: boolean := false;
 
 	component pulse_generator port (
-        CLK, RST: in  std_logic;
-        I:        in  std_logic;
-        O:        out std_logic);
+        CLK: in  std_logic;
+        I:   in  std_logic;
+        O:   out std_logic);
 	end component;
 
 begin 
-	U: pulse_generator port map (CLK, RST, I, O);
+	U: pulse_generator port map (CLK, I, O);
 
 clock: process
 begin
@@ -38,7 +38,7 @@ begin
 end process;
 
 test: process
-    variable testRST, testI, testO: std_logic;
+    variable testI, testO: std_logic;
     file test_file: text is in "pulse_generator/tb_pulse_generator.test";
 
     variable l: line;
@@ -58,7 +58,6 @@ begin
 
         read(l, space);
 
-        read(l, testRST);
         read(l, testI);
 
         read(l, space);
@@ -69,7 +68,6 @@ begin
             wait on counter;
         end loop;
 
-        RST <= testRST;
         I <= testI;
 
         assert O = testO report "Mismatch on output O";
