@@ -52,10 +52,10 @@ architecture structural of board is
 begin
     NRESET <= not Reset;
 
-    r_pgen: pulse_generator port map (CLK, NRESET, Reset, Reset_PULSE);
-    n_pgen: pulse_generator port map (CLK, NRESET, NewGame, NewGame_PULSE);
-    s_pgen: pulse_generator port map (CLK, NRESET, Stop, Stop_PULSE);
-    e_pgen: pulse_generator port map (CLK, NRESET, En, En_PULSE);
+    r_pgen: pulse_generator port map (DISP_CLK, NRESET, Reset, Reset_PULSE);
+    n_pgen: pulse_generator port map (BJ_CLK, NRESET, NewGame, NewGame_PULSE);
+    s_pgen: pulse_generator port map (BJ_CLK, NRESET, Stop, Stop_PULSE);
+    e_pgen: pulse_generator port map (BJ_CLK, NRESET, En, En_PULSE);
 
     bj_div: clock_divider
         generic map (GAME_CLK_DIV)
