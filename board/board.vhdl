@@ -4,7 +4,7 @@ use ieee.std_logic_arith.all;
 
 entity board is
     generic (GAME_CLK_DIV: integer := 1000;
-             DISP_CLK_DIV: integer := 1000000);
+             DISP_CLK_DIV: integer := 100000);
     port (CLK:                      in  std_logic;
           Reset, NewGame, Stop, En: in  std_logic;
           DATA_IN:                  in  std_logic_vector (7 downto 0);
