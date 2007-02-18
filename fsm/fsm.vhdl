@@ -15,7 +15,7 @@ architecture state_machine of fsm is
                    SETUP_PC, SETUP_DC,
                    READ_PC, READ_DC,
                    CHECK_PC, CHECK_DC,
-                   PLAYER_BUSTED, DEALER_BUSTED, DEALER_WINNER);
+                   PLAYER_BUSTED, PLAYER_WINNER, DEALER_BUSTED, DEALER_WINNER);
     signal current_state, next_state: STATE;
 begin
     process (CLK, RST)
@@ -49,6 +49,8 @@ begin
             when CHECK_PC =>
                 if Bust = '1' then
                     next_state <= PLAYER_BUSTED;
+                elsif Win = '1' then
+                    next_state <= PLAYER_WINNER;
                 else
                     next_state <= WAIT_PC;
                 end if;
@@ -69,6 +71,10 @@ begin
                     next_state <= WAIT_DC;
                 end if;
             when PLAYER_BUSTED =>
+                if NewGame = '1' then
+                    next_state <= CLEAN;
+                end if;
+            when PLAYER_WINNER =>
                 if NewGame = '1' then
                     next_state <= CLEAN;
                 end if;
@@ -120,6 +126,8 @@ begin
             when CHECK_DC =>
             when PLAYER_BUSTED =>
                 DealerWin  <= '1';
+            when PLAYER_WINNER =>
+		      PlayerWin  <= '1';
             when DEALER_BUSTED =>
                 PlayerWin  <= '1';
             when DEALER_WINNER =>
