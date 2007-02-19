@@ -18,7 +18,9 @@ begin
     P := to_01(unsigned(PLAYER));
     D := to_01(unsigned(DEALER));
 
-    if (P = 21) or (P <= D) then
+    if P = 0 then
+        WIN <= '0';
+    elsif (P = 21) or (P <= D) then
         WIN <= '1';
     else
         WIN <= '0';
