@@ -14,8 +14,8 @@ NET "DATA_IN<4>"  LOC = "j14"  ;
 NET "DATA_IN<5>"  LOC = "j13"  ;
 NET "DATA_IN<6>"  LOC = "k14"  ;
 NET "DATA_IN<7>"  LOC = "k13"  ;
-NET "En"  LOC = "m14"  ;
-NET "NewGame"  LOC = "m13"  ;
+NET "En"  LOC = "m13"  ;
+NET "NewGame"  LOC = "l13"  ;
 NET "OUTPUT<0>"  LOC = "p16"  ;
 NET "OUTPUT<1>"  LOC = "n16"  ;
 NET "OUTPUT<2>"  LOC = "f13"  ;
@@ -25,7 +25,7 @@ NET "OUTPUT<5>"  LOC = "n15"  ;
 NET "OUTPUT<6>"  LOC = "g13"  ;
 NET "OUTPUT<7>"  LOC = "e14"  ;
 NET "Reset"  LOC = "l14"  ;
-NET "Stop"  LOC = "l13"  ;
+NET "Stop"  LOC = "m14"  ;
 
 #PACE: Start of PACE Area Constraints
 
