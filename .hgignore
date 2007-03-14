@@ -1,1 +1,5 @@
 ^proj
+aux$
+log$
+dvi$
+pdf$
