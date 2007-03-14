@@ -1,0 +1,138 @@
+\documentclass [11pt,a4paper,oneside,draft]{article}
+
+\usepackage[italian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{geometry}
+
+% Informations
+\title{Implementazione del gioco del blackjack in VHDL}
+\author{Emanuele Aina (matr. 129548)}
+\date{}
+
+% Margins
+\geometry{bindingoffset=0.5cm}
+
+% Caption
+\newcommand{\mc}[1]{{\small\ #1}}
+\newcommand{\makecaption}[1]{\caption{\mc\ #1}}
+
+% URL
+\newcommand{\url}[2]{#1\footnote{#2}}
+
+% References
+\newcommand{\refemph}[1]{\emph{#1}}
+\newcommand{\imgref}[1]{\refemph{\ref{img:#1}}}
+\newcommand{\imgrefx}[1]{\refemph{figura}~\imgref{#1}}
+
+% Images
+\newcommand{\im}[3]{
+    \begin{figure}[!htb]
+        \begin{center}
+            \includegraphics{img/#1}
+            \makecaption{#2}
+            \label{img:#3}
+        \end{center}
+    \end{figure}
+}
+
+% Ignore the argument
+\newcommand{\noop}[1]{}
+
+% Foreign words
+\newcommand{\foreign}[1]{\emph{#1}}
+
+% Justify even if it has to leave a lot of blank space
+\setlength{\emergencystretch}{3em}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\small{01GSS - Specifica e simulazione dei sistemi digitali}
+\end{center}
+
+\section{Specifiche di progetto}
+Si progetti, a livello RT, un circuito che permetta di giocare al gioco del Blackjack.
+
+\subsection{Spiegazione del gioco}
+Il gioco si svolge tra due giocatori, di seguito denominati
+Giocatore e Banco, con un mazzo di carte da poker. Inizia a giocare il Giocatore,
+decidendo se estrarre una carta dal mazzo, oppure passare la mano al Banco. Ad ogni
+estrazione, il valore della carta estratta viene sommata al punteggio corrente: lo scopo
+è arrivare a totalizzare un punteggio il più vicino possibile a 21, senza mai superarlo.
+Se tale valore viene superato durante la mano del Giocatore, il Banco vince
+immediatamente. Viceversa, il Banco comincia ad estrarre carte dal mazzo con lo
+scopo di realizzare un punteggio almeno pari a quello del Giocatore, senza comunque
+superare il limite di 21. Se ciò non accade, vince il Giocatore.
+
+\subsection{Implementazione}
+Il circuito possiede quattro ingressi di controllo Reset, NewGame,
+Stop ed En di parallelismo pari ad 1 bit e un ingresso di dato I di parallelismo pari a
+3 bit, e si deve comportare nel seguente modo:
+
+\begin{itemize}
+\item Se Reset = 1, il circuito si porta sempre nello stato iniziale, in cui tutti i led e le
+      4 cifre del display a 7 segmenti sono spenti, indipendentemente dal valore
+      degli altri segnali.
+
+\item La prima volta che il segnale NewGame assume il valore 1, il sistema si
+      prepara a giocare una nuova partita: le due cifre più a destra del display a 7
+      segmenti si accendono, riportando il valore del punteggio iniziale (ovvero 00)
+      del Giocatore, mentre le due cifre più a sinistra del display e i led sono spenti.
+
+\item Dopo aver iniziato una partita, ogni volta che En assume il valore 1, i segnali
+      dell'ingresso di dato I vengono campionati e memorizzati. Essi rappresentano
+      il valore, in binario, della carta estratta dal mazzo (si utilizzano carte con valori
+      limitati tra 1 e 8, dove il valore 8 è codificato su tre bit come 000). Tale valore
+      deve essere visualizzato sui led, ed essere sommato al punteggio corrente.
+
+\item Nel momento in cui il segnale Stop si porta a 1, la mano passa al Banco: le
+      due cifre più a sinistra del display a 7 segmenti si accendono e riportano il
+      valore iniziale del punteggio del Banco (di nuovo, 00). Analogamente al passo
+      precedente, ogni volta che il segnale assume il valore 1, una carta viene
+      estratta dal mazzo, il suo valore viene visualizzato sui led e sommato al
+      punteggio del Banco.
+
+\item La partita termina quando:
+      \begin{itemize}
+      \item Il Banco ha totalizzato un punteggio superiore a quello del Giocatore,
+            senza eccedere il limite di 21. In questo caso, i punti decimali relativi
+            alle due cifre del punteggio del Banco si accendono.
+
+      \item Il Banco ha totalizzato un punteggio superiore al limite di 21: in questo
+            caso, si illuminano i punti decimali relativi alle due cifre che riportano il
+            punteggio del Giocatore.
+
+      \item Durante la sua mano, il Giocatore ha ottenuto un punteggio superiore a
+            21: come nel primo caso, si illuminano i punti decimali delle due cifre
+            del punteggio del Banco. Si noti che in questo caso il Banco non gioca
+            affatto, quindi i punti decimali si devono accendere, ma le due cifre del
+            display a 7 segmenti devono rimanere spente.
+      \end{itemize}
+
+\item A questo punto, il sistema si ferma e aspetta che il segnale NewGame si riporti
+      a 1, in modo da iniziare una nuova partita.
+\end{itemize}
+
+Si implementi il circuito richiesto sulla FPGA in dotazione, utilizzando i bottoni BTN3,
+BTN2, BTN1 e BTN0 per i segnali di Reset, NewGame, Stop ed En, e gli switch
+SW7, SW6 e SW5 per il segnale di dato I. Il circuito lavori ad una frequenza di clock
+pari a 50 kHz.
+
+Si osservi che:
+\begin{itemize}
+\item Il numero visualizzato sul display deve essere codificato in base 10 (quindi, se
+      il suo valore è 19 e viene incrementato, il nuovo valore da visualizzare è
+      effettivamente 20, non 1A).
+
+\item I led da illuminare ogni volta che una carta viene estratta sono in numero pari
+      al valore della carta, e partono sempre da LD0. Per esempio, se la carta
+      estratta ha un valori pari a 3, si devono illuminare i led LD0, LD1 e LD2.
+\end{itemize}
+
+
+\end{document}
