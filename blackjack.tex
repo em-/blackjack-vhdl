@@ -5,6 +5,7 @@
 \usepackage{indentfirst}
 \usepackage{graphicx}
 \usepackage{geometry}
+\usepackage{verbatim}
 
 % Informations
 \title{Implementazione del gioco del blackjack in VHDL}
@@ -146,5 +147,43 @@ programmazione su FPGA.
 
 Per ogni componente sviluppato è stato inoltre realizzato un testbench in VHDL 
 puro, in modo da renderne possibile la verifica in modo automatico (make run). %FIXME
+
+\subsection{Board}
+Il componente ``board'' rappresenta l'entità di massimo livello e costituisce
+la parte del progetto che verrà programmata sulla FPGA.
+
+\verbatiminput{board/board.vhdl}
+
+La descrizione è strutturale e provvede a istanziare i componenti ``blackjack''
+e ``display'' connettendoli tra loro e a impiegare ``clock\_divider'' per 
+convertire il clock della scheda a frequenze inferiori per la logica di 
+gioco e per la logica di gestione del display. I segnali di input vengono 
+inoltre filtrati usando dei generatori di impulsi al fine di evitare 
+campionamenti multipli di una singola pressione.
+
+Il componente è dotato del seguente testbench per la verifica automatica.
+
+\verbatiminput{board/tb_board.vhdl}
+
+Oltre all'unità da verificare, viene anche istanziato un simulatore per il
+sistema di gestione dei display a sette segmenti disponibili sulla FPGA,
+controllando il funzionamento della logica di codifica e multiplexing.
+
+Il clock viene generato con un periodo di 1ns fino a che non esistano più
+eventi per la simulazione. A tal punto anche il clock viene fermato in 
+modo da segnalare al simulatore la fine del test.
+
+Il processo ``count'' si limita a conteggiare il numero di colpi di clock
+in modo che il processo ``test'' possa impostare i vettori di test con 
+la cadenza specificata. Questo processo, infatti, si occupa di leggere
+i vettori di input e gli output attesi da un file e applicarli all'unità
+testata. Nel caso specifico, dovendo simulare l'input dell'utente, la
+frequenza con cui gli input vengono applicati è nell'ordine dei 
+millisecondi anziché dei nanosecondi usati dal clock di simulazione.
+
+\verbatiminput{board/tb_board.test}
+
+Su ogni riga è specificato l'istante corrispondente, gli input e gli
+output.
 
 \end{document}
