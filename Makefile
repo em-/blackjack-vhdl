@@ -2,6 +2,9 @@ GHDL=ghdl
 GHDLFLAGS= --ieee=synopsys
 GHDLRUNFLAGS=
 
+DOC_SOURCES=blackjack.tex
+DOC=blackjack.pdf
+
 TESTBENCHES=tb_or2 tb_or3 tb_and2 tb_ha tb_fa tb_rca \
             tb_mux21 tb_mux21_1bit tb_mux41 tb_mux41_1bit tb_comparator \
             tb_fd tb_ft tb_reg tb_ld tb_latch tb_counter tb_accumulator \
@@ -56,7 +59,6 @@ blackjack.o: reg.o rca.o game_logic.o fsm.o bcd_encoder.o
 display.o: sevensegment_encoder.o mux21.o display_controller.o
 board.o: pulse_generator.o blackjack.o display.o clock_divider.o
 
-
 # Elaboration target
 $(TESTBENCHES):
 	$(GHDL) -e $(GHDLFLAGS) $@
@@ -64,6 +66,13 @@ $(TESTBENCHES):
 # Targets to analyze files
 %.o: */%.vhdl
 	$(GHDL) -a $(GHDLFLAGS) $<
+
+# Generate PDF from LaTeX files
+${DOC}: ${DOC_SOURCES}
+	rubber -d $^
+
+# Build the documentation
+doc: ${DOC}
 
 # Syntax check target
 check:
@@ -76,3 +85,5 @@ run: $(TESTBENCHES)
 # Clean target
 clean:
 	-ghdl --remove
+	-rubber --clean ${DOC_SOURCES}
+	-rm -Rf ${DOC}
