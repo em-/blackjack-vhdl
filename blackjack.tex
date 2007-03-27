@@ -186,4 +186,36 @@ millisecondi anziché dei nanosecondi usati dal clock di simulazione.
 Su ogni riga è specificato l'istante corrispondente, gli input e gli
 output.
 
+\subsection{Blackjack}
+Il componente ``blackjack'' contiene l'intera logica di gioco descritta
+nelle specifiche, utilizzando al suo interno i componenti
+``game\_logic'', il quale implementa le regole di vittoria/perdita,
+``fsm'', che determina gli stati di gioco, ``bcd\_encoder'' per
+convertire i punteggi in Binary Coded Decimal, nonché ``reg'' e ``rca'',
+rispettivamente un registro PIPO e un Ripple Carry Adder.
+
+
+\verbatiminput{blackjack/blackjack.vhdl}
+
+Anche qui la descrizione è strutturale e si occupa di istanziare e 
+interconnettere i componenti presenti. In particolare i due registri
+sono usati per memorizzare il punteggio del Giocatore e del Mazziere:
+a ciascuno è connesso un sommatore il quale somma il punteggio con il
+valore in input ed è usato per calcolare il punteggio futuro.
+``game\_logic'' determina se uno tra Giocatore o Mazziere ha vinto o
+ha sballato al fine di segnalarlo alla macchina a stati, la quale
+reagirà opportunamente. Entrambi i punteggi vengono poi convertiti in
+BCD a due cifre.
+
+\verbatiminput{blackjack/tb_blackjack.test}
+
+I vettori di test simulano una serie di partite controllando il 
+comportamente del sistema in alcune situazioni plausibili.
+In questo caso a ogni riga corrisponde un colpo di clock, per cui
+è necessario consentire alla macchina a stati il tempo necessario
+a compiere le proprie funzioni, essendo l'unico componente a non
+reagire nell'arco di un periodo di clock. Il codice VHDL del 
+testbench è stato omesso essendo analogo a quanto visto nel caso del
+componente ``board''.
+
 \end{document}
