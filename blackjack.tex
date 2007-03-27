@@ -218,4 +218,24 @@ reagire nell'arco di un periodo di clock. Il codice VHDL del
 testbench è stato omesso essendo analogo a quanto visto nel caso del
 componente ``board''.
 
+\subsection{Fsm}
+
+La macchina a stati si occupa di gestire le differenti fasi del gioco,
+nonché di controllare l'acquisizione e la verifica dei valori in input
+e di prendere le opportune decisioni. In particolare gli stati che
+terminano con ``PC'' sono relativi al turno del Giocatore, mentre 
+quelli con ``DC'' spettano al Mazziere. Questi rappresentano le fasi
+di attesa, acquisizione e controllo dei valori in input, mentre quelli
+che terminano con ``BUSTED'' o ``WINNER'' indicano le condizioni 
+terminali del gioco.
+
+\verbatiminput{fsm/fsm.vhdl}
+
+La macchina a stati è stata costruita con tre processi: uno molto 
+semplice per propagare lo stato futuro, uno per determinare quale
+questo sia in funzione degli input e uno per determinare gli output
+in funzione delllo stato corrente.
+
+\verbatiminput{fsm/tb_fsm.test}
+
 \end{document}
