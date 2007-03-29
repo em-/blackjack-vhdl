@@ -3,6 +3,7 @@ GHDLFLAGS= --ieee=synopsys
 GHDLRUNFLAGS=
 
 DOC_SOURCES=blackjack.tex
+DOC_FIGURES=fsm.svg
 DOC=blackjack.pdf
 
 TESTBENCHES=tb_or2 tb_or3 tb_and2 tb_ha tb_fa tb_rca \
@@ -67,9 +68,15 @@ $(TESTBENCHES):
 %.o: */%.vhdl
 	$(GHDL) -a $(GHDLFLAGS) $<
 
+DOC_FIGURES_PDF=$(DOC_FIGURES:.svg=.pdf)
+${DOC_FIGURES_PDF}: ${DOC_FIGURES}
+
+%.pdf: %.svg
+	inkscape -z $< -A=$@
+
 # Generate PDF from LaTeX files
-${DOC}: ${DOC_SOURCES}
-	rubber -d $^
+${DOC}: ${DOC_SOURCES} ${DOC_FIGURES_PDF}
+	rubber -d $<
 
 # Build the documentation
 doc: ${DOC}
@@ -87,3 +94,4 @@ clean:
 	-ghdl --remove
 	-rubber --clean ${DOC_SOURCES}
 	-rm -Rf ${DOC}
+	-rm -Rf ${DOC_FIGURES_PDF}
