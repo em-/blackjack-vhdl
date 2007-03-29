@@ -222,7 +222,17 @@ componente ``board''.
 
 La macchina a stati si occupa di gestire le differenti fasi del gioco,
 nonché di controllare l'acquisizione e la verifica dei valori in input
-e di prendere le opportune decisioni. In particolare gli stati che
+e di prendere le opportune decisioni. Questo è l'unico componente
+realizzato il cui modo di operare richiede più colpi di clock: questa
+è una scelta voluta, in modo da concentrare la logica per la gestione
+delle tempistiche e degli stati in un singolo componente.
+
+\includegraphics{fsm}
+
+Lo stato iniziale è lo stato di ``IDLE'', nel quale la macchina resta
+in attesa di eventi. Da qui ``CLEAN'' imposta le condizioni iniziali
+del gioco, in modo da permettere il funzionamento degli stati successivi.
+Tra questi, quelli i cui nomi
 terminano con ``PC'' sono relativi al turno del Giocatore, mentre 
 quelli con ``DC'' spettano al Mazziere. Questi rappresentano le fasi
 di attesa, acquisizione e controllo dei valori in input, mentre quelli
@@ -237,7 +247,5 @@ questo sia in funzione degli input e uno per determinare gli output
 in funzione delllo stato corrente.
 
 \verbatiminput{fsm/tb_fsm.test}
-
-\includegraphics{fsm}
 
 \end{document}
