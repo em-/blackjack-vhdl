@@ -248,4 +248,28 @@ in funzione delllo stato corrente.
 
 \verbatiminput{fsm/tb_fsm.test}
 
+\subsection{game\_logic}
+
+La logica che determina la vittoria o la sconfitta dei giocatori è
+contenuta nel componente combinatorio ``game\_logic'', il quale
+si occupa di controllare i punteggi nel caso questi superino 21 o
+che si sia verificata una delle condizioni di vittoria.
+
+\verbatiminput{game_logic/game_logic.vhdl}
+
+La descrizione è comportamentale e prevede un processo per ciascun
+output, utilizzando il tipo ``unsigned'' per effettuare i confronti
+tra i punteggi.
+
+\verbatiminput{game_logic/tb_game_logic.vhdl}
+
+Essendo il componente combinatorio, il testbench risulta essere
+leggermente più semplice rispetto a quelli impiegati per i componenti
+precedenti, seppur rimanendo molto simile.
+
+\verbatiminput{game_logic/tb_game_logic.test}
+
+Il test si limita a sottoporre al circuito alcune situazioni di 
+gioco senza un ordine particolare, valutando l'esito di ciascuna.
+
 \end{document}
