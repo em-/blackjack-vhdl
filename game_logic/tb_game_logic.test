@@ -1,4 +1,4 @@
--- Tests for counter
+-- Tests for game_logic
 -- time PLAYER DEALER WIN BUST
 1 00000010 00000100 1 0
 2 00001110 00001000 0 0
