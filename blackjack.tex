@@ -367,4 +367,27 @@ Il test verifica il comportamento del circuito verificando
 i segnali di refresh (``AN'') e controllando che il valore
 della cifra che viene rinfrescata sia quello corretto.
 
+\subsection{display\_controller}
+
+La gestione del multiplexing e del refresh del display della FPGA
+è demandata al componente ``display\_controller''. Questo si occupa
+di effettuare il multiplexing temporale sull'uscita, ponendo in
+sequenza il valore di ciascuno dei segnali in ingresso. Il bit 
+azzerato in ``AN'' indica la cifra che verrà rinfrescata.
+
+\verbatiminput{display_controller/display_controller.vhdl}
+
+La descrizione è strutturale e fa uso di un registro a scorrimento
+per la gestione del multiplexing: inizialmente vuoto, viene caricato
+con un singolo bit che viene traslato in modo circolare ad ogni colpo
+di clock. Un vettore di multiplexer a quattro ingressi controllati
+dal registro a scorrimento determina il valore in uscita. I bit
+del registro a scorrimento vengono invertiti in quanto il segnale
+di abilitazione al refresh della FPGA è attivo basso.
+
+\verbatiminput{display_controller/tb_display_controller.test}
+
+Il test è simile a quello del componente ``display'' ma qui i valori in
+ingresso sono del tutto arbitrari.
+
 \end{document}
