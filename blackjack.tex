@@ -293,4 +293,21 @@ di flip-flop di tipo D a cui connette ingressi e uscire.
 Il test viene eseguito con un registro a tre bit verificandone
 il comportamento.
 
+\subsection{rca}
+
+Il sommatore utilizzato è un comune Ripple Carry Adder con
+dimensione determinata dal parametro ``N''.
+
+\verbatiminput{rca/rca.vhdl}
+
+La descrizione è ovviamente strutturale e provvede a istanziare
+un vettore di full-adder definendo anche le connessioni necessarie
+per la propagazione del riporto.
+
+\verbatiminput{rca/tb_rca.test}
+
+Ad ogni passo di test viene verificata la corrispondenza tra i
+valori degli input e del riporto in ingresso con quelli attesi
+del valore in uscita e del riporto in uscita.
+
 \end{document}
