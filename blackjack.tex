@@ -310,4 +310,31 @@ Ad ogni passo di test viene verificata la corrispondenza tra i
 valori degli input e del riporto in ingresso con quelli attesi
 del valore in uscita e del riporto in uscita.
 
+\subsection{bcd\_encoder}
+
+Questo componente si occupa di convertire un numero binario puro privo
+di segno nel suo corrispondente codificato secondo lo schema Binary
+Encoded Decimal, il quale prevede che vadano assegnati quattro bit  
+a ogni cifra decimale. Ognuno di questi gruppi potrà quindi assumere
+solo valori nell'intervallo tra 0 e 9. In particolare il componente
+codifica su due cifre, ``H'' quella di grado maggiore e ``L'' quella
+inferiore.
+
+\verbatiminput{bcd_encoder/bcd_encoder.vhdl}
+
+L'implementazione scelta è alquanto limitata e riduttiva, in quanto
+non in grado di convertire valori superiori a 39. Questo è dovuto al
+fatto che si è scelto di evitare l'uso di divisori e di usare semplici
+sottrattori e comparatori, in modo da rendere il componente puramente
+combinatorio. La limitazione è comunque tollerabile, in quanto per il
+progetto è necessario poter convertire solamente numeri inferiori a
+20 più il valore della carta massima.
+
+\verbatiminput{bcd_encoder/tb_bcd_encoder.vhdl}
+
+Il testbench in questo caso non legge alcun valore da un file esterno,
+bensì verifica il comportamento del componente con ognuno dei valori
+compresi nell'intervallo supportato facendo uso delle funzioni
+aritmetiche disponibili per controllarne la correttezza.
+
 \end{document}
