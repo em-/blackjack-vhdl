@@ -442,4 +442,18 @@ resterà alto per MODULUS/2 colpi e basso per i rimanenti.
 
 \verbatiminput{clock_divider/tb_clock_divider.test}
 
+\subsection{shift\_reg}
+
+Il componente ``shift\_reg'' implementa un registro SIPO, in cui
+si ha un singolo ingresso seriale (``A'') mentre l'uscita è
+parallela (``D'').
+
+\verbatiminput{shift_reg/shift_reg.vhdl}
+
+L'architettura strutturale istanzia il flip-flop D a cui è connesso
+il segnale di input e poi procede a istanziare e connettere i restanti
+flip-flop collegati in cascata.
+
+\verbatiminput{shift_reg/tb_shift_reg.test}
+
 \end{document}
