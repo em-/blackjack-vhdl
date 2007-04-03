@@ -390,4 +390,23 @@ di abilitazione al refresh della FPGA è attivo basso.
 Il test è simile a quello del componente ``display'' ma qui i valori in
 ingresso sono del tutto arbitrari.
 
+\subsection{display\_simulator}
+
+Il componente ``display\_simulator'' viene utilizzato solo per scopi di
+test e simula il comportamento del display della FPGA, restituendo come
+output i valori dei display convertiti in interi e con i punti decimali
+convertiti in valori booleani. I nomi degli ingressi riproducono i nomi
+dei pin disponibili sulla FPGA.
+
+\verbatiminput{display_simulator/display_simulator.vhdl}
+
+L'architettura è comportamentale con un singolo processo in cui vengono
+decodificate le cifre mediante una tabella e in cui i valori decodificati
+vengono propagati verso l'uscita corretta.
+
+\verbatiminput{display_simulator/tb_display_simulator.test}
+
+Il test simula l'uso del display verificando il comportamento dei punti e
+delle cifre.
+
 \end{document}
