@@ -16,20 +16,20 @@ architecture structural of board is
     component blackjack
         port (CLK:                      in  std_logic;
               Reset, NewGame, Stop, En: in  std_logic;
-              DATA_IN:                  in  std_logic_vector (7 downto 0);
-              PLAYER_L, PLAYER_H:       out std_logic_vector (3 downto 0);
-              DEALER_L, DEALER_H:       out std_logic_vector (3 downto 0);
+              DATA_IN:            in  std_logic_vector (7 downto 0);
+              PLAYER_L, PLAYER_H: out std_logic_vector (3 downto 0);
+              DEALER_L, DEALER_H: out std_logic_vector (3 downto 0);
               PLAYER_SHOW, DEALER_SHOW: out std_logic;
               PLAYER_WIN,  DEALER_WIN:  out std_logic);
     end component;
     component display
         port (CLK, RST:                 in  std_logic;
-              PLAYER_L, PLAYER_H:       in  std_logic_vector (3 downto 0);
-              DEALER_L, DEALER_H:       in  std_logic_vector (3 downto 0);
+              PLAYER_L, PLAYER_H: in  std_logic_vector (3 downto 0);
+              DEALER_L, DEALER_H: in  std_logic_vector (3 downto 0);
               PLAYER_SHOW, DEALER_SHOW: in  std_logic;
               PLAYER_WIN,  DEALER_WIN:  in  std_logic;
-              OUTPUT:                   out std_logic_vector (7 downto 0);
-              AN:                       out std_logic_vector (3 downto 0));
+              OUTPUT:             out std_logic_vector (7 downto 0);
+              AN:                 out std_logic_vector (3 downto 0));
     end component;
     component pulse_generator
         port (CLK: in  std_logic;
@@ -55,9 +55,12 @@ begin
     NRESET_BJ   <= not Reset_BJ_PULSE;
     NRESET_DISP <= not Reset_DISP_PULSE;
 
-    r_pgen:      pulse_generator port map (CLK, Reset, Reset_PULSE);
-    r_bj_pgen:   pulse_generator port map (BJ_CLK, Reset, Reset_BJ_PULSE);
-    r_disp_pgen: pulse_generator port map (DISP_CLK, Reset, Reset_DISP_PULSE);
+    r_pgen:      pulse_generator
+                    port map (CLK, Reset, Reset_PULSE);
+    r_bj_pgen:   pulse_generator
+                    port map (BJ_CLK, Reset, Reset_BJ_PULSE);
+    r_disp_pgen: pulse_generator
+                    port map (DISP_CLK, Reset, Reset_DISP_PULSE);
 
     n_pgen: pulse_generator port map (BJ_CLK, NewGame, NewGame_PULSE);
     s_pgen: pulse_generator port map (BJ_CLK, Stop, Stop_PULSE);
@@ -72,7 +75,8 @@ begin
         port map (CLK, NRESET, DISP_CLK);
 
     bj: blackjack
-        port map (BJ_CLK, Reset_BJ_PULSE, NewGame_PULSE, Stop_PULSE, En_PULSE,
+        port map (BJ_CLK,
+                  Reset_BJ_PULSE, NewGame_PULSE, Stop_PULSE, En_PULSE,
                   DATA_IN,
                   PLAYER_L, PLAYER_H, DEALER_L, DEALER_H,
                   PLAYER_SHOW, DEALER_SHOW,
