@@ -272,4 +272,25 @@ precedenti, seppur rimanendo molto simile.
 Il test si limita a sottoporre al circuito alcune situazioni di 
 gioco senza un ordine particolare, valutando l'esito di ciascuna.
 
+\subsection{reg}
+
+L'entità ``reg'' descrive un semplice registro PIPO sincrono dotato di 
+segnale di abilitazione (``EN'') oltre agli ingressi (``A'') e alle
+uscite (``O''). Il parametro ``N'' permette di impostare la dimensione
+in bit del registro.
+
+\verbatiminput{reg/reg.vhdl}
+
+La stessa entità è stata implementata sia con una descrizione
+comportamentale che con una strutturale. La prima contiene
+il costrutto condizionale comunemente usato per implementare
+circuiti sincroni con segnale di reset asincrono e un semplice
+assegnamento, mentre la seconda istanzia in un ciclo un vettore
+di flip-flop di tipo D a cui connette ingressi e uscire.
+
+\verbatiminput{reg/tb_reg.test}
+
+Il test viene eseguito con un registro a tre bit verificandone
+il comportamento.
+
 \end{document}
