@@ -425,4 +425,21 @@ modi di riconoscere i fronti di salita.
 
 \verbatiminput{pulse_generator/tb_pulse_generator.test}
 
+\subsection{clock\_divider}
+
+Dal clock di sistema vengono generati due clock con periodi più
+lunghi per la logica di gioco e per la gestione del display.
+Per fare questo è stato usato un divisore di frequenza costruito
+sulla base di quanto riportato nelle FAQ del newsgroup
+comp.lang.vhdl.
+
+\verbatiminput{clock_divider/clock_divider.vhdl}
+
+L'implementazione è comportamentale e contiene un contatore che viene
+incrementato. Il parametro ``MODULUS'' indica il numero di colpi di
+clock ad alta frequenza a cui corrisponde il nuovo clock: questo
+resterà alto per MODULUS/2 colpi e basso per i rimanenti.
+
+\verbatiminput{clock_divider/tb_clock_divider.test}
+
 \end{document}
