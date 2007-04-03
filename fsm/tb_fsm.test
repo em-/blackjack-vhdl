@@ -1,4 +1,3 @@
--- Tests for fsm
 -- time RST NewGame En Stop Bust Win ShowPlayer ShowDealer PlayerWin DealerWin PlayerRead DealerRead Clear
 1 1 00110 000000 0
 2 0 10000 000000 0 -- IDLE

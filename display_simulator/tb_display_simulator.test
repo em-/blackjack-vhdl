@@ -1,4 +1,3 @@
--- Tests for display
 -- time DIGIT DOT AN DIGITS DOTS
 1 1111111 1 0000      False False False False
 2 1001111 0 0111    1 False False False True

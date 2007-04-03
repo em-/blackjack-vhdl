@@ -1,4 +1,3 @@
--- Tests for shift_reg
 -- time RST EN A D
 1 00 0 000
 2 11 1 000
