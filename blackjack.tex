@@ -409,4 +409,20 @@ vengono propagati verso l'uscita corretta.
 Il test simula l'uso del display verificando il comportamento dei punti e
 delle cifre.
 
+\subsection{pulse\_generator}
+
+Il generatore di impulsi viene usato semplicemente per evitare che una
+pressione prolungata di un pulsante da parte dell'utente venga
+campionata erroneamente in momenti successivi. Non appena viene
+campionato in input un fronte di salita, l'uscita rimane alta per un solo
+colpo di clock, rimanendo poi in attesa del fronte di salita successivo.
+
+\verbatiminput{pulse_generator/pulse_generator.vhdl}
+
+La descrizione è comportamentale ed è molto semplice, facendo uso di
+una variabile per memorizzare il valore campionato in precedenza in
+modi di riconoscere i fronti di salita.
+
+\verbatiminput{pulse_generator/tb_pulse_generator.test}
+
 \end{document}
