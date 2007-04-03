@@ -31,9 +31,9 @@ architecture test of tb_board is
                  DISP_CLK_DIV: integer := 1000000);
         port (CLK:                      in  std_logic;
               Reset, NewGame, Stop, En: in  std_logic;
-              DATA_IN:                  in  std_logic_vector (7 downto 0);
-              OUTPUT:                   out std_logic_vector (7 downto 0);
-              AN:                       out std_logic_vector (3 downto 0));
+              DATA_IN: in  std_logic_vector (7 downto 0);
+              OUTPUT:  out std_logic_vector (7 downto 0);
+              AN:      out std_logic_vector (3 downto 0));
     end component;
 
     component display_simulator
@@ -155,14 +155,22 @@ begin
             write(l_out, AN);
             writeline(output, l_out);
         end if;
-        assert DIGITS(3) = testDIGITS(3) report "Mismatch on output DIGITS(3)";
-        assert DIGITS(2) = testDIGITS(2) report "Mismatch on output DIGITS(2)";
-        assert DIGITS(1) = testDIGITS(1) report "Mismatch on output DIGITS(1)";
-        assert DIGITS(0) = testDIGITS(0) report "Mismatch on output DIGITS(0)";
-        assert DOTS(3)   = testDOTS(3) report "Mismatch on output DOTS(3)";
-        assert DOTS(2)   = testDOTS(2) report "Mismatch on output DOTS(2)";
-        assert DOTS(1)   = testDOTS(1) report "Mismatch on output DOTS(1)";
-        assert DOTS(0)   = testDOTS(0) report "Mismatch on output DOTS(0)";
+        assert DIGITS(3) = testDIGITS(3)
+                report "Mismatch on output DIGITS(3)";
+        assert DIGITS(2) = testDIGITS(2)
+                report "Mismatch on output DIGITS(2)";
+        assert DIGITS(1) = testDIGITS(1)
+                report "Mismatch on output DIGITS(1)";
+        assert DIGITS(0) = testDIGITS(0)
+                report "Mismatch on output DIGITS(0)";
+        assert DOTS(3)   = testDOTS(3)
+                report "Mismatch on output DOTS(3)";
+        assert DOTS(2)   = testDOTS(2)
+                report "Mismatch on output DOTS(2)";
+        assert DOTS(1)   = testDOTS(1)
+                report "Mismatch on output DOTS(1)";
+        assert DOTS(0)   = testDOTS(0)
+                report "Mismatch on output DOTS(0)";
     end loop;
 
     finished <= true;
