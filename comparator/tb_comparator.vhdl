@@ -12,13 +12,13 @@ architecture test of tb_comparator is
     signal A, B: std_logic_vector(2 downto 0);
     signal O: std_logic_vector (1 downto 0);
 
-	component comparator
+    component comparator
         generic(N: integer := 3);
         port(A, B: in  std_logic_vector (N-1 downto 0);
              O:    out std_logic_vector (1 downto 0));
-	end component;
+    end component;
 begin 
-	U: comparator port map (A, B, O);
+    U: comparator port map (A, B, O);
 
 test: process
     variable testA, testB: std_logic_vector (2 downto 0);

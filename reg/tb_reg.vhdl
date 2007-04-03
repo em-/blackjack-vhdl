@@ -13,19 +13,19 @@ architecture test of tb_reg is
     signal EN: std_logic;
     signal A, O: std_logic_vector(2 downto 0);
     signal counter: integer := -1;
-	
-	component reg 
+    
+    component reg 
         generic (N: integer := 3);
         port (
             CLK, RST: in  std_logic;
             EN:       in  std_logic;
             A:        in  std_logic_vector(N-1 downto 0);
             O:        out std_logic_vector(N-1 downto 0));
-	end component;
+    end component;
 
     signal finished: boolean := false;
 begin 
-	U: reg port map (CLK, RST, EN, A, O);
+    U: reg port map (CLK, RST, EN, A, O);
 
 clock: process
 begin

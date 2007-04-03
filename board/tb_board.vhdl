@@ -36,21 +36,21 @@ architecture test of tb_board is
               AN:                       out std_logic_vector (3 downto 0));
     end component;
 
-	component display_simulator
+    component display_simulator
         port(E14, G13, N15, P15, R16, F13, N16: in std_logic;
              P16:                               in std_logic;
              E13, F14, G14, D14:                in std_logic;
 
              DIGITS_0, DIGITS_1, DIGITS_2, DIGITS_3: out character;
              DOTS_0,   DOTS_1,   DOTS_2,   DOTS_3:   out boolean);
-	end component;
+    end component;
 
 begin 
     U: board
         generic map (2, 2)
         port map (CLK, Reset, NewGame, Stop, En, DATA_IN, DIGIT, AN);
 
-	simul: display_simulator 
+    simul: display_simulator 
              port map (DIGIT(7), DIGIT(6), DIGIT(5), DIGIT(4), 
                        DIGIT(3), DIGIT(2), DIGIT(1),
                        DIGIT(0),

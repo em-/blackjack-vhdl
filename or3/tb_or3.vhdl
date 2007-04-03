@@ -13,14 +13,14 @@ architecture test of tb_or3 is
     signal B: std_logic := '0';
     signal C: std_logic := '0';
     signal O: std_logic;
-	
-	component or3 port (
+    
+    component or3 port (
         A, B, C: in std_logic;
         O: out std_logic);
-	end component;
+    end component;
 
 begin 
-	U: or3 port map (A, B, C, O);
+    U: or3 port map (A, B, C, O);
 
 test: process
     variable testA, testB, testC, testO: std_logic;

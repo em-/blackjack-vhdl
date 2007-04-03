@@ -13,17 +13,17 @@ architecture test of tb_fd is
     signal EN, D: std_logic;
     signal Q: std_logic;
     signal counter: integer := -1;
-	
-	component fd port (
+    
+    component fd port (
         CLK, RST: in  std_logic;
         EN:       in  std_logic;
         D:        in  std_logic;
         Q:        out std_logic);
-	end component;
+    end component;
 
     signal finished: boolean := false;
 begin 
-	U: fd port map (CLK, RST, EN, D, Q);
+    U: fd port map (CLK, RST, EN, D, Q);
 
 clock: process
 begin

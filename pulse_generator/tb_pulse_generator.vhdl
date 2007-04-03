@@ -14,14 +14,14 @@ architecture test of tb_pulse_generator is
     signal counter: integer := -1;
     signal finished: boolean := false;
 
-	component pulse_generator port (
+    component pulse_generator port (
         CLK: in  std_logic;
         I:   in  std_logic;
         O:   out std_logic);
-	end component;
+    end component;
 
 begin 
-	U: pulse_generator port map (CLK, I, O);
+    U: pulse_generator port map (CLK, I, O);
 
 clock: process
 begin

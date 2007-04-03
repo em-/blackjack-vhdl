@@ -16,16 +16,16 @@ architecture test of tb_shift_reg is
     signal counter: integer := -1;
     signal finished: boolean := false;
 
-	component shift_reg 
+    component shift_reg 
         generic (N: integer := 3);
         port (CLK, RST:  in    std_logic;
               EN:        in    std_logic;
               A:         in    std_logic;
               D:         inout std_logic_vector (N-1 downto 0));
-	end component;
+    end component;
 
 begin 
-	U: shift_reg port map (CLK, RST, EN, A, D);
+    U: shift_reg port map (CLK, RST, EN, A, D);
 
 clock: process
 begin

@@ -14,14 +14,14 @@ architecture test of tb_fa is
     signal Ci: std_logic;
     signal S: std_logic;
     signal Co: std_logic;
-	
-	component fa port (
+    
+    component fa port (
         A, B, Ci: in std_logic;
         S, Co: out std_logic);
-	end component;
+    end component;
 
 begin 
-	U: fa port map (A, B, Ci, S, Co);
+    U: fa port map (A, B, Ci, S, Co);
 
 test: process
     variable testA, testB, testCi, testS, testCo: std_logic;

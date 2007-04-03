@@ -14,19 +14,19 @@ architecture test of tb_counter is
     signal S: std_logic_vector(2 downto 0);
     signal OWFL: std_logic;
     signal clock_counter: integer := -1;
-	
-	component counter 
+    
+    component counter 
         generic (N: integer := 3);
         port (CLK, RST: in    std_logic;
               EN:       in    std_logic;
               S:        inout std_logic_vector (N-1 downto 0);
               OWFL:     out   std_logic
         );
-	end component;
+    end component;
 
     signal finished: boolean := false;
 begin 
-	U: counter port map (CLK, RST, EN, S, OWFL);
+    U: counter port map (CLK, RST, EN, S, OWFL);
 
 clock: process
 begin

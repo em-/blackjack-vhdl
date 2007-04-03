@@ -14,14 +14,14 @@ architecture test of tb_bcd_encoder is
     signal H, L: std_logic_vector(3 downto 0);
 
     signal n: integer := -1;
-	
+    
     component bcd_encoder
         port (I:    in  std_logic_vector(7 downto 0);
               H, L: out std_logic_vector(3 downto 0));
     end component;
 
 begin 
-	U: bcd_encoder port map (I, H, L);
+    U: bcd_encoder port map (I, H, L);
 
 test: process
     variable l_out: line;

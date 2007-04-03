@@ -13,14 +13,14 @@ architecture test of tb_ha is
     signal B: std_logic := '0';
     signal S: std_logic := '0';
     signal Co: std_logic;
-	
-	component ha port (
+    
+    component ha port (
         A, B: in std_logic;
         S, Co: out std_logic);
-	end component;
+    end component;
 
 begin 
-	U: ha port map (A, B, S, Co);
+    U: ha port map (A, B, S, Co);
 
 test: process
     variable testA, testB, testS, testCo: std_logic;

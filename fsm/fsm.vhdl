@@ -129,7 +129,7 @@ begin
             when PLAYER_BUSTED =>
                 DealerWin  <= '1';
             when PLAYER_WINNER =>
-		      PlayerWin  <= '1';
+              PlayerWin  <= '1';
             when DEALER_BUSTED =>
                 PlayerWin  <= '1';
             when DEALER_WINNER =>

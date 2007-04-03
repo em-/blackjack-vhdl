@@ -14,15 +14,15 @@ architecture test of tb_clock_divider is
     signal counter: integer := -1;
     signal finished: boolean := false;
 
-	component clock_divider 
+    component clock_divider 
         generic (MODULUS: in positive range 2 to integer'high := 4);
         port (
             CLK, RST: in  std_logic;
             O:        out std_logic);
-	end component;
+    end component;
 
 begin 
-	U: clock_divider port map (CLK, RST, O);
+    U: clock_divider port map (CLK, RST, O);
 
 clock: process
 begin

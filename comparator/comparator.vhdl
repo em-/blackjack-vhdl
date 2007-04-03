@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 entity comparator is 
     generic(N: integer := 8);
     port(A, B: in  std_logic_vector (N-1 downto 0);
-		 O:    out std_logic_vector (0 to 1));
+         O:    out std_logic_vector (0 to 1));
 end comparator;
 
 architecture behavorial of comparator is
@@ -27,6 +27,6 @@ begin
         else
             O(1) <= '0';
         end if;
-	end process;
+    end process;
 end behavorial;
 

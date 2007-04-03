@@ -13,16 +13,16 @@ architecture test of tb_ft is
     signal T: std_logic;
     signal Q: std_logic;
     signal counter: integer := -1;
-	
-	component ft port (
+    
+    component ft port (
         CLK, RST: in  std_logic;
         T:        in  std_logic;
         Q:        out std_logic);
-	end component;
+    end component;
 
     signal finished: boolean := false;
 begin 
-	U: ft port map (CLK, RST, T, Q);
+    U: ft port map (CLK, RST, T, Q);
 
 clock: process
 begin

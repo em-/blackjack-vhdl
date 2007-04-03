@@ -12,14 +12,14 @@ architecture test of tb_mux21_1bit is
     signal A, B, O: std_logic;
     signal SEL: std_logic;
 
-	component mux21_1bit
+    component mux21_1bit
         port (A, B: in  std_logic;
               SEL:  in  std_logic;
               O:    out std_logic);
-	end component;
+    end component;
 
 begin 
-	U: mux21_1bit port map (A, B, SEL, O);
+    U: mux21_1bit port map (A, B, SEL, O);
 
 test: process
     variable testA, testB, testO: std_logic;

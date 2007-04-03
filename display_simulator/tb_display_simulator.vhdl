@@ -19,17 +19,17 @@ architecture test of tb_display_simulator is
     signal DIGITS: character_vector (0 to 3);
     signal DOTS:   boolean_vector (0 to 3);
 
-	component display_simulator
+    component display_simulator
         port(E14, G13, N15, P15, R16, F13, N16: in std_logic;
              P16:                               in std_logic;
              E13, F14, G14, D14:                in std_logic;
 
              DIGITS_0, DIGITS_1, DIGITS_2, DIGITS_3: out character;
              DOTS_0,   DOTS_1,   DOTS_2,   DOTS_3:   out boolean);
-	end component;
+    end component;
 
 begin 
-	U: display_simulator port map (E14, G13, N15, P15, R16, F13, N16, 
+    U: display_simulator port map (E14, G13, N15, P15, R16, F13, N16, 
                          P16, E13, F14, G14, D14,
                          DIGITS(0), DIGITS(1), DIGITS(2), DIGITS(3),
                          DOTS(0),   DOTS(1),   DOTS(2),   DOTS(3));

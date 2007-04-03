@@ -17,7 +17,7 @@ architecture test of tb_game_logic is
               WIN, BUST:      out std_logic);
     end component;
 begin 
-	U: game_logic port map (PLAYER, DEALER, WIN, BUST);
+    U: game_logic port map (PLAYER, DEALER, WIN, BUST);
 
 test: process
     variable testPLAYER, testDEALER: std_logic_vector (7 downto 0);

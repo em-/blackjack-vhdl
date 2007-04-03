@@ -11,16 +11,16 @@ end tb_rca;
 architecture test of tb_rca is
     signal A, B, S: std_logic_vector(2 downto 0);
     signal Ci, Co: std_logic;
-	
-	component rca
+    
+    component rca
         generic (N: integer);
         port (A, B: in  std_logic_vector (N-1 downto 0);
               Ci:   in  std_logic;
               S:    out std_logic_vector (N-1 downto 0);
               Co:   out std_logic);
-	end component;
+    end component;
 begin 
-	U: rca generic map (3) port map (A, B, Ci, S, Co);
+    U: rca generic map (3) port map (A, B, Ci, S, Co);
 
 test: process
     variable testA, testB, testS: std_logic_vector (2 downto 0);

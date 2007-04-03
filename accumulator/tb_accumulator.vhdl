@@ -27,7 +27,7 @@ architecture test of tb_accumulator is
     signal clock_counter: integer := -1;
     signal finished: boolean := false;
 begin 
-	U: accumulator port map (CLK, RST, EN, A, B, ACCUMULATE, O);
+    U: accumulator port map (CLK, RST, EN, A, B, ACCUMULATE, O);
 
 clock: process
 begin

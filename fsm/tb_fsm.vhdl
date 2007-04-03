@@ -23,9 +23,9 @@ architecture test of tb_fsm is
               ShowPlayer, ShowDealer, PlayerWin, DealerWin: out std_logic;
               PlayerRead, DealerRead: out std_logic;
               Clear: out std_logic);
-	end component;
+    end component;
 begin 
-	U: fsm port map (CLK, RST, NewGame, En, Stop, Bust, Win, 
+    U: fsm port map (CLK, RST, NewGame, En, Stop, Bust, Win, 
                      ShowPlayer, ShowDealer, PlayerWin, DealerWin,
                      PlayerRead, DealerRead, Clear);
 

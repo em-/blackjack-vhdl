@@ -12,14 +12,14 @@ architecture test of tb_or2 is
     signal A: std_logic := '0';
     signal B: std_logic := '0';
     signal O: std_logic;
-	
-	component or2 port (
+    
+    component or2 port (
         A, B: in std_logic;
         O: out std_logic);
-	end component;
+    end component;
 
 begin 
-	U: or2 port map (A, B, O);
+    U: or2 port map (A, B, O);
 
 test: process
     variable testA, testB, testO: std_logic;

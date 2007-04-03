@@ -13,19 +13,19 @@ architecture test of tb_latch is
     signal EN: std_logic;
     signal A, O: std_logic_vector(2 downto 0);
     signal counter: integer := -1;
-	
-	component latch 
+    
+    component latch 
         generic (N: integer := 3);
         port (
             CLK, RST: in  std_logic;
             EN:       in  std_logic;
             A:        in  std_logic_vector(N-1 downto 0);
             O:        out std_logic_vector(N-1 downto 0));
-	end component;
+    end component;
 
     signal finished: boolean := false;
 begin 
-	U: latch port map (CLK, RST, EN, A, O);
+    U: latch port map (CLK, RST, EN, A, O);
 
 clock: process
 begin

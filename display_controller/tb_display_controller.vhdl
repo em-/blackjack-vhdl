@@ -16,16 +16,16 @@ architecture test of tb_display_controller is
     signal counter: integer := -1;
     signal finished: boolean := false;
 
-	component display_controller 
+    component display_controller 
         port(CLK, RST: std_logic;
              DIGIT_3, DIGIT_2, DIGIT_1, DIGIT_0: in std_logic_vector(7 downto 0);
 
              OUTPUT: out std_logic_vector (7 downto 0);
              AN:     out std_logic_vector (3 downto 0));
-	end component;
+    end component;
 
 begin 
-	U: display_controller port map (CLK, RST,
+    U: display_controller port map (CLK, RST,
                                     DIGIT_3, DIGIT_2, DIGIT_1, DIGIT_0,
                                     OUTPUT, AN);
 

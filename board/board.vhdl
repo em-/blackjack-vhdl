@@ -36,11 +36,11 @@ architecture structural of board is
               I:   in  std_logic;
               O:   out std_logic);
     end component;
-	component clock_divider 
+    component clock_divider 
         generic (MODULUS: in positive range 2 to integer'high := 4);
         port (CLK, RST: in  std_logic;
               O:        out std_logic);
-	end component;
+    end component;
 
     signal Reset_PULSE, Reset_BJ_PULSE, Reset_DISP_PULSE: std_logic;
     signal NewGame_PULSE, Stop_PULSE, En_PULSE: std_logic;

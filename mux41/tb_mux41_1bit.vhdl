@@ -12,14 +12,14 @@ architecture test of tb_mux41_1bit is
     signal A, B, C, D, O: std_logic;
     signal SEL: std_logic_vector(1 downto 0);
 
-	component mux41_1bit
+    component mux41_1bit
         port (A, B, C, D: in  std_logic;
               SEL:  in  std_logic_vector(1 downto 0);
               O:    out std_logic);
-	end component;
+    end component;
 
 begin 
-	U: mux41_1bit port map (A, B, C, D, SEL, O);
+    U: mux41_1bit port map (A, B, C, D, SEL, O);
 
 test: process
     variable testA, testB, testC, testD, testO: std_logic;

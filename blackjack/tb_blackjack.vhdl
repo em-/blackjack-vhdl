@@ -30,7 +30,7 @@ architecture test of tb_blackjack is
               PLAYER_WIN,   DEALER_WIN:   out std_logic);
     end component;
 begin 
-	U: blackjack port map (CLK, Reset, NewGame, Stop, En, DATA_IN,
+    U: blackjack port map (CLK, Reset, NewGame, Stop, En, DATA_IN,
                            PLAYER_L, PLAYER_H,
                            DEALER_L, DEALER_H,
                            PLAYER_SHOW, DEALER_SHOW,
