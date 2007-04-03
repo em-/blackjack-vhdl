@@ -481,4 +481,34 @@ rispettive funzioni logiche.
 
 \verbatiminput{fa/tb_fa.test}
 
+\subsection{mux21}
+
+Questo componente implementa un multiplexer dotato di due ingressi e una
+uscita: se il segnale ``SEL'' è pari a 0 viene selezionato l'ingresso
+``A'', altrimenti quello ``B''.
+Il parametro ``N'' specifica invece la dimensione in bit del multiplexer.
+
+\verbatiminput{mux21/mux21.vhdl}
+
+La descrizione comportamentale è tra le più semplici realizzabili, con solo
+una selezione condizionale tra due possibili assegnamenti.
+
+\verbatiminput{mux21/tb_mux21.test}
+
+\subsection{mux21\_1bit}
+
+In modo analogo al componente ``mux21'', ``mux21\_1bit'' implementa un
+multiplexer a due ingressi. Ingressi e uscite in questo caso però non sono 
+vettori ma ``std\_logic'' singoli.
+
+\verbatiminput{mux21/mux21_1bit.vhdl}
+
+\subsection{mux41\_1bit}
+
+La sola differenza tra il componente  ``mux21\_1bit'' e
+``mux41\_1bit'' è il fatto che quest'ultimo possiede quattro ingressi e,
+di conseguenza, il selettore è su due bit.
+
+\verbatiminput{mux41/mux41_1bit.vhdl}
+
 \end{document}
