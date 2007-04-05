@@ -3,13 +3,13 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
 
 entity display is
-    port (CLK, RST:                  in  std_logic;
-          PLAYER_L, PLAYER_H:        in  std_logic_vector (3 downto 0);
-          DEALER_L, DEALER_H:        in  std_logic_vector (3 downto 0);
-          PLAYER_SHOW,  DEALER_SHOW: in  std_logic;
-          PLAYER_WIN,   DEALER_WIN:  in  std_logic;
-          OUTPUT:                    out std_logic_vector (7 downto 0);
-          AN:                        out std_logic_vector (3 downto 0));
+    port (CLK, RST:           in  std_logic;
+          PLAYER_L, PLAYER_H: in  std_logic_vector (3 downto 0);
+          DEALER_L, DEALER_H: in  std_logic_vector (3 downto 0);
+          PLAYER_SHOW, DEALER_SHOW: in  std_logic;
+          PLAYER_WIN,  DEALER_WIN:  in  std_logic;
+          OUTPUT:             out std_logic_vector (7 downto 0);
+          AN:                 out std_logic_vector (3 downto 0));
 end display;
 
 architecture structural of display is
@@ -25,7 +25,8 @@ architecture structural of display is
     end component;
     component display_controller
         port(CLK, RST: in std_logic;
-             DIGIT_3, DIGIT_2, DIGIT_1, DIGIT_0: in std_logic_vector(7 downto 0);
+             DIGIT_3, DIGIT_2,
+             DIGIT_1, DIGIT_0: in std_logic_vector(7 downto 0);
              OUTPUT: out std_logic_vector (7 downto 0);
              AN:     out std_logic_vector (3 downto 0));
     end component;
