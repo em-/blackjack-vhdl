@@ -15,7 +15,8 @@ architecture state_machine of fsm is
                    SETUP_PC, SETUP_DC,
                    READ_PC, READ_DC,
                    CHECK_PC, CHECK_DC,
-                   PLAYER_BUSTED, PLAYER_WINNER, DEALER_BUSTED, DEALER_WINNER);
+                   PLAYER_BUSTED, PLAYER_WINNER,
+                   DEALER_BUSTED, DEALER_WINNER);
     signal current_state, next_state: STATE;
 begin
     process (CLK, RST)
