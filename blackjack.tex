@@ -47,6 +47,7 @@
 \newcommand{\foreign}[1]{\emph{#1}}
 
 \newcommand{\component}[1]{\texttt{#1}}
+\newcommand{\identifier}[1]{\texttt{#1}}
 
 % Justify even if it has to leave a lot of blank space
 \setlength{\emergencystretch}{3em}
@@ -192,8 +193,8 @@ Il clock viene generato con un periodo di 1ns fino a che non esistano più
 eventi per la simulazione. A tal punto anche il clock viene fermato in 
 modo da segnalare al simulatore la fine del test.
 
-Il processo ``count'' si limita a conteggiare il numero di colpi di clock
-in modo che il processo ``test'' possa impostare i vettori di test con 
+Il processo \identifier{count} si limita a conteggiare il numero di colpi di clock
+in modo che il processo \identifier{test} possa impostare i vettori di test con 
 la cadenza specificata. Questo processo, infatti, si occupa di leggere
 i vettori di input e gli output attesi da un file e applicarli all'unità
 testata. Nel caso specifico, dovendo simulare l'input dell'utente, la
@@ -252,14 +253,14 @@ delle tempistiche e degli stati in un singolo componente.
 \end{center}
 \bigskip
 
-Lo stato iniziale è lo stato di ``IDLE'', nel quale la macchina resta
-in attesa di eventi. Da qui ``CLEAN'' imposta le condizioni iniziali
+Lo stato iniziale è lo stato di \identifier{IDLE}, nel quale la macchina resta
+in attesa di eventi. Da qui \identifier{CLEAN} imposta le condizioni iniziali
 del gioco, in modo da permettere il funzionamento degli stati successivi.
 Tra questi, quelli i cui nomi
-terminano con ``PC'' sono relativi al turno del Giocatore, mentre 
-quelli con ``DC'' spettano al Mazziere. Questi rappresentano le fasi
+terminano con \identifier{PC} sono relativi al turno del Giocatore, mentre 
+quelli con \identifier{DC} spettano al Mazziere. Questi rappresentano le fasi
 di attesa, acquisizione e controllo dei valori in input, mentre quelli
-che terminano con ``BUSTED'' o ``WINNER'' indicano le condizioni 
+che terminano con \identifier{BUSTED} o \identifier{WINNER} indicano le condizioni 
 terminali del gioco.
 
 \lstinputlisting{fsm/fsm.vhdl}
@@ -281,7 +282,7 @@ che si sia verificata una delle condizioni di vittoria.
 \lstinputlisting{game_logic/game_logic.vhdl}
 
 La descrizione è comportamentale e prevede un processo per ciascun
-output, utilizzando il tipo ``unsigned'' per effettuare i confronti
+output, utilizzando il tipo \identifier{unsigned} per effettuare i confronti
 tra i punteggi.
 
 \lstinputlisting{game_logic/tb_game_logic.vhdl}
@@ -298,8 +299,8 @@ gioco senza un ordine particolare, valutando l'esito di ciascuna.
 \subsection{reg}
 
 L'entità \component{reg} descrive un semplice registro PIPO sincrono dotato di 
-segnale di abilitazione (``EN'') oltre agli ingressi (``A'') e alle
-uscite (``O''). Il parametro ``N'' permette di impostare la dimensione
+segnale di abilitazione (\identifier{EN}) oltre agli ingressi (\identifier{A}) e alle
+uscite (\identifier{O}). Il parametro \identifier{N} permette di impostare la dimensione
 in bit del registro.
 
 \lstinputlisting{reg/reg.vhdl}
@@ -319,7 +320,7 @@ il comportamento.
 \subsection{rca}
 
 Il sommatore utilizzato è un comune Ripple Carry Adder con
-dimensione determinata dal parametro ``N''.
+dimensione determinata dal parametro \identifier{N}.
 
 \lstinputlisting{rca/rca.vhdl}
 
@@ -340,7 +341,7 @@ di segno nel suo corrispondente codificato secondo lo schema Binary
 Encoded Decimal, il quale prevede che vadano assegnati quattro bit  
 a ogni cifra decimale. Ognuno di questi gruppi potrà quindi assumere
 solo valori nell'intervallo tra 0 e 9. In particolare il componente
-codifica su due cifre, ``H'' quella di grado maggiore e ``L'' quella
+codifica su due cifre, \identifier{H} quella di grado maggiore e \identifier{L} quella
 inferiore.
 
 \lstinputlisting{bcd_encoder/bcd_encoder.vhdl}
@@ -387,7 +388,7 @@ implementata con una CAM o una più semplice ROM.
 \verbatiminput{display/tb_display.test}
 
 Il test verifica il comportamento del circuito verificando
-i segnali di refresh (``AN'') e controllando che il valore
+i segnali di refresh (\identifier{AN}) e controllando che il valore
 della cifra che viene rinfrescata sia quello corretto.
 
 \subsection{display\_controller}
@@ -396,7 +397,7 @@ La gestione del multiplexing e del refresh del display della FPGA
 è demandata al componente \component{display\_controller}. Questo si occupa
 di effettuare il multiplexing temporale sull'uscita, ponendo in
 sequenza il valore di ciascuno dei segnali in ingresso. Il bit 
-azzerato in ``AN'' indica la cifra che verrà rinfrescata.
+azzerato in \identifier{AN} indica la cifra che verrà rinfrescata.
 
 \lstinputlisting{display_controller/display_controller.vhdl}
 
@@ -459,17 +460,17 @@ comp.lang.vhdl.
 \lstinputlisting{clock_divider/clock_divider.vhdl}
 
 L'implementazione è comportamentale e contiene un contatore che viene
-incrementato. Il parametro ``MODULUS'' indica il numero di colpi di
+incrementato. Il parametro \identifier{MODULUS} indica il numero di colpi di
 clock ad alta frequenza a cui corrisponde il nuovo clock: questo
-resterà alto per MODULUS/2 colpi e basso per i rimanenti.
+resterà alto per \identifier{MODULUS}/2 colpi e basso per i rimanenti.
 
 \verbatiminput{clock_divider/tb_clock_divider.test}
 
 \subsection{shift\_reg}
 
 Il componente \component{shift\_reg} implementa un registro SIPO, in cui
-si ha un singolo ingresso seriale (``A'') mentre l'uscita è
-parallela (``D'').
+si ha un singolo ingresso seriale (\identifier{A}) mentre l'uscita è
+parallela (\identifier{D}).
 
 \lstinputlisting{shift_reg/shift_reg.vhdl}
 
@@ -507,9 +508,9 @@ rispettive funzioni logiche.
 \subsection{mux21}
 
 Questo componente implementa un multiplexer dotato di due ingressi e una
-uscita: se il segnale ``SEL'' è pari a 0 viene selezionato l'ingresso
-``A'', altrimenti quello ``B''.
-Il parametro ``N'' specifica invece la dimensione in bit del multiplexer.
+uscita: se il segnale \identifier{SEL} è pari a 0 viene selezionato l'ingresso
+\identifier{A}, altrimenti quello \identifier{B}.
+Il parametro \identifier{N} specifica invece la dimensione in bit del multiplexer.
 
 \lstinputlisting{mux21/mux21.vhdl}
 
