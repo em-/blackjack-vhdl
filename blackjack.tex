@@ -46,6 +46,8 @@
 % Foreign words
 \newcommand{\foreign}[1]{\emph{#1}}
 
+\newcommand{\component}[1]{\texttt{#1}}
+
 % Justify even if it has to leave a lot of blank space
 \setlength{\emergencystretch}{3em}
 
@@ -166,13 +168,13 @@ Per ogni componente sviluppato è stato inoltre realizzato un testbench in VHDL
 puro, in modo da renderne possibile la verifica in modo automatico (make run). %FIXME
 
 \subsection{Board}
-Il componente ``board'' rappresenta l'entità di più alto livello e costituisce
+Il componente \component{board} rappresenta l'entità di più alto livello e costituisce
 la parte del progetto che verrà programmata sulla FPGA.
 
 \lstinputlisting{board/board.vhdl}
 
-La descrizione è strutturale e provvede a istanziare i componenti ``blackjack''
-e ``display'' connettendoli tra loro e a impiegare ``clock\_divider'' per 
+La descrizione è strutturale e provvede a istanziare i componenti \component{blackjack}
+e \component{display} connettendoli tra loro e a impiegare \component{clock\_divider} per 
 convertire il clock della scheda a frequenze inferiori per la logica di 
 gioco e per la logica di gestione del display. I segnali di input vengono 
 inoltre filtrati usando dei generatori di impulsi al fine di evitare 
@@ -204,11 +206,11 @@ Su ogni riga è specificato l'istante corrispondente, gli input e gli
 output.
 
 \subsection{Blackjack}
-Il componente ``blackjack'' contiene l'intera logica di gioco descritta
+Il componente \component{blackjack} contiene l'intera logica di gioco descritta
 nelle specifiche, utilizzando al suo interno i componenti
-``game\_logic'', il quale implementa le regole di vittoria/perdita,
-``fsm'', che determina gli stati di gioco, ``bcd\_encoder'' per
-convertire i punteggi in Binary Coded Decimal, nonché ``reg'' e ``rca'',
+\component{game\_logic}, il quale implementa le regole di vittoria/perdita,
+\component{fsm}, che determina gli stati di gioco, \component{bcd\_encoder} per
+convertire i punteggi in Binary Coded Decimal, nonché \component{reg} e \component{rca},
 rispettivamente un registro PIPO e un Ripple Carry Adder.
 
 
@@ -219,7 +221,7 @@ interconnettere i componenti presenti. In particolare i due registri
 sono usati per memorizzare il punteggio del Giocatore e del Mazziere:
 a ciascuno è connesso un sommatore il quale somma il punteggio con il
 valore in input ed è usato per calcolare il punteggio futuro.
-``game\_logic'' determina se uno tra Giocatore o Mazziere ha vinto o
+\component{game\_logic} determina se uno tra Giocatore o Mazziere ha vinto o
 ha sballato al fine di segnalarlo alla macchina a stati, la quale
 reagirà opportunamente. Entrambi i punteggi vengono poi convertiti in
 BCD a due cifre.
@@ -233,7 +235,7 @@ In questo caso a ogni riga corrisponde un colpo di clock, per cui
 a compiere le proprie funzioni, essendo l'unico componente a non
 reagire nell'arco di un periodo di clock. Il codice VHDL del 
 testbench è stato omesso essendo analogo a quanto visto nel caso del
-componente ``board''.
+componente \component{board}.
 
 \subsection{Fsm}
 
@@ -272,7 +274,7 @@ in funzione delllo stato corrente.
 \subsection{game\_logic}
 
 La logica che determina la vittoria o la sconfitta dei giocatori è
-contenuta nel componente combinatorio ``game\_logic'', il quale
+contenuta nel componente combinatorio \component{game\_logic}, il quale
 si occupa di controllare i punteggi nel caso questi superino 21 o
 che si sia verificata una delle condizioni di vittoria.
 
@@ -295,7 +297,7 @@ gioco senza un ordine particolare, valutando l'esito di ciascuna.
 
 \subsection{reg}
 
-L'entità ``reg'' descrive un semplice registro PIPO sincrono dotato di 
+L'entità \component{reg} descrive un semplice registro PIPO sincrono dotato di 
 segnale di abilitazione (``EN'') oltre agli ingressi (``A'') e alle
 uscite (``O''). Il parametro ``N'' permette di impostare la dimensione
 in bit del registro.
@@ -361,7 +363,7 @@ aritmetiche disponibili per controllarne la correttezza.
 \subsection{display}
 
 La visualizzazione dello stato del gioco è affidata al componente
-``display'' il quale si occupa di codificare i valori e di gestire
+\component{display} il quale si occupa di codificare i valori e di gestire
 il refresh dei display, dal momento che sulla FPGA presa in 
 considerazione è necessario accedervi in multiplexing.
 
@@ -369,12 +371,12 @@ considerazione è necessario accedervi in multiplexing.
 
 Nell'implementazione strutturale è possibile evidenziare le due
 funzioni svolte: la codifica è delegata a una batteria di
-``sevensegment\_encoder'' che convertono le cifre BCD nelle
+\component{sevensegment\_encoder} che convertono le cifre BCD nelle
 corrispondenti configurazioni per i display a sette segmenti.
 L'uscita di ognuno di questi encoder viene posta in ingresso a
 un multiplexer che controlla l'accensione o meno della relativa
 cifra sul display. Il multiplexing e il refresh sono invece
-effettuati dal componente ``display\_controller''.
+effettuati dal componente \component{display\_controller}.
 
 \lstinputlisting{display/sevensegment_encoder.vhdl}
 
@@ -391,7 +393,7 @@ della cifra che viene rinfrescata sia quello corretto.
 \subsection{display\_controller}
 
 La gestione del multiplexing e del refresh del display della FPGA
-è demandata al componente ``display\_controller''. Questo si occupa
+è demandata al componente \component{display\_controller}. Questo si occupa
 di effettuare il multiplexing temporale sull'uscita, ponendo in
 sequenza il valore di ciascuno dei segnali in ingresso. Il bit 
 azzerato in ``AN'' indica la cifra che verrà rinfrescata.
@@ -408,12 +410,12 @@ di abilitazione al refresh della FPGA è attivo basso.
 
 \verbatiminput{display_controller/tb_display_controller.test}
 
-Il test è simile a quello del componente ``display'' ma qui i valori in
+Il test è simile a quello del componente \component{display} ma qui i valori in
 ingresso sono del tutto arbitrari.
 
 \subsection{display\_simulator}
 
-Il componente ``display\_simulator'' viene utilizzato solo per scopi di
+Il componente \component{display\_simulator} viene utilizzato solo per scopi di
 test e simula il comportamento del display della FPGA, restituendo come
 output i valori dei display convertiti in interi e con i punti decimali
 convertiti in valori booleani. I nomi degli ingressi riproducono i nomi
@@ -465,7 +467,7 @@ resterà alto per MODULUS/2 colpi e basso per i rimanenti.
 
 \subsection{shift\_reg}
 
-Il componente ``shift\_reg'' implementa un registro SIPO, in cui
+Il componente \component{shift\_reg} implementa un registro SIPO, in cui
 si ha un singolo ingresso seriale (``A'') mentre l'uscita è
 parallela (``D'').
 
@@ -479,7 +481,7 @@ flip-flop collegati in cascata.
 
 \subsection{fd}
 
-Il componente ``fd'' implementa un flip-flop di tipo D con segnale di
+Il componente \component{fd} implementa un flip-flop di tipo D con segnale di
 reset asincrono attivo basso e un segnale di abilitazione anch'esso
 attivo basso.
 
@@ -492,7 +494,7 @@ classici per l'implementazione di circuiti sincroni con reset asincrono.
 
 \subsection{fa}
 
-Il componente ``fa'' implementa il full-adder necessario per la
+Il componente \component{fa} implementa il full-adder necessario per la
 costruzione del Ripple Carry Adder.
 
 \lstinputlisting{fa/fa.vhdl}
@@ -518,16 +520,16 @@ una selezione condizionale tra due possibili assegnamenti.
 
 \subsection{mux21\_1bit}
 
-In modo analogo al componente ``mux21'', ``mux21\_1bit'' implementa un
+In modo analogo al componente \component{mux21}, \component{mux21\_1bit} implementa un
 multiplexer a due ingressi. Ingressi e uscite in questo caso però non sono 
-vettori ma ``std\_logic'' singoli.
+vettori ma \component{std\_logic} singoli.
 
 \lstinputlisting{mux21/mux21_1bit.vhdl}
 
 \subsection{mux41\_1bit}
 
-La sola differenza tra il componente  ``mux21\_1bit'' e
-``mux41\_1bit'' è il fatto che quest'ultimo possiede quattro ingressi e,
+La sola differenza tra il componente  \component{mux21\_1bit} e
+\component{mux41\_1bit} è il fatto che quest'ultimo possiede quattro ingressi e,
 di conseguenza, il selettore è su due bit.
 
 \lstinputlisting{mux41/mux41_1bit.vhdl}
