@@ -40,6 +40,17 @@
     \end{figure}
 }
 
+% Collegamenti.
+\definecolor{links}{rgb}{0.7,0.2,0}
+\usepackage{ifpdf}
+\ifpdf
+    \usepackage{hyperref}
+    \hypersetup{colorlinks=true,bookmarks=true,hypertexnames=false,urlcolor=links}
+\else
+    \newcommand{\href}[2]{#2}
+\fi
+\newcommand{\link}[1]{\href{#1}{#1}}
+
 % Ignore the argument
 \newcommand{\noop}[1]{}
 
@@ -536,7 +547,7 @@ di conseguenza, il selettore è su due bit.
 \lstinputlisting{mux41/mux41_1bit.vhdl}
 
 \section{Ulteriori informazioni}
-L'intero progetto è disponibile presso http://techn.ocracy.org/blackjack, da cui
+L'intero progetto è disponibile presso \link{http://techn.ocracy.org/blackjack}, da cui
 è inoltre possibile visionare tutte le revisioni realizzate durante lo sviluppo.
 Il repository contiene inoltre i sorgenti di questo documento e il Makefile
 per GNU~make usato per automatizzare il processo di compilazione e test.
