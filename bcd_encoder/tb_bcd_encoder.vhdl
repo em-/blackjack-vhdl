@@ -32,8 +32,10 @@ begin
         ref := n;
         wait on n;
        
-        assert H = conv_std_logic_vector(ref / 10, 4)   report "Mismatch on output H";
-        assert L = conv_std_logic_vector(ref mod 10, 4) report "Mismatch on output L";
+        assert H = conv_std_logic_vector(ref / 10, 4)
+                report "Mismatch on output H";
+        assert L = conv_std_logic_vector(ref mod 10, 4)
+                report "Mismatch on output L";
     end loop;
 end process;
 
