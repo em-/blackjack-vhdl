@@ -6,6 +6,8 @@
 \usepackage{graphicx}
 \usepackage{geometry}
 \usepackage{verbatim}
+\usepackage{color}
+\usepackage{listings}
 
 % Informations
 \title{Implementazione del gioco del blackjack in VHDL}
@@ -46,6 +48,21 @@
 
 % Justify even if it has to leave a lot of blank space
 \setlength{\emergencystretch}{3em}
+
+\definecolor{comment}{rgb}{0,0,0.8}
+\definecolor{keyword}{rgb}{0.9,0.5,0}
+\definecolor{string}{rgb}{0.95,0,0}
+
+\lstset{
+    language=VHDL,
+    basicstyle=\ttfamily,
+    % this sets the letter spacing as it is with the verbatim package
+    basewidth=0.5em,
+    keywordstyle=\color{keyword},
+    commentstyle=\color{comment},
+    stringstyle=\color{string},
+    showstringspaces=false,
+}
 
 
 \begin{document}
@@ -152,7 +169,7 @@ puro, in modo da renderne possibile la verifica in modo automatico (make run). %
 Il componente ``board'' rappresenta l'entità di più alto livello e costituisce
 la parte del progetto che verrà programmata sulla FPGA.
 
-\verbatiminput{board/board.vhdl}
+\lstinputlisting{board/board.vhdl}
 
 La descrizione è strutturale e provvede a istanziare i componenti ``blackjack''
 e ``display'' connettendoli tra loro e a impiegare ``clock\_divider'' per 
@@ -163,7 +180,7 @@ campionamenti multipli di una singola pressione.
 
 Il componente è dotato del seguente testbench per la verifica automatica.
 
-\verbatiminput{board/tb_board.vhdl}
+\lstinputlisting{board/tb_board.vhdl}
 
 Oltre all'unità da verificare, viene anche istanziato un simulatore per il
 sistema di gestione dei display a sette segmenti disponibili sulla FPGA,
@@ -195,7 +212,7 @@ convertire i punteggi in Binary Coded Decimal, nonché ``reg'' e ``rca'',
 rispettivamente un registro PIPO e un Ripple Carry Adder.
 
 
-\verbatiminput{blackjack/blackjack.vhdl}
+\lstinputlisting{blackjack/blackjack.vhdl}
 
 Anche qui la descrizione è strutturale e si occupa di istanziare e 
 interconnettere i componenti presenti. In particolare i due registri
@@ -239,7 +256,7 @@ di attesa, acquisizione e controllo dei valori in input, mentre quelli
 che terminano con ``BUSTED'' o ``WINNER'' indicano le condizioni 
 terminali del gioco.
 
-\verbatiminput{fsm/fsm.vhdl}
+\lstinputlisting{fsm/fsm.vhdl}
 
 La macchina a stati è stata costruita con tre processi: uno molto 
 semplice per propagare lo stato futuro, uno per determinare quale
@@ -255,13 +272,13 @@ contenuta nel componente combinatorio ``game\_logic'', il quale
 si occupa di controllare i punteggi nel caso questi superino 21 o
 che si sia verificata una delle condizioni di vittoria.
 
-\verbatiminput{game_logic/game_logic.vhdl}
+\lstinputlisting{game_logic/game_logic.vhdl}
 
 La descrizione è comportamentale e prevede un processo per ciascun
 output, utilizzando il tipo ``unsigned'' per effettuare i confronti
 tra i punteggi.
 
-\verbatiminput{game_logic/tb_game_logic.vhdl}
+\lstinputlisting{game_logic/tb_game_logic.vhdl}
 
 Essendo il componente combinatorio, il testbench risulta essere
 leggermente più semplice rispetto a quelli impiegati per i componenti
@@ -279,7 +296,7 @@ segnale di abilitazione (``EN'') oltre agli ingressi (``A'') e alle
 uscite (``O''). Il parametro ``N'' permette di impostare la dimensione
 in bit del registro.
 
-\verbatiminput{reg/reg.vhdl}
+\lstinputlisting{reg/reg.vhdl}
 
 La stessa entità è stata implementata sia con una descrizione
 comportamentale che con una strutturale. La prima contiene
@@ -298,7 +315,7 @@ il comportamento.
 Il sommatore utilizzato è un comune Ripple Carry Adder con
 dimensione determinata dal parametro ``N''.
 
-\verbatiminput{rca/rca.vhdl}
+\lstinputlisting{rca/rca.vhdl}
 
 La descrizione è ovviamente strutturale e provvede a istanziare
 un vettore di full-adder definendo anche le connessioni necessarie
@@ -320,7 +337,7 @@ solo valori nell'intervallo tra 0 e 9. In particolare il componente
 codifica su due cifre, ``H'' quella di grado maggiore e ``L'' quella
 inferiore.
 
-\verbatiminput{bcd_encoder/bcd_encoder.vhdl}
+\lstinputlisting{bcd_encoder/bcd_encoder.vhdl}
 
 L'implementazione scelta è alquanto limitata e riduttiva, in quanto
 non in grado di convertire valori superiori a 39. Questo è dovuto al
@@ -330,7 +347,7 @@ combinatorio. La limitazione è comunque tollerabile, in quanto per il
 progetto è necessario poter convertire solamente numeri inferiori a
 20 più il valore della carta massima.
 
-\verbatiminput{bcd_encoder/tb_bcd_encoder.vhdl}
+\lstinputlisting{bcd_encoder/tb_bcd_encoder.vhdl}
 
 Il testbench in questo caso non legge alcun valore da un file esterno,
 bensì verifica il comportamento del componente con ognuno dei valori
@@ -344,7 +361,7 @@ La visualizzazione dello stato del gioco è affidata al componente
 il refresh dei display, dal momento che sulla FPGA presa in 
 considerazione è necessario accedervi in multiplexing.
 
-\verbatiminput{display/display.vhdl}
+\lstinputlisting{display/display.vhdl}
 
 Nell'implementazione strutturale è possibile evidenziare le due
 funzioni svolte: la codifica è delegata a una batteria di
@@ -355,7 +372,7 @@ un multiplexer che controlla l'accensione o meno della relativa
 cifra sul display. Il multiplexing e il refresh sono invece
 effettuati dal componente ``display\_controller''.
 
-\verbatiminput{display/sevensegment_encoder.vhdl}
+\lstinputlisting{display/sevensegment_encoder.vhdl}
 
 La codifica per i display a sette segmenti viene effettuata
 mediante una semplice tabella che in hardware viene
@@ -375,7 +392,7 @@ di effettuare il multiplexing temporale sull'uscita, ponendo in
 sequenza il valore di ciascuno dei segnali in ingresso. Il bit 
 azzerato in ``AN'' indica la cifra che verrà rinfrescata.
 
-\verbatiminput{display_controller/display_controller.vhdl}
+\lstinputlisting{display_controller/display_controller.vhdl}
 
 La descrizione è strutturale e fa uso di un registro a scorrimento
 per la gestione del multiplexing: inizialmente vuoto, viene caricato
@@ -398,7 +415,7 @@ output i valori dei display convertiti in interi e con i punti decimali
 convertiti in valori booleani. I nomi degli ingressi riproducono i nomi
 dei pin disponibili sulla FPGA.
 
-\verbatiminput{display_simulator/display_simulator.vhdl}
+\lstinputlisting{display_simulator/display_simulator.vhdl}
 
 L'architettura è comportamentale con un singolo processo in cui vengono
 decodificate le cifre mediante una tabella e in cui i valori decodificati
@@ -417,7 +434,7 @@ campionata erroneamente in momenti successivi. Non appena viene
 campionato in input un fronte di salita, l'uscita rimane alta per un solo
 colpo di clock, rimanendo poi in attesa del fronte di salita successivo.
 
-\verbatiminput{pulse_generator/pulse_generator.vhdl}
+\lstinputlisting{pulse_generator/pulse_generator.vhdl}
 
 La descrizione è comportamentale ed è molto semplice, facendo uso di
 una variabile per memorizzare il valore campionato in precedenza in
@@ -433,7 +450,7 @@ Per fare questo è stato usato un divisore di frequenza costruito
 sulla base di quanto riportato nelle FAQ del newsgroup
 comp.lang.vhdl.
 
-\verbatiminput{clock_divider/clock_divider.vhdl}
+\lstinputlisting{clock_divider/clock_divider.vhdl}
 
 L'implementazione è comportamentale e contiene un contatore che viene
 incrementato. Il parametro ``MODULUS'' indica il numero di colpi di
@@ -448,7 +465,7 @@ Il componente ``shift\_reg'' implementa un registro SIPO, in cui
 si ha un singolo ingresso seriale (``A'') mentre l'uscita è
 parallela (``D'').
 
-\verbatiminput{shift_reg/shift_reg.vhdl}
+\lstinputlisting{shift_reg/shift_reg.vhdl}
 
 L'architettura strutturale istanzia il flip-flop D a cui è connesso
 il segnale di input e poi procede a istanziare e connettere i restanti
@@ -462,7 +479,7 @@ Il componente ``fd'' implementa un flip-flop di tipo D con segnale di
 reset asincrono attivo basso e un segnale di abilitazione anch'esso
 attivo basso.
 
-\verbatiminput{fd/fd.vhdl}
+\lstinputlisting{fd/fd.vhdl}
 
 La descrizione comportamentale presenta i costrutti condizionali
 classici per l'implementazione di circuiti sincroni con reset asincrono.
@@ -474,7 +491,7 @@ classici per l'implementazione di circuiti sincroni con reset asincrono.
 Il componente ``fa'' implementa il full-adder necessario per la
 costruzione del Ripple Carry Adder.
 
-\verbatiminput{fa/fa.vhdl}
+\lstinputlisting{fa/fa.vhdl}
 
 Entrambi gli output sono definiti esclusivamente mediante le
 rispettive funzioni logiche.
@@ -488,7 +505,7 @@ uscita: se il segnale ``SEL'' è pari a 0 viene selezionato l'ingresso
 ``A'', altrimenti quello ``B''.
 Il parametro ``N'' specifica invece la dimensione in bit del multiplexer.
 
-\verbatiminput{mux21/mux21.vhdl}
+\lstinputlisting{mux21/mux21.vhdl}
 
 La descrizione comportamentale è tra le più semplici realizzabili, con solo
 una selezione condizionale tra due possibili assegnamenti.
@@ -501,7 +518,7 @@ In modo analogo al componente ``mux21'', ``mux21\_1bit'' implementa un
 multiplexer a due ingressi. Ingressi e uscite in questo caso però non sono 
 vettori ma ``std\_logic'' singoli.
 
-\verbatiminput{mux21/mux21_1bit.vhdl}
+\lstinputlisting{mux21/mux21_1bit.vhdl}
 
 \subsection{mux41\_1bit}
 
@@ -509,6 +526,6 @@ La sola differenza tra il componente  ``mux21\_1bit'' e
 ``mux41\_1bit'' è il fatto che quest'ultimo possiede quattro ingressi e,
 di conseguenza, il selettore è su due bit.
 
-\verbatiminput{mux41/mux41_1bit.vhdl}
+\lstinputlisting{mux41/mux41_1bit.vhdl}
 
 \end{document}
