@@ -5,9 +5,9 @@ use ieee.std_logic_arith.all;  -- synopsys only
 entity blackjack is
     port (CLK:                        in  std_logic;
           Reset, NewGame, Stop, En:   in  std_logic;
-          DATA_IN:                    in  std_logic_vector (7 downto 0);
-          PLAYER_L, PLAYER_H:         out std_logic_vector (3 downto 0);
-          DEALER_L, DEALER_H:         out std_logic_vector (3 downto 0);
+          DATA_IN:              in  std_logic_vector (7 downto 0);
+          PLAYER_L, PLAYER_H:   out std_logic_vector (3 downto 0);
+          DEALER_L, DEALER_H:   out std_logic_vector (3 downto 0);
           PLAYER_SHOW,  DEALER_SHOW:  out std_logic;
           PLAYER_WIN,   DEALER_WIN:   out std_logic);
 end blackjack;
@@ -34,7 +34,8 @@ architecture structural of blackjack is
     component fsm
         port (CLK, RST:  in  std_logic;
               NewGame, En, Stop, Bust, Win: in std_logic;
-              ShowPlayer, ShowDealer, PlayerWin, DealerWin: out std_logic;
+              ShowPlayer, ShowDealer: out std_logic;
+              PlayerWin,  DealerWin:  out std_logic;
               PlayerRead, DealerRead: out std_logic;
               Clear: out std_logic);
     end component;
@@ -49,8 +50,9 @@ architecture structural of blackjack is
            PlayerRead, DealerRead,
            Clear: std_logic;
     signal NRESET, NPLAYER_EN, NDEALER_EN: std_logic;
-    signal PLAYER,           DEALER,
-           PLAYER_NEXTSCORE, DEALER_NEXTSCORE: std_logic_vector (7 downto 0);
+    signal PLAYER, DEALER,
+           PLAYER_NEXTSCORE,
+           DEALER_NEXTSCORE: std_logic_vector (7 downto 0);
 begin
     NPLAYER_EN <= not PlayerRead;
     NDEALER_EN <= not DealerRead;
