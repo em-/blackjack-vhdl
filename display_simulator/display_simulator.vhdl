@@ -3,9 +3,12 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity display_simulator is
-    port(E14, G13, N15, P15, R16, F13, N16: in std_logic; -- display
-         P16:                               in std_logic; -- DP
-         E13, F14, G14, D14:                in std_logic; -- AN(3 downto 0)
+    port(-- display
+         E14, G13, N15, P15, R16, F13, N16: in std_logic;
+         -- DP
+         P16:                               in std_logic;
+         -- AN(3 downto 0)
+         E13, F14, G14, D14:                in std_logic;
         
          DIGITS_0, DIGITS_1, DIGITS_2, DIGITS_3: out character := ' ';
          DOTS_0,   DOTS_1,   DOTS_2,   DOTS_3:   out boolean);
