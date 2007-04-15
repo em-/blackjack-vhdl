@@ -11,7 +11,7 @@ TESTBENCHES=tb_or2 tb_or3 tb_and2 tb_ha tb_fa tb_rca \
             tb_fd tb_ft tb_reg tb_ld tb_latch tb_counter tb_accumulator \
             tb_display_simulator tb_shift_reg tb_display_controller \
 			tb_fsm tb_bcd_encoder tb_game_logic tb_clock_divider \
-			tb_pulse_generator \
+			tb_pulse_generator tb_input_encoder \
 			tb_display tb_blackjack tb_board
 
 # Default target
@@ -44,6 +44,7 @@ tb_bcd_encoder: bcd_encoder.o tb_bcd_encoder.o
 tb_game_logic: game_logic.o tb_game_logic.o
 tb_clock_divider: clock_divider.o tb_clock_divider.o
 tb_pulse_generator: pulse_generator.o tb_pulse_generator.o
+tb_input_encoder: input_encoder.o tb_input_encoder.o
 tb_display: sevensegment_encoder.o display.o tb_display.o
 tb_blackjack: blackjack.o tb_blackjack.o
 tb_board: board.o display_simulator.o tb_board.o
@@ -58,7 +59,7 @@ shift_reg.o: fd.o
 display_controller.o: shift_reg.o mux21_1bit.o mux41_1bit.o
 blackjack.o: reg.o rca.o game_logic.o fsm.o bcd_encoder.o
 display.o: sevensegment_encoder.o mux21.o display_controller.o
-board.o: pulse_generator.o blackjack.o display.o clock_divider.o
+board.o: pulse_generator.o input_encoder.o blackjack.o display.o clock_divider.o
 
 # Elaboration target
 $(TESTBENCHES):
