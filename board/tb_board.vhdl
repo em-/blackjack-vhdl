@@ -12,7 +12,7 @@ end tb_board;
 architecture test of tb_board is
     signal CLK: std_logic := '0';
     signal Reset, NewGame, Stop, En: std_logic;
-    signal DATA_IN: std_logic_vector (7 downto 0);
+    signal DATA_IN: std_logic_vector (2 downto 0);
 
     type character_vector is array(natural range <>) of character;
     type boolean_vector is array(natural range <>) of boolean;
@@ -31,7 +31,7 @@ architecture test of tb_board is
                  DISP_CLK_DIV: integer := 1000000);
         port (CLK:                      in  std_logic;
               Reset, NewGame, Stop, En: in  std_logic;
-              DATA_IN: in  std_logic_vector (7 downto 0);
+              DATA_IN: in  std_logic_vector (2 downto 0);
               OUTPUT:  out std_logic_vector (7 downto 0);
               AN:      out std_logic_vector (3 downto 0));
     end component;

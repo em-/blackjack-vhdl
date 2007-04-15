@@ -1,19 +1,18 @@
 -- time Reset NewGame Stop En DATA_IN DIGITS DOTS
 1 1000 0      False False False False
 2 0100 0 00   False False False False
-3 0001 4 04   False False False False
-5 0000 4 04   False False False False
-6 0001 4 08   False False False False
-7 0000 0 08   False False False False
-8 0001 19 27   False False True True
-9 0000 0 27   False False True True
+3 0001 7 07   False False False False
+5 0000 7 07   False False False False
+6 0001 0 15   False False False False
+7 0000 0 15   False False False False
+8 0001 7 22   False False True True
+9 0000 0 22   False False True True
 10 0100 0 00   False False False False
 11 0001 3 03   False False False False
 12 0010 0 0300 False False False False
 13 0001 1 0301 False False False False
 14 0000 1 0301 False False False False
-15 0001 22 0323 True True False False
-16 0000 22 0323 True True False False
-20 1000 22      False False False False
+15 0001 0 0309 False False True True
+20 1000 0      False False False False
 30 0100 0 00   False False False False
 31 0010 0 0000 False False False False
