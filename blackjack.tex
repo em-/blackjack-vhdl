@@ -190,7 +190,9 @@ e \component{display} connettendoli tra loro e a impiegare \component{clock\_div
 convertire il clock della scheda a frequenze inferiori per la logica di 
 gioco e per la logica di gestione del display. I segnali di input vengono 
 inoltre filtrati usando dei generatori di impulsi al fine di evitare 
-campionamenti multipli di una singola pressione.
+campionamenti multipli di una singola pressione. Al fine di considerare
+l'ingresso 000 la codifica del valore 8, l'ingresso dati passa
+attraverso il componente \component{input\_encoder}.
 
 Il componente è dotato del seguente testbench per la verifica automatica.
 
@@ -344,6 +346,15 @@ per la propagazione del riporto.
 Ad ogni passo di test viene verificata la corrispondenza tra i
 valori degli input e del riporto in ingresso con quelli attesi
 del valore in uscita e del riporto in uscita.
+
+\subsection{input\_encoder}
+
+Questo semplice componente provvede a convertire il segnale in ingresso
+``000'' in ``1000'', lasciando invece invariate tutte le altre
+combinazioni.
+
+\lstinputlisting{input_encoder/input_encoder.vhdl}
+
 
 \subsection{bcd\_encoder}
 
